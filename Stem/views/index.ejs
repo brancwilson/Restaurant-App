@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Tomato's Menu</title>
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        // Function to fetch and display selected items
+        function fetchSelectedItems() {
+            fetch('/get-selected-items')
+                .then(response => response.json())
+                .then(data => {
+                    const selectedItemsList = document.getElementById('selected-items-list');
+                    selectedItemsList.innerHTML = ''; // Clear the list
+
+                    let total = 0;
+                    for (let item in data.selectedItems) {
+                        const itemTotal = data.selectedItems[item].price * data.selectedItems[item].quantity;
+                        total += itemTotal;
+
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <strong>${item}</strong> - 
+                            ${data.selectedItems[item].quantity} x $${data.selectedItems[item].price.toFixed(2)} 
+                            = $${itemTotal.toFixed(2)}
+                        `;
+                        selectedItemsList.appendChild(li);
+                    }
+
+                    // Update the total
+                    document.getElementById('total-amount').innerText = `$${total.toFixed(2)}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Fetch selected items when the page loads
+        document.addEventListener('DOMContentLoaded', fetchSelectedItems);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Title -->
+        <h1 class="center-title">Quick Tomato's Menu</h1>
+
+        <div class="main-layout">
+            <!-- Left Column: Menu -->
+            <div class="menu-column">
+                <!-- Lunch Menu -->
+                <table class="menu-table">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="menu-header">Lunch Menu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Appetizers</td>
+                            <td>
+                                <a href="/menu/Lunch-Sides" class="btn">View Appetizers</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Main Dishes</td>
+                            <td>
+                                <a href="/menu/Lunch-Entrees" class="btn">View Main Dishes</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Drinks</td>
+                            <td>
+                                <a href="/menu/Lunch-Drinks" class="btn">View Drinks</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Dinner Menu -->
+                <table class="menu-table">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="menu-header">Dinner Menu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Appetizers</td>
+                            <td>
+                                <a href="/menu/Dinner-Sides" class="btn">View Appetizers</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Main Dishes</td>
+                            <td>
+                                <a href="/menu/Dinner-Entrees" class="btn">View Main Dishes</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Drinks</td>
+                            <td>
+                                <a href="/menu/Dinner-Drinks" class="btn">View Drinks</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Right Column: Selected Items -->
+            <div class="order-column">
+                <h2>Selected Items</h2>
+                <ul id="selected-items-list">
+                    <% for (let item in selectedItems) { %>
+                        <li>
+                            <strong><%= item %></strong> - 
+                            <%= selectedItems[item].quantity %> x $<%= selectedItems[item].price.toFixed(2) %> 
+                            = $<%= (selectedItems[item].quantity * selectedItems[item].price).toFixed(2) %>
+                        </li>
+                    <% } %>
+                </ul>
+                <h3>Total: $<span id="total-amount"><%= total.toFixed(2) %></span></h3>
+                <form action="/clear-cart" method="POST">
+                    <button type="submit">Clear Order</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Link to View Order Total -->
+        <div style="margin-top: 20px;">
+            <a href="/total" class="btn">View Order Total</a>
+        </div>
+    </div>
+</body>
+</html>
