@@ -46,6 +46,9 @@ try {
 </head>
 <body>
     <h1>Add Item</h1>
+    <p>
+        Item Types: side, entree, drink
+    </p>
     <form method="post">
         <table>
             <tr>
@@ -63,7 +66,11 @@ try {
             <tr>
                 <td>Item Type:</td>
                 <td>
-                    <input id="itemType" name="itemType" type="text">
+                    <select id="itemType" name="itemType">
+                        <option value="side"></option>
+                        <option value="entree"></option>
+                        <option value="drink"></option>
+                    </select>
                 </td>
             </tr>
             <tr>
