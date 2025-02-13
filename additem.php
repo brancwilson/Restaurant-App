@@ -19,7 +19,12 @@ try {
             $itemName = $_POST['itemName'];
             $itemPrice = $_POST['itemPrice'];
             $itemType = $_POST['itemType'];
-            $itemAvailability = $_POST['itemAvailability'];
+            $itemAvailability_raw = $_POST['itemAvailability'];
+            $itemAvailability = "";
+
+            foreach ($itemAvailability_raw as $available) {
+                $itemAvailability = $itemAvailability . "," . $available;
+            }
 
         }
 
@@ -47,9 +52,7 @@ try {
 </head>
 <body>
     <h1>Add Item</h1>
-    <p>
-        Item Types: side, entree, drink
-    </p>
+
     <form method="post">
         <table>
             <tr>
