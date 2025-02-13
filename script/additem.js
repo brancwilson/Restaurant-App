@@ -1,4 +1,5 @@
 $("document").ready(function(){
+    loadItemTable();
 
     $("#newItemBtn").click(function() {
         console.log("Add Item Button clicked...");
@@ -21,8 +22,23 @@ $("document").ready(function(){
             data: {itemName: itemName, itemPrice: itemPrice, itemType: itemType, itemAvailability: itemAvailability},
             success: function() {
                 alert("Item added");
+                loadItemTable();
             }
         });
     })
+
+    function loadItemTable() {
+        
+        $("#itemsTable").empty();
+
+        $.ajax({
+            url: 'loadmenutable.php',
+            type: 'get',
+            success: function(response) {
+                $("#itemsTable").append("<tr><td>Item Name</td><td>Item Price</td><td>Item Type</td><td>Item Availability</td></tr>")
+                $("#itemsTable").append(response);
+            }
+        });
+    }
 
 });

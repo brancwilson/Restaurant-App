@@ -88,7 +88,7 @@ try {
     </form>
 
     <div>
-        <table id="Menu Items">
+        <table id="itemsTable">
             
         </table>
     </div>
