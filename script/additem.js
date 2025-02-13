@@ -10,12 +10,9 @@ $("document").ready(function(){
         var itemType = $("#itemType").val();
         var itemAvailability = "";
 
-        if ($("#itemAvailability_B").val() == undefined) {} else {itemAvailability.concat(itemAvailability, $("#itemAvailability_B").val())};
-        alert(itemAvailability);
-        if ($("#itemAvailability_L").val() == undefined) {} else {itemAvailability.concat(itemAvailability, $("#itemAvailability_L").val())};
-        alert(itemAvailability);
-        if (typeof $("#itemAvailability_D").val() == undefined) {} else {itemAvailability.concat(itemAvailability, $("#itemAvailability_D").val())};
-        alert(itemAvailability);
+        if ($("#itemAvailability_B").is(":checked")) {itemAvailability = itemAvailability + "B";} else {console.log("Breakfast not checked");}
+        if ($("#itemAvailability_L").is(":checked")) {itemAvailability = itemAvailability + "L";} else {console.log("Lunch not checked");}
+        if ($("#itemAvailability_D").is(":checked")) {itemAvailability = itemAvailability + "D";} else {console.log("Dinner not checked");}
 
         $.ajax({
             url: 'additem.php',
