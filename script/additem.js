@@ -11,11 +11,11 @@ $("document").ready(function(){
         var itemAvailability = "";
 
         if ($("#itemAvailability_B").val() == undefined) {} else {itemAvailability.concat(itemAvailability, $("#itemAvailability_B").val())};
-        alert($("#itemAvailability_B").val());
+        alert(itemAvailability);
         if ($("#itemAvailability_L").val() == undefined) {} else {itemAvailability.concat(itemAvailability, $("#itemAvailability_L").val())};
-        alert($("#itemAvailability_L").val());
+        alert(itemAvailability);
         if (typeof $("#itemAvailability_D").val() == undefined) {} else {itemAvailability.concat(itemAvailability, $("#itemAvailability_D").val())};
-        alert($("#itemAvailability_D").val());
+        alert(itemAvailability);
 
         $.ajax({
             url: 'additem.php',
