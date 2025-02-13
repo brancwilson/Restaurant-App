@@ -77,7 +77,7 @@ try {
                 <td>
                 <input type="checkbox" id="itemAvailability_B" name="itemAvailability" value="B">
                 <label for="itemAvailability_B"> Breakfast</label><br>
-                <input type="checkbox" id="itemAvailability_B" name="itemAvailability" value="L">
+                <input type="checkbox" id="itemAvailability_L" name="itemAvailability" value="L">
                 <label for="itemAvailability_L"> Lunch</label><br>
                 <input type="checkbox" id="itemAvailability_D" name="itemAvailability" value="D">
                 <label for="itemAvailability_D"> Dinner</label><br>
