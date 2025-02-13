@@ -11,8 +11,11 @@ $("document").ready(function(){
         var itemAvailability = "";
 
         if (typeof $("#itemAvailability_B").val() == "undefined") {} else {itemAvailability.concat("B")};
+        alert($("#itemAvailability_B").val());
         if (typeof $("#itemAvailability_L").val() == "undefined") {} else {itemAvailability.concat("L")};
+        alert($("#itemAvailability_L").val());
         if (typeof $("#itemAvailability_D").val() == "undefined") {} else {itemAvailability.concat("D")};
+        alert($("#itemAvailability_D").val());
 
         $.ajax({
             url: 'additem.php',
