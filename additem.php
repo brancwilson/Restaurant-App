@@ -26,11 +26,11 @@ try {
                 $itemAvailability = $itemAvailability . "," . $available;
             }
 
-        }
+            $sql = "INSERT INTO MenuItems(itemName, itemPrice, itemType, itemAvailability) VALUES (?, ?, ?, ?)";
+            $stmt= $pdo->prepare($sql);
+            $stmt->execute([$itemName, $itemPrice, $itemType, $itemAvailability]);
 
-        $sql = "INSERT INTO MenuItems(itemName, itemPrice, itemType, itemAvailability) VALUES (?, ?, ?, ?)";
-        $stmt= $pdo->prepare($sql);
-        $stmt->execute([$itemName, $itemPrice, $itemType, $itemAvailability]);
+        }
     
     } else {
         echo "pdo fail...";
