@@ -10,6 +10,8 @@ $("document").ready(function(){
         var itemType = $("#itemType").val();
         var itemAvailability = String($("#itemAvailability_b").val()).concat(String($("#itemAvailability_l").val()).concat(String($("#itemAvailability_d").val())))
 
+        alert(String($("#itemAvailability_b").val()).concat(String($("#itemAvailability_l").val()).concat(String($("#itemAvailability_d").val()))));
+
         $.ajax({
             url: 'additem.php',
             type: 'post',
