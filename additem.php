@@ -23,7 +23,7 @@ try {
             $itemAvailability = "";
 
             foreach ($itemAvailability_raw as $available) {
-                $itemAvailability = $itemAvailability . "," . $available;
+                $itemAvailability = $available . ", " . $itemAvailability;
             }
 
             $sql = "INSERT INTO MenuItems(itemName, itemPrice, itemType, itemAvailability) VALUES (?, ?, ?, ?)";
@@ -80,12 +80,12 @@ try {
             <tr>
                 <td>Item Availability:</td>
                 <td>
-                <input type="checkbox" id="breakfast" name="breakfast" value="breakfast">
-                <label for="breakfast"> Breakfast</label><br>
-                <input type="checkbox" id="lunch" name="lunch" value="lunch">
-                <label for="breakfast"> Lunch</label><br>
-                <input type="checkbox" id="dinner" name="dinner" value="dinner">
-                <label for="breakfast"> Dinner</label><br>
+                <input type="checkbox" id="itemAvailability_B" name="itemAvailability" value="breakfast">
+                <label for="itemAvailability_B"> Breakfast</label><br>
+                <input type="checkbox" id="itemAvailability_B" name="itemAvailability" value="lunch">
+                <label for="itemAvailability_L"> Lunch</label><br>
+                <input type="checkbox" id="itemAvailability_D" name="itemAvailability" value="dinner">
+                <label for="itemAvailability_D"> Dinner</label><br>
                 </td>
             </tr>
         </table>
