@@ -10,11 +10,11 @@ $("document").ready(function(){
         var itemType = $("#itemType").val();
         var itemAvailability = "";
 
-        if (typeof $("#itemAvailability_B").val() == "undefined") {} else {itemAvailability.concat("B")};
+        if ($("#itemAvailability_B").val() == undefined) {} else {itemAvailability.concat(itemAvailability, $("#itemAvailability_B").val())};
         alert($("#itemAvailability_B").val());
-        if (typeof $("#itemAvailability_L").val() == "undefined") {} else {itemAvailability.concat("L")};
+        if ($("#itemAvailability_L").val() == undefined) {} else {itemAvailability.concat(itemAvailability, $("#itemAvailability_L").val())};
         alert($("#itemAvailability_L").val());
-        if (typeof $("#itemAvailability_D").val() == "undefined") {} else {itemAvailability.concat("D")};
+        if (typeof $("#itemAvailability_D").val() == undefined) {} else {itemAvailability.concat(itemAvailability, $("#itemAvailability_D").val())};
         alert($("#itemAvailability_D").val());
 
         $.ajax({
