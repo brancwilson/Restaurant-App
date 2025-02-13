@@ -48,7 +48,7 @@ try {
 <body>
     <h1>Add Item</h1>
 
-    <form method="post">
+    <form>
         <table>
             <tr>
                 <td>Item Name:</td>
