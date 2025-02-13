@@ -77,7 +77,12 @@ try {
             <tr>
                 <td>Item Availability:</td>
                 <td>
-                    <input id="itemAvailability" name="itemAvailability" type="text">
+                <input type="checkbox" id="breakfast" name="breakfast" value="breakfast">
+                <label for="breakfast"> Breakfast</label><br>
+                <input type="checkbox" id="lunch" name="lunch" value="lunch">
+                <label for="breakfast"> Lunch</label><br>
+                <input type="checkbox" id="dinner" name="dinner" value="dinner">
+                <label for="breakfast"> Dinner</label><br>
                 </td>
             </tr>
         </table>
