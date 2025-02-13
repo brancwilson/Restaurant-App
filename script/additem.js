@@ -8,9 +8,8 @@ $("document").ready(function(){
         var itemName = $("#itemName").val();
         var itemPrice = $("#itemPrice").val();
         var itemType = $("#itemType").val();
-        var itemAvailability = String($("#itemAvailability_B").val()).concat(String($("#itemAvailability_L").val()).concat(String($("#itemAvailability_D").val())))
-
-        alert();
+        var itemAvailability = String($("#itemAvailability_B").val()[0]).concat(String($("#itemAvailability_L").val()[0]).concat(String($("#itemAvailability_D").val()[0])));
+        
 
         $.ajax({
             url: 'additem.php',
