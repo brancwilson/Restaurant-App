@@ -19,12 +19,7 @@ try {
             $itemName = $_POST['itemName'];
             $itemPrice = $_POST['itemPrice'];
             $itemType = $_POST['itemType'];
-            $itemAvailability_raw = $_POST['itemAvailability'];
-            $itemAvailability = "";
-
-            foreach ($itemAvailability_raw as $available) {
-                $itemAvailability = $available . ", " . $itemAvailability;
-            }
+            $itemAvailability = $_POST['itemAvailability'];
 
             $sql = "INSERT INTO MenuItems(itemName, itemPrice, itemType, itemAvailability) VALUES (?, ?, ?, ?)";
             $stmt= $pdo->prepare($sql);
@@ -80,11 +75,11 @@ try {
             <tr>
                 <td>Item Availability:</td>
                 <td>
-                <input type="checkbox" id="itemAvailability_B" name="itemAvailability" value="breakfast">
+                <input type="checkbox" id="itemAvailability_B" name="itemAvailability" value="B">
                 <label for="itemAvailability_B"> Breakfast</label><br>
-                <input type="checkbox" id="itemAvailability_B" name="itemAvailability" value="lunch">
+                <input type="checkbox" id="itemAvailability_B" name="itemAvailability" value="L">
                 <label for="itemAvailability_L"> Lunch</label><br>
-                <input type="checkbox" id="itemAvailability_D" name="itemAvailability" value="dinner">
+                <input type="checkbox" id="itemAvailability_D" name="itemAvailability" value="D">
                 <label for="itemAvailability_D"> Dinner</label><br>
                 </td>
             </tr>
