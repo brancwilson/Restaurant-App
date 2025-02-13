@@ -8,8 +8,11 @@ $("document").ready(function(){
         var itemName = $("#itemName").val();
         var itemPrice = $("#itemPrice").val();
         var itemType = $("#itemType").val();
-        var itemAvailability = String($("#itemAvailability_B").val()[0]).concat(String($("#itemAvailability_L").val()[0]).concat(String($("#itemAvailability_D").val()[0])));
-        
+        var itemAvailability = "";
+
+        if ($("#itemAvailability_B").val() == undefined) {} else {itemAvailability.concat("B")};
+        if ($("#itemAvailability_L").val() == undefined) {} else {itemAvailability.concat("L")};
+        if ($("#itemAvailability_D").val() == undefined) {} else {itemAvailability.concat("D")};
 
         $.ajax({
             url: 'additem.php',
