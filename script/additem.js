@@ -10,9 +10,9 @@ $("document").ready(function(){
         var itemType = $("#itemType").val();
         var itemAvailability = "";
 
-        if ($("#itemAvailability_B").val() == undefined) {} else {itemAvailability.concat("B")};
-        if ($("#itemAvailability_L").val() == undefined) {} else {itemAvailability.concat("L")};
-        if ($("#itemAvailability_D").val() == undefined) {} else {itemAvailability.concat("D")};
+        if (typeof $("#itemAvailability_B").val() == "undefined") {} else {itemAvailability.concat("B")};
+        if (typeof $("#itemAvailability_L").val() == "undefined") {} else {itemAvailability.concat("L")};
+        if (typeof $("#itemAvailability_D").val() == "undefined") {} else {itemAvailability.concat("D")};
 
         $.ajax({
             url: 'additem.php',
