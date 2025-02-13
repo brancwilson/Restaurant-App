@@ -1,4 +1,18 @@
 $("document").ready(function(){
+    function loadItemTable() {
+        
+        $("#itemsTable").empty();
+
+        $.ajax({
+            url: 'loadmenutable.php',
+            type: 'get',
+            success: function(response) {
+                $("#itemsTable").append("<tr><td>Item Name</td><td>Item Price</td><td>Item Type</td><td>Item Availability</td></tr>")
+                $("#itemsTable").append(response);
+            }
+        });
+    }
+
     loadItemTable();
 
     $("#newItemBtn").click(function() {
@@ -27,18 +41,5 @@ $("document").ready(function(){
         });
     })
 
-    function loadItemTable() {
-        
-        $("#itemsTable").empty();
-
-        $.ajax({
-            url: 'loadmenutable.php',
-            type: 'get',
-            success: function(response) {
-                $("#itemsTable").append("<tr><td>Item Name</td><td>Item Price</td><td>Item Type</td><td>Item Availability</td></tr>")
-                $("#itemsTable").append(response);
-            }
-        });
-    }
 
 });
