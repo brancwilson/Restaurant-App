@@ -15,10 +15,10 @@ try {
 
     if ($pdo) {
         $data = $pdo->query("SELECT * FROM menuitems")->fetchAll();
+        echo"fetching data...";
         // and somewhere later:
         foreach ($data as $row => $key) {
             echo("
-            
             <tr>
                 <td>".$key['itemname']."</td>
                 <td>".$key['itemprice']."</td>
