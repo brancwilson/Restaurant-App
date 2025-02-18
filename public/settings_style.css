@@ -1,3 +1,10 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
 #itemsTable {
     border-collapse: collapse;
     width: 100%;
@@ -9,4 +16,28 @@
     border-bottom: 1px solid #ddd;
   }
   
-  tr:hover {background-color: coral;}
+  #itemTableLabels {
+    font-weight: bold;
+  }
+  
+  #itemsTable tr:hover {background-color: #e0e0e0;}
+  
+  .deleteItem {
+	background-color:#e4685d;
+	border-radius:27px;
+	border: none;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:9px 20px;
+	text-decoration:none;
+}
+.deleteItem:hover {
+	background-color:#ba554c;
+}
+.deleteItem:active {
+	position:relative;
+	top:1px;
+}

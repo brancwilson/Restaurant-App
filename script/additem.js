@@ -7,7 +7,7 @@ $("document").ready(function(){
             url: 'loadmenutable.php',
             type: 'get',
             success: function(response) {
-                $("#itemsTable").append("<tr><td>Item Name</td><td>Item Price</td><td>Item Type</td><td>Item Availability</td><td>Edit</td></tr>")
+                $("#itemsTable").append("<tr id='itemTableLabels'><td>Item Name</td><td>Item Price</td><td>Item Type</td><td>Item Availability</td><td>Edit</td></tr>")
                 $("#itemsTable").append(response);
             }
         });
