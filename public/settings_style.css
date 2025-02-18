@@ -42,7 +42,7 @@ body {
 	top:1px;
 }
 
-.newItemBtn {
+#newItemBtn {
 	background-color:#5de47f;
 	border-radius:27px;
 	border: none;
@@ -54,10 +54,10 @@ body {
 	padding:9px 20px;
 	text-decoration:none;
 }
-.newItemBtn:hover {
+#newItemBtn:hover {
 	background-color:rgb(62, 149, 80);
 }
-.newItemBtn:active {
+#newItemBtn:active {
 	position:relative;
 	top:1px;
 }
