@@ -4,7 +4,7 @@ $("document").ready(function(){
         $("#itemsTable").empty();
 
         $.ajax({
-            url: '/../pages/phpfunctions/loadmenutable.php',
+            url: '/../../pages/phpfunctions/loadmenutable.php',
             type: 'get',
             success: function(response) {
                 $("#itemsTable").append("<tr id='itemTableLabels'><td>Item Name</td><td>Item Price</td><td>Item Type</td><td>Item Availability</td><td>Edit</td></tr>")
@@ -30,7 +30,7 @@ $("document").ready(function(){
         if ($("#itemAvailability_D").is(":checked")) {itemAvailability = itemAvailability + "D";} else {console.log("Dinner not checked");}
 
         $.ajax({
-            url: '/../pages/additem.php',
+            url: '/../../pages/additem.php',
             type: 'post',
             //data must be sent as a key value pair - {dataName: javascriptData}
             data: {itemName: itemName, itemPrice: itemPrice, itemType: itemType, itemAvailability: itemAvailability},
@@ -49,7 +49,7 @@ $("document").ready(function(){
         console.log(delItem[1]);
 
         $.ajax({
-            url: '/../pages/phpfunctions/deleteitem.php',
+            url: '/../../pages/phpfunctions/deleteitem.php',
             type: 'post',
             data: {deleteItem: delItem[1]},
             success: function() {
