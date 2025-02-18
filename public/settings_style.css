@@ -41,3 +41,23 @@ body {
 	position:relative;
 	top:1px;
 }
+
+.newItemBtn {
+	background-color:#5de47f;
+	border-radius:27px;
+	border: none;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:9px 20px;
+	text-decoration:none;
+}
+.newItemBtn:hover {
+	background-color:rgb(62, 149, 80);
+}
+.newItemBtn:active {
+	position:relative;
+	top:1px;
+}
