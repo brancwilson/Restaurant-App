@@ -41,5 +41,23 @@ $("document").ready(function(){
         });
     })
 
+    // .on() is used for dynamically added elements, since the DOM is already loaded
+    $(document).on("click", ".deleteBtn", function() {
+
+        var delID = (this.id);
+        var delItem = delID.split("_");
+        console.log(delItem[1]);
+
+        $.ajax({
+            url: 'deleteitem.php',
+            type: 'post',
+            data: {deleteItem: delItem[1]},
+            success: function() {
+                loadItemTable();
+            }
+        })
+
+    });
+
 
 });
