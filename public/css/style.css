@@ -1,0 +1,334 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8; /* Light gray background */
+    margin: 0;
+    padding: 0;
+    color: #333; /* Dark gray text */
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White container background */
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+h1, h2, h3 {
+    color: #2c3e50; /* Dark blue for headings */
+    margin-bottom: 20px;
+}
+
+/* Universal Button Styles */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db; /* Blue */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.button:active {
+    background-color: #1c5980; /* Even darker blue on click */
+}
+
+/* Login Page Styles */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #3498db; /* Blue background */
+}
+
+.login-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-box h1 {
+    margin-bottom: 20px;
+    color: #2c3e50; /* Dark blue */
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #2c3e50; /* Dark blue */
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+/* Table Selection Page Styles */
+/* Table Selection Page Styles */
+.table-layout {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 10px; /* Space between tables */
+}
+
+.table {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #2ecc71; /* Green for free tables */
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.table.busy {
+    background-color: #e74c3c; /* Red for busy tables */
+    color: white;
+}
+
+.table:hover:not(.busy) {
+    background-color: #27ae60; /* Darker green on hover */
+}
+
+.table select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: white;
+    color: #2c3e50;
+    cursor: pointer;
+}
+
+.table select:hover {
+    background-color: #f9f9f9;
+}
+
+.btn-select {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-select:hover {
+    background-color: #2980b9;
+}
+/* Menu Page Styles */
+/* Menu Page Styles */
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns: Lunch Menu and Dinner Menu */
+    gap: 20px; /* Space between columns */
+    padding: 20px;
+}
+
+.menu-section {
+    background-color: #f9f9f9; /* Light gray background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.menu-section h2 {
+    color: #2c3e50; /* Dark blue for headings */
+    margin-bottom: 15px;
+}
+
+.category-button {
+    display: block;
+    background-color: #3498db; /* Blue */
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.category-button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.order-column {
+    grid-column: span 2; /* Order column spans both columns */
+    background-color: #f9f9f9; /* Light gray background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+#selected-items-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+#selected-items-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Menu Items Page Styles */
+.menu-items-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu-items-list li {
+    padding: 10px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-items-list li button {
+    background-color: #3498db; /* Blue */
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.menu-items-list li button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+/* Checkout Page Styles */
+.checkout-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.checkout-container h1 {
+    text-align: center;
+}
+
+.checkout-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.checkout-container ul li {
+    padding: 10px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checkout-container h2 {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.checkout-container form {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-layout {
+        grid-template-columns: 1fr; /* Single column layout for smaller screens */
+    }
+
+    .menu-column {
+        grid-template-columns: 1fr; /* Single column for menu categories */
+    }
+
+    .table-layout {
+        grid-template-columns: repeat(2, 1fr); /* Two columns for tables */
+    }
+}
+
+@media (max-width: 480px) {
+    .table-layout {
+        grid-template-columns: 1fr; /* Single column for tables */
+    }
+
+    .menu-column {
+        grid-template-columns: 1fr; /* Single column for menu categories */
+    }
+}
+/* Settings Icon Styles */
+.settings-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #3498db; /* Blue */
+}
+
+.settings-icon:hover {
+    color: #2980b9; /* Darker blue on hover */
+}
+
+/* Dropdown Menu Styles */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9; /* Light gray */
+    min-width: 120px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333; /* Dark gray */
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: #3498db; /* Blue */
+    color: white;
+}
+
+/* Show dropdown on hover */
+.settings-icon:hover .dropdown-content {
+    display: block;
+}
