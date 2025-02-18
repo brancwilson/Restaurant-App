@@ -24,7 +24,7 @@ try {
                 <td>".$key['itemprice']."</td>
                 <td>".$key['itemtype']."</td>
                 <td>".$key['itemavailability']."</td>
-                <td><button class='deleteItem' id='deleteItem".$key['itemid']."'>Remove</button></td>
+                <td><button class='deleteItem' id='deleteItem_".$key['itemid']."'>Remove</button></td>
             </tr>
             
             ");
