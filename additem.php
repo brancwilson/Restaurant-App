@@ -44,6 +44,7 @@ try {
     <title>Form Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/script/additem.js"></script>
+    <link rel="stylesheet" href="/public/settings_style.css">
 </head>
 <body>
     <h1>Add Item</h1>
