@@ -20,7 +20,7 @@ try {
 
         }
 
-        $sql = "DELETE FROM menuitem WHERE itemid = ?";
+        $sql = "DELETE FROM menuitems WHERE itemid = ?";
         $stmt= $pdo->prepare($sql);
         $stmt->execute([$toDelete]);
 
