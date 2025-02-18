@@ -41,13 +41,13 @@ try {
 
 <!DOCTYPE html>
 <head>
-    <title>Form Page</title>
+    <title>Edit Menu</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/../../public/js/additem.js"></script>
     <link rel="stylesheet" href="/../../public/css/settings_style.css">
 </head>
 <body>
-    <h1>Add Item</h1>
+    <h1>Edit Menu</h1>
 
     <form>
         <table>
@@ -87,7 +87,8 @@ try {
         </table>
         <input id="newItemBtn" type="submit" value="Add Item">
     </form>
-
+    <br>
+    <br>
     <div>
         <table id="itemsTable">
             
