@@ -15,7 +15,7 @@ try {
 
     if ($pdo) {
         $data = $pdo->query("SELECT * FROM menuitems")->fetchAll();
-        echo"fetching data...";
+        //echo"fetching data...";
         // and somewhere later:
         foreach ($data as $row => $key) {
             echo("

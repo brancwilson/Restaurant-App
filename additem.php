@@ -66,9 +66,9 @@ try {
                 <td>Item Type:</td>
                 <td>
                     <select id="itemType" name="itemType">
-                        <option value="side">Side</option>
-                        <option value="entree">Entree</option>
-                        <option value="drink">Drink</option>
+                        <option value="Side">Side</option>
+                        <option value="Entree">Entree</option>
+                        <option value="Drink">Drink</option>
                     </select>
                 </td>
             </tr>
