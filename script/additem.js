@@ -42,7 +42,7 @@ $("document").ready(function(){
     })
 
     // .on() is used for dynamically added elements, since the DOM is already loaded
-    $(document).on("click", ".deleteBtn", function() {
+    $(document).on("click", ".deleteItem", function() {
 
         var delID = (this.id);
         var delItem = delID.split("_");
