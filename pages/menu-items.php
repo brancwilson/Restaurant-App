@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/phpfunctions/getMenuItems';
 session_start();
 
 if (!isset($_SESSION['user'])) {
@@ -14,7 +15,9 @@ if (!$table || !$category) {
     exit();
 }
 
-$menu = [
+$menu = [];
+
+/*$menu = [
     "Lunch Appetizers" => ["Pickled Vegetables" => 5, "Rye Bread" => 5, "Cheese Blintzes" => 5],
     "Lunch Entrees" => ["Borscht" => 15, "Chicken Kiev" => 15, "Fish Pie" => 15],
     "Lunch Drinks" => ["Kvass" => 2, "Mors" => 2, "Black Tea" => 2],
@@ -22,6 +25,10 @@ $menu = [
     "Dinner Entrees" => ["Duck a la Russe" => 15, "Caviar Platter" => 15, "Rabbit Stew" => 15],
     "Dinner Drinks" => ["Red Wine" => 2, "White Wine" => 2, "Vodka Shots" => 2]
 ];
+*/
+
+$menu_test = getMenuList();
+echo($menu_test[0]);
 
 $items = $menu[$category] ?? [];
 
