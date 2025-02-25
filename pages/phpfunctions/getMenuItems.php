@@ -79,6 +79,8 @@ function getMenuList(): array {
                 }
 
             }
+
+            return($menu);
         
         } else {
             echo "pdo fail...";
