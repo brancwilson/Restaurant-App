@@ -101,4 +101,6 @@ function getMenuList(): array {
         return($menu);
     }
 }
+
+getMenuList();
 ?>
