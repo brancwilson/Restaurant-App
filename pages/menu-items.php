@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/functions.php';
-require_once __DIR__ . './phpfunctions/getMenuItems';
+require_once __DIR__ . './phpfunctions/getMenuItems.php';
 session_start();
 
 if (!isset($_SESSION['user'])) {
@@ -14,8 +14,6 @@ if (!$table || !$category) {
     header('Location: tables.php');
     exit();
 }
-
-$menu = [];
 
 /*$menu = [
     "Lunch Appetizers" => ["Pickled Vegetables" => 5, "Rye Bread" => 5, "Cheese Blintzes" => 5],
