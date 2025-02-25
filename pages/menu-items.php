@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/functions.php';
-require_once __DIR__ . '/phpfunctions/getMenuItems.php';
+require_once __DIR__ . '/../phpfunctions/getMenuItems.php';
 session_start();
 
 if (!isset($_SESSION['user'])) {
