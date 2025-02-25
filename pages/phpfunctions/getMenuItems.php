@@ -47,6 +47,7 @@ function getMenuList(): array {
                         if ($itemAvail[$i] == 'D') {
                             $menu["dinner drinks"][$key["itemname"]] = $key["itemprice"];
                         }
+                        $i++;
                     }
                 } else if($key['itemtype'] = "appetizer") {
                     $i = 0;
@@ -61,6 +62,7 @@ function getMenuList(): array {
                         if ($itemAvail[$i] == 'D') {
                             $menu["dinner appetizers"][$key["itemname"]] = $key["itemprice"];
                         }
+                        $i++;
                     }
                 } else if($key['itemtype'] = "entree") {
                     $i = 0;
@@ -75,12 +77,13 @@ function getMenuList(): array {
                         if ($itemAvail[$i] == 'D') {
                             $menu["dinner entrees"][$key["itemname"]] = $key["itemprice"];
                         }
+                        $i++;
                     }
                 }
 
-                return($menu);
-
             }
+
+            return($menu);
 
             
         
