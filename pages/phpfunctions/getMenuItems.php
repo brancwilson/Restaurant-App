@@ -9,15 +9,15 @@ function getMenuList(): array {
     $db_password = "pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238";
 
     $menu = array(
-        "breakfast_appetizers" => [],
-        "breakfast_entrees" => [],
-        "breakfast_drinks" => [],
-        "lunch_appetizers" => [],
-        "lunch_entrees" => [],
-        "lunch_drinks" => [],
-        "dinner_appetizers" => [],
-        "dinner_entrees" => [],
-        "dinner_drinks" => []
+        "Breakfast Appetizers" => [],
+        "Breakfast Entrees" => [],
+        "Breakfast Drinks" => [],
+        "Lunch Appetizers" => [],
+        "Lunch Entrees" => [],
+        "Lunch_Drinks" => [],
+        "Dinner Appetizers" => [],
+        "Dinner Entrees" => [],
+        "Dinner Drinks" => []
     );
 
     try {
