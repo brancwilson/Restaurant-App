@@ -8,7 +8,7 @@ function getMenuList(): array {
     $db_username = "u4bum5vo1sv2r2";
     $db_password = "pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238";
 
-    $menu = array(
+    $menu = [
         "Breakfast Appetizers" => [],
         "Breakfast Entrees" => [],
         "Breakfast Drinks" => [],
@@ -18,7 +18,7 @@ function getMenuList(): array {
         "Dinner Appetizers" => [],
         "Dinner Entrees" => [],
         "Dinner Drinks" => []
-    );
+    ];
 
     try {
         $dsn = "pgsql:host=$db_host;port=5432;dbname=$db_name;";
@@ -49,6 +49,7 @@ function getMenuList(): array {
                         }
                         $i++;
                     }
+                    break;
                 } else if($key['itemtype'] = "Appetizer") {
                     $i = 0;
                     $itemAvail = $key["itemavailability"];
@@ -64,6 +65,7 @@ function getMenuList(): array {
                         }
                         $i++;
                     }
+                    break;
                 } else if($key['itemtype'] = "Entree") {
                     $i = 0;
                     $itemAvail = $key["itemavailability"];
@@ -79,6 +81,7 @@ function getMenuList(): array {
                         }
                         $i++;
                     }
+                    break;
                 }
 
             }
