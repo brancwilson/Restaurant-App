@@ -102,5 +102,21 @@ function getMenuList(): array {
 }
 
 $myMenu = getMenuList();
-var_dump($myMenu);
+echo"<h1>Appetizers</h1>";
+var_dump($myMenu["Breakfast Appetizers"]);
+var_dump($myMenu["Lunch Appetizers"]);
+var_dump($myMenu["Dinner Appetizers"]);
+echo"<br><br>";
+
+echo"<h1>Entrees</h1>";
+var_dump($myMenu["Breakfast Entrees"]);
+var_dump($myMenu["Lunch Entrees"]);
+var_dump($myMenu["Dinner Entrees"]);
+echo"<br><br>";
+
+echo"<h1>Drinks</h1>";
+var_dump($myMenu["Breakfast Drinks"]);
+var_dump($myMenu["Lunch Drinks"]);
+var_dump($myMenu["Dinner Drinks"]);
+echo"<br><br>";
 ?>
