@@ -14,6 +14,7 @@ if (!$table) {
 }
 
 $menuCategories = [
+    "Breakfast" => ["Appetizers", "Entrees", "Drinks"],
     "Lunch" => ["Appetizers", "Entrees", "Drinks"],
     "Dinner" => ["Appetizers", "Entrees", "Drinks"]
 ];
@@ -23,6 +24,16 @@ require_once __DIR__ . '/../templates/header.php';
 
 <h1>Menu for Table <?= htmlspecialchars($table) ?></h1>
 <div class="main-layout">
+     <!-- Left Column: Lunch Menu -->
+     <div class="menu-section">
+        <h2>Breakfast Menu</h2>
+        <?php foreach ($menuCategories['Breakfast'] as $category): ?>
+            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Breakfast <?= urlencode($category) ?>" class="category-button">
+                <?= htmlspecialchars($category) ?>
+            </a>
+        <?php endforeach; ?>
+    </div>
+
     <!-- Left Column: Lunch Menu -->
     <div class="menu-section">
         <h2>Lunch Menu</h2>
