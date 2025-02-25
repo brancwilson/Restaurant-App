@@ -27,8 +27,7 @@ $menu = [];
 ];
 */
 
-$menu_test = getMenuList();
-echo($menu_test[0]);
+$menu = getMenuList();
 
 $items = $menu[$category] ?? [];
 

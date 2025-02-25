@@ -8,17 +8,17 @@ function getMenuList(): array {
     $db_username = "u4bum5vo1sv2r2";
     $db_password = "pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238";
 
-    $menu = [
-        "Breakfast Appetizers" => [],
-        "Breakfast Entrees" => [],
-        "Breakfast Drinks" => [],
-        "Lunch Appetizers" => [],
-        "Lunch Entrees" => [],
-        "Lunch Drinks" => [],
-        "Dinner Appetizers" => [],
-        "Dinner Entrees" => [],
-        "Dinner Drinks" => []
-    ];
+    $menu = array(
+        "breakfast_appetizers" => [],
+        "breakfast_entrees" => [],
+        "breakfast_drinks" => [],
+        "lunch_appetizers" => [],
+        "lunch_entrees" => [],
+        "lunch_drinks" => [],
+        "dinner_appetizers" => [],
+        "dinner_entrees" => [],
+        "dinner_drinks" => []
+    );
 
     try {
         $dsn = "pgsql:host=$db_host;port=5432;dbname=$db_name;";
@@ -39,8 +39,41 @@ function getMenuList(): array {
                     $itemAvail = $key["itemavailability"];
                     while ($i < strlen($itemAvail)) {
                         if ($itemAvail[$i] == 'B') {
-                            $menu["Breakfast Drinks"][] = $key["itemname"];
-                            $menu["Breakfast Drinks"][$key["itemname"] = $key["itemPrice"]];
+                            $menu["breakfast drinks"][$key["itemname"]] = $key["itemprice"];
+                        }
+                        if ($itemAvail[$i] == 'L') {
+                            $menu["lunch drinks"][$key["itemname"]] = $key["itemprice"];
+                        }
+                        if ($itemAvail[$i] == 'D') {
+                            $menu["dinner drinks"][$key["itemname"]] = $key["itemprice"];
+                        }
+                    }
+                } else if($key['itemtype'] = "appetizer") {
+                    $i = 0;
+                    $itemAvail = $key["itemavailability"];
+                    while ($i < strlen($itemAvail)) {
+                        if ($itemAvail[$i] == 'B') {
+                            $menu["breakfast appetizers"][$key["itemname"]] = $key["itemprice"];
+                        }
+                        if ($itemAvail[$i] == 'L') {
+                            $menu["lunch appetizers"][$key["itemname"]] = $key["itemprice"];
+                        }
+                        if ($itemAvail[$i] == 'D') {
+                            $menu["dinner appetizers"][$key["itemname"]] = $key["itemprice"];
+                        }
+                    }
+                } else if($key['itemtype'] = "entree") {
+                    $i = 0;
+                    $itemAvail = $key["itemavailability"];
+                    while ($i < strlen($itemAvail)) {
+                        if ($itemAvail[$i] == 'B') {
+                            $menu["breakfast entrees"][$key["itemname"]] = $key["itemprice"];
+                        }
+                        if ($itemAvail[$i] == 'L') {
+                            $menu["lunch entrees"][$key["itemname"]] = $key["itemprice"];
+                        }
+                        if ($itemAvail[$i] == 'D') {
+                            $menu["dinner entrees"][$key["itemname"]] = $key["itemprice"];
                         }
                     }
                 }
@@ -57,6 +90,7 @@ function getMenuList(): array {
         if ($pdo) {
             $pdo = null;
         }
+        return($menu);
     }
 }
 ?>
