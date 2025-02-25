@@ -83,7 +83,6 @@ function getMenuList(): array {
 
             }
 
-            echo(var_dump(menu));
             return($menu);
 
             
@@ -102,5 +101,6 @@ function getMenuList(): array {
     }
 }
 
-getMenuList();
+$myMenu = getMenuList();
+var_dump($myMenu);
 ?>
