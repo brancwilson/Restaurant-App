@@ -49,8 +49,8 @@ function getMenuList(): array {
                         }
                         $i++;
                     }
-                    break;
-                } else if($key['itemtype'] = "Appetizer") {
+
+                } if($key['itemtype'] = "Appetizer") {
                     $i = 0;
                     $itemAvail = $key["itemavailability"];
                     while ($i < strlen($itemAvail)) {
@@ -65,8 +65,8 @@ function getMenuList(): array {
                         }
                         $i++;
                     }
-                    break;
-                } else if($key['itemtype'] = "Entree") {
+
+                } if($key['itemtype'] = "Entree") {
                     $i = 0;
                     $itemAvail = $key["itemavailability"];
                     while ($i < strlen($itemAvail)) {
@@ -81,7 +81,7 @@ function getMenuList(): array {
                         }
                         $i++;
                     }
-                    break;
+
                 }
 
             }
