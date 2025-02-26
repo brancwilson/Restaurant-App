@@ -25,6 +25,7 @@ if (!$table || !$category) {
 ];
 */
 
+$menu = [];
 $menu = getMenuList();
 
 $items = $menu[$category] ?? [];
