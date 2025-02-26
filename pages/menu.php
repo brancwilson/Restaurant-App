@@ -14,9 +14,9 @@ if (!$table) {
 }
 
 $menuCategories = [
-    "Breakfast" => ["Appetizers", "Entrees", "Drinks"],
-    "Lunch" => ["Appetizers", "Entrees", "Drinks"],
-    "Dinner" => ["Appetizers", "Entrees", "Drinks"]
+    "Breakfast" => ["Sides", "Entrees", "Drinks"],
+    "Lunch" => ["Sides", "Entrees", "Drinks"],
+    "Dinner" => ["Sides", "Entrees", "Drinks"]
 ];
 
 require_once __DIR__ . '/../templates/header.php';

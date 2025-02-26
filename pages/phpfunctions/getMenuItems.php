@@ -9,13 +9,13 @@ function getMenuList(): array {
     $db_password = "pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238";
 
     $menu = [
-        "Breakfast Appetizers" => [],
+        "Breakfast Sides" => [],
         "Breakfast Entrees" => [],
         "Breakfast Drinks" => [],
-        "Lunch Appetizers" => [],
+        "Lunch Sides" => [],
         "Lunch Entrees" => [],
         "Lunch_Drinks" => [],
-        "Dinner Appetizers" => [],
+        "Dinner Sides" => [],
         "Dinner Entrees" => [],
         "Dinner Drinks" => []
     ];
@@ -48,17 +48,17 @@ function getMenuList(): array {
                         }
                     }
 
-                } if($key['itemtype'] = "Appetizer") {
+                } if($key['itemtype'] = "Side") {
                     $itemAvail = str_split($key["itemavailability"]);
                     foreach ($itemAvail as $char) {
                         if ($char == 'B') {
-                            $menu["Breakfast Appetizers"][$key["itemname"]] = $key["itemprice"];
+                            $menu["Breakfast Sides"][$key["itemname"]] = $key["itemprice"];
                         }
                         else if ($char == 'L') {
-                            $menu["Lunch Appetizers"][$key["itemname"]] = $key["itemprice"];
+                            $menu["Lunch Sides"][$key["itemname"]] = $key["itemprice"];
                         }
                         else if ($char == 'D') {
-                            $menu["Dinner Appetizers"][$key["itemname"]] = $key["itemprice"];
+                            $menu["Dinner Sides"][$key["itemname"]] = $key["itemprice"];
                         }
                     }
 
@@ -75,8 +75,7 @@ function getMenuList(): array {
                             $menu["Dinner Entrees"][$key["itemname"]] = $key["itemprice"];
                         }
                     }
-
-                }
+                } if ($key['itemtype'] != "Drink" || $key['itemtype'] != "Side" || $key['itemtype'] != "Entree") {}
 
             }
 
@@ -99,10 +98,10 @@ function getMenuList(): array {
 }
 
 $myMenu = getMenuList();
-echo"<h1>Appetizers</h1>";
-var_dump($myMenu["Breakfast Appetizers"]);
-var_dump($myMenu["Lunch Appetizers"]);
-var_dump($myMenu["Dinner Appetizers"]);
+echo"<h1>Sides</h1>";
+var_dump($myMenu["Breakfast Sides"]);
+var_dump($myMenu["Lunch Sides"]);
+var_dump($myMenu["Dinner Sides"]);
 echo"<br><br>";
 
 echo"<h1>Entrees</h1>";
