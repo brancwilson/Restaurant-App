@@ -35,58 +35,52 @@ function getMenuList(): array {
             foreach ($data as $row => $key) {
 
                 if($key['itemtype'] = "Drink") {
-                    $i = 0;
-                    $itemAvail = $key["itemavailability"];
-                    while ($i < strlen($itemAvail)) {
-                        if ($itemAvail[$i] == 'B') {
+                    $itemAvail = str_split($key["itemavailability"]);
+                    foreach ($itemAvail as $char) {
+                        if ($char == 'B') {
                             $menu["Breakfast Drinks"][$key["itemname"]] = $key["itemprice"];
                         }
-                        if ($itemAvail[$i] == 'L') {
+                        else if ($char == 'L') {
                             $menu["Lunch Drinks"][$key["itemname"]] = $key["itemprice"];
                         }
-                        if ($itemAvail[$i] == 'D') {
+                        else if ($char == 'D') {
                             $menu["Dinner Drinks"][$key["itemname"]] = $key["itemprice"];
                         }
-                        $i++;
                     }
 
                 } if($key['itemtype'] = "Appetizer") {
-                    $i = 0;
-                    $itemAvail = $key["itemavailability"];
-                    while ($i < strlen($itemAvail)) {
-                        if ($itemAvail[$i] == 'B') {
+                    $itemAvail = str_split($key["itemavailability"]);
+                    foreach ($itemAvail as $char) {
+                        if ($char == 'B') {
                             $menu["Breakfast Appetizers"][$key["itemname"]] = $key["itemprice"];
                         }
-                        if ($itemAvail[$i] == 'L') {
+                        else if ($char == 'L') {
                             $menu["Lunch Appetizers"][$key["itemname"]] = $key["itemprice"];
                         }
-                        if ($itemAvail[$i] == 'D') {
+                        else if ($char == 'D') {
                             $menu["Dinner Appetizers"][$key["itemname"]] = $key["itemprice"];
                         }
-                        $i++;
                     }
 
                 } if($key['itemtype'] = "Entree") {
-                    $i = 0;
-                    $itemAvail = $key["itemavailability"];
-                    while ($i < strlen($itemAvail)) {
-                        if ($itemAvail[$i] == 'B') {
+                    $itemAvail = str_split($key["itemavailability"]);
+                    foreach ($itemAvail as $char) {
+                        if ($char == 'B') {
                             $menu["Breakfast Entrees"][$key["itemname"]] = $key["itemprice"];
                         }
-                        if ($itemAvail[$i] == 'L') {
+                        else if ($char == 'L') {
                             $menu["Lunch Entrees"][$key["itemname"]] = $key["itemprice"];
                         }
-                        if ($itemAvail[$i] == 'D') {
+                        else if ($char == 'D') {
                             $menu["Dinner Entrees"][$key["itemname"]] = $key["itemprice"];
                         }
-                        $i++;
                     }
 
                 }
 
             }
 
-            return($menu);
+            return $menu;
 
             
         
