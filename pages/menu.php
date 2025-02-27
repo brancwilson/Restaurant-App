@@ -1,10 +1,11 @@
 <?php
 require_once __DIR__ . '/../includes/functions.php';
-require_once __DIR__ . '/../includes/db_connection.php';
-require_once __DIR__ . '/../templates/header.php';
-
 session_start();
-requireLogin();
+
+if (!isset($_SESSION['user'])) {
+    header('Location: login.php');
+    exit();
+}
 
 $table = $_GET['table'] ?? null;
 if (!$table) {
@@ -17,12 +18,14 @@ $menuCategories = [
     "Lunch" => ["Sides", "Entrees", "Drinks"],
     "Dinner" => ["Sides", "Entrees", "Drinks"]
 ];
+
+require_once __DIR__ . '/../templates/header.php';
 ?>
 
 <h1>Menu for Table <?= htmlspecialchars($table) ?></h1>
 <div class="main-layout">
-    <!-- Breakfast Menu -->
-    <div class="menu-section">
+     <!-- Left Column: Lunch Menu -->
+     <div class="menu-section">
         <h2>Breakfast Menu</h2>
         <?php foreach ($menuCategories['Breakfast'] as $category): ?>
             <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Breakfast <?= urlencode($category) ?>" class="category-button">
@@ -31,7 +34,7 @@ $menuCategories = [
         <?php endforeach; ?>
     </div>
 
-    <!-- Lunch Menu -->
+    <!-- Left Column: Lunch Menu -->
     <div class="menu-section">
         <h2>Lunch Menu</h2>
         <?php foreach ($menuCategories['Lunch'] as $category): ?>
@@ -41,7 +44,7 @@ $menuCategories = [
         <?php endforeach; ?>
     </div>
 
-    <!-- Dinner Menu -->
+    <!-- Right Column: Dinner Menu -->
     <div class="menu-section">
         <h2>Dinner Menu</h2>
         <?php foreach ($menuCategories['Dinner'] as $category): ?>

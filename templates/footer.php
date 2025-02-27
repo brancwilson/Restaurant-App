@@ -1,5 +1,4 @@
-<footer>
-        <p>&copy; 2023 POS System</p>
-    </footer>
+</div>
+    <script src="/public/js/main.js"></script>
 </body>
 </html>
