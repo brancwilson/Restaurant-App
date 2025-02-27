@@ -13,7 +13,6 @@
         <?php if (isset($_SESSION['user'])): ?>
             <nav>
                 <a href="tables.php">Tables</a>
-                <a href="settings.php">Settings</a>
                 <a href="logout.php">Logout</a>
             </nav>
         <?php endif; ?>
