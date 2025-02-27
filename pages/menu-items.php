@@ -15,19 +15,7 @@ if (!$table || !$category) {
     exit();
 }
 
-/*$menu = [
-    "Lunch Appetizers" => ["Pickled Vegetables" => 5, "Rye Bread" => 5, "Cheese Blintzes" => 5],
-    "Lunch Entrees" => ["Borscht" => 15, "Chicken Kiev" => 15, "Fish Pie" => 15],
-    "Lunch Drinks" => ["Kvass" => 2, "Mors" => 2, "Black Tea" => 2],
-    "Dinner Appetizers" => ["Garlic Bread" => 5, "Fried Potatoes" => 5, "Roasted Beets" => 5],
-    "Dinner Entrees" => ["Duck a la Russe" => 15, "Caviar Platter" => 15, "Rabbit Stew" => 15],
-    "Dinner Drinks" => ["Red Wine" => 2, "White Wine" => 2, "Vodka Shots" => 2]
-];
-*/
-
-$menu = [];
 $menu = getMenuList();
-
 $items = $menu[$category] ?? [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -58,7 +46,6 @@ require_once __DIR__ . '/../templates/header.php';
         </ul>
     </div>
 
-    <!-- Order Column -->
     <div class="order-column">
         <h2>Selected Items</h2>
         <ul id="selected-items-list">

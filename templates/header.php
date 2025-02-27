@@ -10,9 +10,11 @@
 <body>
     <header>
         <h1>POS System</h1>
-        <nav>
-            <a href="tables.php">Tables</a>
-            <a href="settings.php">Settings</a>
-            <a href="logout.php">Logout</a>
-        </nav>
+        <?php if (isset($_SESSION['user'])): ?>
+            <nav>
+                <a href="tables.php">Tables</a>
+                <a href="settings.php">Settings</a>
+                <a href="logout.php">Logout</a>
+            </nav>
+        <?php endif; ?>
     </header>
