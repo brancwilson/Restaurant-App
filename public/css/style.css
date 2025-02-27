@@ -231,36 +231,67 @@ h1, h2, h3 {
 
 /* Checkout Page Styles */
 .checkout-container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White background */
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
-.checkout-container h1 {
-    text-align: center;
+.order-summary {
+    margin-bottom: 30px;
 }
 
-.checkout-container ul {
+.order-summary h2 {
+    color: #2c3e50; /* Dark blue */
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.order-items {
     list-style-type: none;
     padding: 0;
 }
 
-.checkout-container ul li {
-    padding: 10px;
-    font-size: 1.2rem;
+.order-items li {
+    padding: 15px;
     border-bottom: 1px solid #ddd;
+    font-size: 1.2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.checkout-container h2 {
+.order-items li strong {
+    color: #2c3e50; /* Dark blue */
+}
+
+.total {
     text-align: right;
+    font-size: 1.5rem;
+    color: #27ae60; /* Green for total */
     margin-top: 20px;
 }
 
-.checkout-container form {
+.checkout-form {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
+}
+
+.submit-order {
+    background-color: #27ae60; /* Green */
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-order:hover {
+    background-color: #219653; /* Darker green on hover */
 }
 
 /* Responsive Design */
