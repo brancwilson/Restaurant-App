@@ -4,7 +4,7 @@ $("document").ready(function(){
         $("#itemsTable").empty();
 
         $.ajax({
-            url: '/../../pages/phpfunctions/loadmenutable.php',
+            url: '/../../pages/phpfunctions/loadMenuTable.php',
             type: 'get',
             success: function(response) {
                 $("#itemsTable").append("<tr id='itemTableLabels'><td>Item Name</td><td>Item Price</td><td>Item Type</td><td>Item Availability</td><td>Edit</td></tr>")
