@@ -1,4 +1,5 @@
-</div>
-    <script src="/public/js/main.js"></script>
+<footer>
+        <p>&copy; 2023 POS System</p>
+    </footer>
 </body>
 </html>
