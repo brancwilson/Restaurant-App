@@ -34,56 +34,45 @@ function getMenuList(): array {
             // and somewhere later:
             foreach ($data as $row => $key) {
 
+                $itemAvail = str_split($key["itemavailability"]);
+
                 if($key['itemtype'] = "Drink") {
-                    $itemAvail = str_split($key["itemavailability"]);
-                    foreach ($itemAvail as $char) {
-                        if ($char == 'B') {
-                            $menu["Breakfast Drinks"][$key["itemname"]] = $key["itemprice"];
-                        }
-                        else if ($char == 'L') {
-                            $menu["Lunch Drinks"][$key["itemname"]] = $key["itemprice"];
-                        }
-                        else if ($char == 'D') {
-                            $menu["Dinner Drinks"][$key["itemname"]] = $key["itemprice"];
-                        }
+                    if (in_array("B", $itemAvail)) {
+                        $menu["Breakfast Drinks"][$key["itemname"]] = $key["itemprice"];
                     }
-
-                } if($key['itemtype'] = "Side") {
-                    $itemAvail = str_split($key["itemavailability"]);
-                    foreach ($itemAvail as $char) {
-                        if ($char == 'B') {
-                            $menu["Breakfast Sides"][$key["itemname"]] = $key["itemprice"];
-                        }
-                        else if ($char == 'L') {
-                            $menu["Lunch Sides"][$key["itemname"]] = $key["itemprice"];
-                        }
-                        else if ($char == 'D') {
-                            $menu["Dinner Sides"][$key["itemname"]] = $key["itemprice"];
-                        }
+                    if (in_array("L", $itemAvail)) {
+                        $menu["Lunch Drinks"][$key["itemname"]] = $key["itemprice"];
                     }
-
-                } if($key['itemtype'] = "Entree") {
-                    $itemAvail = str_split($key["itemavailability"]);
-                    foreach ($itemAvail as $char) {
-                        if ($char == 'B') {
-                            $menu["Breakfast Entrees"][$key["itemname"]] = $key["itemprice"];
-                        }
-                        else if ($char == 'L') {
-                            $menu["Lunch Entrees"][$key["itemname"]] = $key["itemprice"];
-                        }
-                        else if ($char == 'D') {
-                            $menu["Dinner Entrees"][$key["itemname"]] = $key["itemprice"];
-                        }
+                    if (in_array("D", $itemAvail)) {
+                        $menu["Dinner Drinks"][$key["itemname"]] = $key["itemprice"];
                     }
-                } if ($key['itemtype'] != "Drink" || $key['itemtype'] != "Side" || $key['itemtype'] != "Entree") {}
+                } else if($key['itemtype'] = "Side") {
+                    if (in_array("B", $itemAvail)) {
+                        $menu["Breakfast Sides"][$key["itemname"]] = $key["itemprice"];
+                    }
+                    if (in_array("L", $itemAvail)) {
+                        $menu["Lunch Sides"][$key["itemname"]] = $key["itemprice"];
+                    }
+                    if (in_array("D", $itemAvail)) {
+                        $menu["Dinner Sides"][$key["itemname"]] = $key["itemprice"];
+                    }
+                } else if($key['itemtype'] = "Entree") {
+                    if (in_array("B", $itemAvail)) {
+                        $menu["Breakfast Entrees"][$key["itemname"]] = $key["itemprice"];
+                    }
+                    if (in_array("L", $itemAvail)) {
+                        $menu["Lunch Entrees"][$key["itemname"]] = $key["itemprice"];
+                    }
+                    if (in_array("D", $itemAvail)) {
+                        $menu["Dinner Entrees"][$key["itemname"]] = $key["itemprice"];
+                    }
+                }
 
             }
 
             return $menu;
 
-            
-        
-        } else {
+    } else {
             echo "pdo fail...";
             return($menu);
         }
