@@ -12,7 +12,7 @@
     <div class="container">
         <!-- Settings Icon -->
         <div class="settings-icon">
-            <i class="fas fa-cog"></i> <!-- Gear icon -->
+            <i class="fa fa-bars"></i> <!-- Gear icon -->
             <div class="dropdown-content">
                 <a href="settings.php">Settings</a>
                 <a href="logout.php">Logout</a>
