@@ -46,7 +46,7 @@ try {
     <script src="/../../public/js/additem.js"></script>
     <link rel="stylesheet" href="/../../public/css/settings_style.css">
 </head>
-<body>
+<?php require_once __DIR__ . '/../templates/header.php'; ?>
     <h1>Edit Menu</h1>
 
     <form>
@@ -94,5 +94,5 @@ try {
             
         </table>
     </div>
-</body>
+<?php require_once __DIR__ . '/../templates/footer.php'; ?>
 </html>
