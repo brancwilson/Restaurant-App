@@ -1,18 +1,25 @@
 <?php
+// functions.php - Utility Functions
+
 function addToCart($table, $item, $price) {
-    if (!isset($_SESSION['cart'][$table])) {
-        $_SESSION['cart'][$table] = [];
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
     }
-    if (!isset($_SESSION['cart'][$table][$item])) {
-        $_SESSION['cart'][$table][$item] = ['price' => $price, 'quantity' => 1];
-    } else {
-        $_SESSION['cart'][$table][$item]['quantity'] += 1;
-    }
+    $_SESSION['cart'][$table][$item] = [
+        'price' => $price,
+        'quantity' => ($_SESSION['cart'][$table][$item]['quantity'] ?? 0) + 1
+    ];
 }
 
-function calculateTotal($cart) {
-    return array_reduce($cart, function ($carry, $item) {
-        return $carry + ($item['price'] * $item['quantity']);
-    }, 0);
+function calculateTotal() {
+    if (empty($_SESSION['cart'])) return 0;
+    
+    $total = 0;
+    foreach ($_SESSION['cart'] as $table => $items) {
+        foreach ($items as $item) {
+            $total += $item['price'] * $item['quantity'];
+        }
+    }
+    return $total;
 }
 ?>

@@ -1,8 +1,9 @@
 <?php
-// Start the session
+// auth.php - User Authentication
+require_once __DIR__ . '/db.php';
+
 session_start();
 
-// Define the requireLogin() function
 function requireLogin() {
     if (!isset($_SESSION['user'])) {
         header('Location: /pages/login.php');
@@ -10,16 +11,25 @@ function requireLogin() {
     }
 }
 
-// Define the login() function
 function login($username, $password) {
-    // Hardcoded credentials
-    $validUsername = 'Admin';
-    $validPassword = '1234'; // In a real application, this should be hashed
-
-    if ($username === $validUsername && $password === $validPassword) {
-        $_SESSION['user'] = $username;
+    $pdo = getDBConnection();
+    $stmt = $pdo->prepare("SELECT id, username, password FROM users WHERE username = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
+    
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['user'] = [
+            'id' => $user['id'],
+            'username' => $user['username']
+        ];
         return true;
     }
     return false;
+}
+
+function logout() {
+    session_destroy();
+    header('Location: /pages/login.php');
+    exit();
 }
 ?>
