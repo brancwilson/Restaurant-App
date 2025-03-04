@@ -46,7 +46,7 @@ function getMenuList(): array {
                     if (in_array("D", $itemAvail)) {
                         $menu["Dinner Drinks"][$key["itemname"]] = $key["itemprice"];
                     }
-                } else if($key['itemtype'] = "Side") {
+                } if($key['itemtype'] = "Side") {
                     if (in_array("B", $itemAvail)) {
                         $menu["Breakfast Sides"][$key["itemname"]] = $key["itemprice"];
                     }
@@ -56,7 +56,7 @@ function getMenuList(): array {
                     if (in_array("D", $itemAvail)) {
                         $menu["Dinner Sides"][$key["itemname"]] = $key["itemprice"];
                     }
-                } else if($key['itemtype'] = "Entree") {
+                } if($key['itemtype'] = "Entree") {
                     if (in_array("B", $itemAvail)) {
                         $menu["Breakfast Entrees"][$key["itemname"]] = $key["itemprice"];
                     }
