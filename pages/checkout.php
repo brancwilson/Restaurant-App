@@ -17,6 +17,19 @@ $selectedItems = $_SESSION['cart'][$table];
 $total = calculateTotal($selectedItems);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_SESSION['submitted_orders'])) {
+        $_SESSION['submitted_orders'] = [];
+    }
+
+    // Generate an order ID (use timestamp for uniqueness)
+    $orderId = time(); 
+
+    // Store the submitted order in session
+    $_SESSION['submitted_orders'][$orderId] = [
+        'table' => $table,
+        'items' => $selectedItems
+    ];
+
     // Mark the table as busy
     $_SESSION['tables'][$table] = 'busy';
 
