@@ -1,19 +1,13 @@
 <?php
-// Include the functions.php file to access the calculateTotal() function
 require_once __DIR__ . '/../includes/functions.php';
-
-// Start the session
 session_start();
 
-// Ensure the user is logged in
 if (!isset($_SESSION['user'])) {
     header('Location: login.php');
     exit();
 }
 
 $table = $_GET['table'] ?? null;
-
-// Check if table is set and has items in the cart
 if (!$table || !isset($_SESSION['cart'][$table])) {
     header('Location: tables.php');
     exit();
@@ -38,18 +32,24 @@ require_once __DIR__ . '/../templates/header.php';
 ?>
 
 <h1>Checkout for Table <?= htmlspecialchars($table) ?></h1>
-<ul>
-    <?php foreach ($selectedItems as $item => $details): ?>
-        <li>
-            <strong><?= htmlspecialchars($item) ?></strong> -
-            <?= htmlspecialchars($details['quantity']) ?> x $<?= htmlspecialchars($details['price']) ?>
-            = $<?= htmlspecialchars($details['quantity'] * $details['price']) ?>
-        </li>
-    <?php endforeach; ?>
-</ul>
-<h2>Total: $<?= htmlspecialchars($total) ?></h2>
-<form action="checkout.php?table=<?= htmlspecialchars($table) ?>" method="POST">
-    <button type="submit">Submit Order</button>
-</form>
+<div class="checkout-container">
+    <div class="order-summary">
+        <h2>Order Summary</h2>
+        <ul class="order-items">
+            <?php foreach ($selectedItems as $item => $details): ?>
+                <li>
+                    <strong><?= htmlspecialchars($item) ?></strong> -
+                    <?= htmlspecialchars($details['quantity']) ?> x $<?= htmlspecialchars($details['price']) ?>
+                    = $<?= htmlspecialchars($details['quantity'] * $details['price']) ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <h3 class="total">Total: $<?= htmlspecialchars($total) ?></h3>
+    </div>
+
+    <form action="checkout.php?table=<?= htmlspecialchars($table) ?>" method="POST" class="checkout-form">
+        <button type="submit" class="button submit-order">Submit Order</button>
+    </form>
+</div>
 
 <?php require_once __DIR__ . '/../templates/footer.php'; ?>
