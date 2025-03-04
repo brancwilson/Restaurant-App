@@ -15,13 +15,18 @@ $orders = $_SESSION['submitted_orders'] ?? [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $orderId = $_POST['order_id'] ?? null;
     if ($orderId && isset($orders[$orderId])) {
+        $tableNumber = $orders[$orderId]['table'];
         if (isset($_POST['complete'])) {
             // Remove order from session (mark as completed)
             unset($_SESSION['submitted_orders'][$orderId]);
+            // Mark the table as free again
+            $_SESSION['tables'][$tableNumber] = 'free';
         } elseif (isset($_POST['revoke'])) {
             // Move order back to cart (revoked)
-            $_SESSION['cart'][$orders[$orderId]['table']] = $orders[$orderId]['items'];
+            $_SESSION['cart'][$tableNumber] = $orders[$orderId]['items'];
             unset($_SESSION['submitted_orders'][$orderId]);
+            // Mark the table as free again
+            $_SESSION['tables'][$tableNumber] = 'free';
         }
         header('Location: kitchen.php');
         exit();
