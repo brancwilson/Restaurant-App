@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../tables.php';
 requireLogin();
+
+$numTables = retrieveSetting("number_of_tables");
 
 if (!isset($_SESSION['tables'])) {
     $_SESSION['tables'] = array_fill(1, 10, 'free');
@@ -20,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 require_once __DIR__ . '/../templates/header.php';
 ?>
+<h1>There are <?php $numTables[0] ?> tables.</h1>
 <h1>Select a Table</h1>
 <div class="table-layout">
     <?php for ($i = 1; $i <= 10; $i++): ?>
