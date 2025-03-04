@@ -23,6 +23,7 @@ require_once __DIR__ . '/../templates/header.php';
 
     <a href="tables.php" class="button">View Tables</a>
     <a href="additem.php" class="button">Edit Menu</a>
+    <a href="options.php" class="button">Options Menu</a>
     <a href="logout.php" class="button">Logout</a>
     
     <?php require_once __DIR__ . '/../templates/footer.php'; ?>
