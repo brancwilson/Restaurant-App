@@ -73,9 +73,13 @@ require_once __DIR__ . '/../templates/header.php';
             <?php endif; ?>
         </ul>
         <h3>Total: $<?= calculateTotal($_SESSION['cart'][$table] ?? []) ?></h3>
-        <?php if (isset($_SESSION['cart'][$table]) && !empty($_SESSION['cart'][$table])): ?>
-            <a href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
-        <?php endif; ?>        
+         <!-- Back to Categories Button -->
+         <a href="menu.php?table=<?= htmlspecialchars($table) ?>" class="button">Back to Categories</a>
+
+<!-- Proceed to Checkout Button -->
+<?php if (isset($_SESSION['cart'][$table]) && !empty($_SESSION['cart'][$table])): ?>
+    <a href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
+<?php endif; ?>  
     </div>
 </div>
 
