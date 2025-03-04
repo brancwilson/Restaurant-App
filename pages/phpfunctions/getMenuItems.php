@@ -28,47 +28,53 @@ function getMenuList(): array {
 
         if ($pdo) {
             
-            $data = $pdo->query("SELECT * FROM menuitems")->fetchAll();
-            $menuLen = count($data);
-            //echo"fetching data...";
-            // and somewhere later:
-            foreach ($data as $row => $key) {
-
-                $itemAvail = str_split($key["itemavailability"]);
-
-                if($key['itemtype'] = "Drink") {
-                    if (in_array("B", $itemAvail)) {
-                        $menu["Breakfast Drinks"][$key["itemname"]] = $key["itemprice"];
-                    }
-                    if (in_array("L", $itemAvail)) {
-                        $menu["Lunch Drinks"][$key["itemname"]] = $key["itemprice"];
-                    }
-                    if (in_array("D", $itemAvail)) {
-                        $menu["Dinner Drinks"][$key["itemname"]] = $key["itemprice"];
-                    }
-                } if($key['itemtype'] = "Side") {
-                    if (in_array("B", $itemAvail)) {
-                        $menu["Breakfast Sides"][$key["itemname"]] = $key["itemprice"];
-                    }
-                    if (in_array("L", $itemAvail)) {
-                        $menu["Lunch Sides"][$key["itemname"]] = $key["itemprice"];
-                    }
-                    if (in_array("D", $itemAvail)) {
-                        $menu["Dinner Sides"][$key["itemname"]] = $key["itemprice"];
-                    }
-                } if($key['itemtype'] = "Entree") {
-                    if (in_array("B", $itemAvail)) {
-                        $menu["Breakfast Entrees"][$key["itemname"]] = $key["itemprice"];
-                    }
-                    if (in_array("L", $itemAvail)) {
-                        $menu["Lunch Entrees"][$key["itemname"]] = $key["itemprice"];
-                    }
-                    if (in_array("D", $itemAvail)) {
-                        $menu["Dinner Entrees"][$key["itemname"]] = $key["itemprice"];
-                    }
-                }
-
+        $entrees = $pdo->query("SELECT * FROM menuitems WHERE itemtype = 'Entree'")->fetchAll();
+        //echo"fetching data...";
+        // and somewhere later:
+        foreach ($entrees as $row => $key) {
+            $itemAvail = str_split($key["itemavailability"]);
+            if (in_array("B", $itemAvail)) {
+                $menu["Breakfast Entrees"][$key["itemname"]] = $key["itemprice"];
             }
+            if (in_array("L", $itemAvail)) {
+                $menu["Lunch Entrees"][$key["itemname"]] = $key["itemprice"];
+            }
+            if (in_array("D", $itemAvail)) {
+                $menu["Dinner Entrees"][$key["itemname"]] = $key["itemprice"];
+            }
+        }
+
+        $sides = $pdo->query("SELECT * FROM menuitems WHERE itemtype = 'Side'")->fetchAll();
+        //echo"fetching data...";
+        // and somewhere later:
+        foreach ($sides as $row => $key) {
+            $itemAvail = str_split($key["itemavailability"]);
+            if (in_array("B", $itemAvail)) {
+                $menu["Breakfast Sides"][$key["itemname"]] = $key["itemprice"];
+            }
+            if (in_array("L", $itemAvail)) {
+                $menu["Lunch Sides"][$key["itemname"]] = $key["itemprice"];
+            }
+            if (in_array("D", $itemAvail)) {
+                $menu["Dinner Sides"][$key["itemname"]] = $key["itemprice"];
+            }
+        }
+
+        $drinks = $pdo->query("SELECT * FROM menuitems WHERE itemtype = 'Drink'")->fetchAll();
+        //echo"fetching data...";
+        // and somewhere later:
+        foreach ($drinks as $row => $key) {
+            $itemAvail = str_split($key["itemavailability"]);
+            if (in_array("B", $itemAvail)) {
+                $menu["Breakfast Drinks"][$key["itemname"]] = $key["itemprice"];
+            }
+            if (in_array("L", $itemAvail)) {
+                $menu["Lunch Drinks"][$key["itemname"]] = $key["itemprice"];
+            }
+            if (in_array("D", $itemAvail)) {
+                $menu["Dinner Drinks"][$key["itemname"]] = $key["itemprice"];
+            }
+        }
 
             return $menu;
 
