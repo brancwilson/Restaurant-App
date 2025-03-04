@@ -16,7 +16,7 @@ function retrieveSetting($settingName): mixed {
         $settingValue = null;
 
         if ($pdo) {
-            $sql = "FROM options SELECT * WHERE option = '" . $settingName . "';";
+            $sql = "SELECT * FROM options WHERE option = '" . $settingName . "';";
             $settingValue = $pdo->query($sql)->fetchAll();
             
             return $settingValue;
