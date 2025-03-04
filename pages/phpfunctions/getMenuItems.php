@@ -91,32 +91,4 @@ function getMenuList(): array {
         return($menu);
     }
 }
-
-$myMenu = getMenuList();
-echo"<h1>Sides</h1>";
-echo "<br>";
-var_dump($myMenu["Breakfast Sides"]);
-echo "<br>";
-var_dump($myMenu["Lunch Sides"]);
-echo "<br>";
-var_dump($myMenu["Dinner Sides"]);
-echo"<br><br>";
-
-echo"<h1>Entrees</h1>";
-echo "<br>";
-var_dump($myMenu["Breakfast Entrees"]);
-echo "<br>";
-var_dump($myMenu["Lunch Entrees"]);
-echo "<br>";
-var_dump($myMenu["Dinner Entrees"]);
-echo"<br><br>";
-
-echo"<h1>Drinks</h1>";
-echo "<br>";
-var_dump($myMenu["Breakfast Drinks"]);
-echo "<br>";
-var_dump($myMenu["Lunch Drinks"]);
-echo "<br>";
-var_dump($myMenu["Dinner Drinks"]);
-echo"<br><br>";
 ?>
