@@ -21,7 +21,6 @@ require_once __DIR__ . '/../templates/header.php';
     <h1>Settings</h1>
     <p>Welcome to the settings page. Here you can manage your account and preferences.</p>
 
-    <a href="tables.php" class="button">View Tables</a>
     <a href="additem.php" class="button">Edit Menu</a>
     <a href="options.php" class="button">Options Menu</a>
     <a href="logout.php" class="button">Logout</a>
