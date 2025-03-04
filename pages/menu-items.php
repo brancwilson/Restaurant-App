@@ -41,6 +41,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../templates/header.php';
 ?>
 
+<!-- Tabbed Navigation -->
+<div class="tab-navigation">
+    <?php foreach ($categories[$mealType] as $cat): ?>
+        <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=<?= urlencode("$mealType $cat") ?>" 
+           class="tab-button <?= $category === "$mealType $cat" ? 'active' : '' ?>">
+            <?= htmlspecialchars($cat) ?>
+        </a>
+    <?php endforeach; ?>
+</div>
+
 <h1><?= htmlspecialchars($category) ?> for Table <?= htmlspecialchars($table) ?></h1>
 <div class="main-layout">
     <div class="menu-column">
