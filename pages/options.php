@@ -6,7 +6,7 @@
     <form>
         <td>Number of Tables: </td>
         <td><input type="number" id="numTables"></input></td>
-        <td><btn id="numTablesSubmitBtn">Submit</btn></td>
+        <td><button id="numTablesSubmitBtn">Submit</button></td>
     </form>
 <tr>
 </table>
