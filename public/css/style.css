@@ -97,7 +97,6 @@ h1, h2, h3 {
 }
 
 /* Table Selection Page Styles */
-/* Table Selection Page Styles */
 .table-layout {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Two columns */
@@ -369,4 +368,29 @@ h1, h2, h3 {
 /* Show dropdown on hover */
 .settings-icon:hover .dropdown-content {
     display: block;
+}
+
+.tab-navigation {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.tab-button.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.tab-button:hover {
+    background-color: #ddd;
 }
