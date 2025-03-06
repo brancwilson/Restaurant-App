@@ -9,7 +9,7 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 $orders = $stmt->fetchAll();
 
-$conn.closeDBConnection();
+//$conn.closeDBConnection();
 ?>
 
 <!DOCTYPE html>
