@@ -18,7 +18,7 @@ function getTableStatus($table) {
             $sql = "SELECT table_status FROM tables WHERE table_id = " . $table . ";";
             $tableStatus = $pdo->query($sql)->fetchAll();
 
-            return $tableStatus[0]["table_status"];;
+            return $tableStatus[0]["table_status"];
         
         } else {
             echo "pdo fail...";
