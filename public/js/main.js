@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.location.href = "/../../pages/additem.php";
     });
 
-    $("numTablesSubmitBtn").on("click", function() {
+    $("#numTablesSubmitBtn").on("click", function() {
         var numTables = $("#numTables").val();
 
         $.ajax({
