@@ -19,7 +19,7 @@ function retrieveSetting($settingName): mixed {
             $sql = "SELECT optionvalue FROM options WHERE option = '" . $settingName . "';";
             $settingValue = $pdo->query($sql)->fetchAll();
             
-            return $settingValue[0]["optionvalue"];
+            return $settingValue;
         } else {
                 echo "pdo fail...";
             }
