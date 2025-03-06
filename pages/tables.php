@@ -5,7 +5,7 @@ require_once __DIR__ . '/phpfunctions/getTableStatus.php';
 requireLogin();
 
 $numTables = retrieveSetting("number_of_tables")[0]["optionvalue"];
-//$testVal = getTableStatus(1);
+$testVal = getTableStatus(1);
 
 if (!isset($_SESSION['tables'])) {
     $_SESSION['tables'] = array_fill(1, $numTables, 'free');
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 require_once __DIR__ . '/../templates/header.php';
 ?>
-
+<h1><?php echo($testVal) ?></h1>
 <h1>Select a Table</h1>
 <div class="table-layout">
     <?php for ($i = 1; $i <= $numTables; $i++): ?>
