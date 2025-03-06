@@ -45,6 +45,13 @@ h1, h2, h3 {
     background-color: #1c5980; /* Even darker blue on click */
 }
 
+.active {
+    background-color: blue !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+
 /* Login Page Styles */
 .login-container {
     display: flex;
