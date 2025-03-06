@@ -8,15 +8,18 @@ function getDBConnection() {
     $db_name = "dpe2kq3p3j0dv";
     $db_username = "u4bum5vo1sv2r2";
     $db_password = "pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238";
-    
 
-    $dsn = "pgsql:host=$db_host;port=5432;dbname=$db_name;";
-    // make a database connection
-    $pdo = new PDO($dsn, $db_username, $db_password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-
+    $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name;";
+    try {
+        // Make a database connection
+        $pdo = new PDO($dsn, $db_username, $db_password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        return $pdo;
+    } catch (PDOException $e) {
+        die("Database connection failed: " . $e->getMessage());
+    }
 }
 
-function closeDBConnection() {
+function closeDBConnection($pdo) {
     if ($pdo) {
         $pdo = null;
     }
