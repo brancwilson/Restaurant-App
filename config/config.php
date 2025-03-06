@@ -1,24 +1,8 @@
 <?php
-// config.php - Database Configuration
-
-// Use environment variables for security
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') ?: 'password');
-define('DB_NAME', getenv('DB_NAME') ?: 'pos_system');
-
-// Session configuration
-session_start();
-define('SESSION_EXPIRE', 1800); // 30 minutes
-
-// Error reporting - Enable only in development
-define('DEV_MODE', getenv('DEV_MODE') === 'true');
-if (DEV_MODE) {
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-} else {
-    error_reporting(0);
-    ini_set('display_errors', 0);
-}
-
+// config/config.php
+define('DB_HOST', 'c8m0261h0c7idk.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com');
+define('DB_PORT', '5432');
+define('DB_NAME', 'dpe2kq3p3j0dv');
+define('DB_USER', 'u4bum5vo1sv2r2');
+define('DB_PASS', 'pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238');
 ?>
