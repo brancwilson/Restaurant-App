@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include '../includes/db.php'; // Include database connection
 include '../includes/auth.php'; // Ensure only authorized users access
 
@@ -7,10 +10,22 @@ requireLogin();
 
 // Get completed or revoked orders
 $conn = getDBConnection();
+if (!$conn) {
+    die("Database connection failed.");
+}
+
 $sql = "SELECT * FROM orders WHERE status IN ('completed', 'revoked') ORDER BY order_time DESC";
 $stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Failed to prepare SQL statement.");
+}
+
 $stmt->execute();
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if (empty($orders)) {
+    die("No orders found.");
+}
 
 closeDBConnection($conn); // Close the connection
 ?>
