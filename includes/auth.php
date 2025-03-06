@@ -1,5 +1,5 @@
 <?php
-// auth.php - User Authentication
+// includes/auth.php - User Authentication
 require_once __DIR__ . '/db.php';
 
 session_start();
