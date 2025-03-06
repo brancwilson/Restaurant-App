@@ -18,8 +18,28 @@ try {
             $numTables = $_POST["numTables"];
 
             $sql = "UPDATE options SET optionValue = ? WHERE option = 'number_of_tables'";
-            $stmt= $pdo->prepare($sql);
+            $stmt = $pdo->prepare($sql);
             $stmt->execute([$numTables]);
+
+            // set all tables to null value
+            $i = 0;
+            while ($i < 100) {
+                $sql = "UPDATE tables SET table_status = null WHERE table_id = ?;";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$i]);
+
+                $i++;
+            }
+
+            // set the desired number of tables to active
+            $i = 1;
+            while ($i <= $numTables) {
+                $sql = "UPDATE tables SET table_status = 'OPEN' WHERE table_id = ?;";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$i]);
+
+                $i++;
+            }
 
         }
     
