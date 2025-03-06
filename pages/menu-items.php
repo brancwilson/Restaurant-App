@@ -16,11 +16,21 @@ if (!$table || !$category) {
 }
 
 // Define the categories and meal types here, assuming they are predefined or fetched from a database
-$mealType = 'Lunch'; // Example: Could be 'Lunch' or 'Dinner'
+$mealTypes = ['Breakfast', 'Lunch', 'Dinner'];
 $categories = [
+    'Breakfast' => ['Appetizers', 'Entrees', 'Drinks'],
     'Lunch' => ['Appetizers', 'Entrees', 'Drinks'],
     'Dinner' => ['Appetizers', 'Entrees', 'Drinks']
 ];
+
+// Determine the meal type based on the category
+$mealType = '';
+foreach ($mealTypes as $type) {
+    if (strpos($category, $type) !== false) {
+        $mealType = $type;
+        break;
+    }
+}
 
 // Fetch menu items
 $menu = getMenuList();
