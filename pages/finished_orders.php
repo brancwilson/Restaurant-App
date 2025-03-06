@@ -8,6 +8,8 @@ $sql = "SELECT * FROM orders WHERE status IN ('completed', 'revoked') ORDER BY o
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $orders = $stmt->fetchAll();
+
+$conn.closeDBConnection();
 ?>
 
 <!DOCTYPE html>
