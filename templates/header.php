@@ -19,6 +19,7 @@
                 <a href="tables.php">View Tables</a>
                 <a href="settings.php">Settings</a>
                 <a href="logout.php">Logout</a>
-                <a href="kitchen.php">Submitted Orders</a>
+                <a href="kitchen.php">Kitchen Orders</a>
+                <a href="finished_orders.php">Finished Orders</a>
             </div>
         </div>
