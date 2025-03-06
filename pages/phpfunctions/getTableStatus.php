@@ -15,7 +15,7 @@ function getTableStatus($table) {
         $pdo = new PDO($dsn, $db_username, $db_password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         
         if ($pdo) {
-            $sql = "SELECT table_status FROM tables WHERE table = " . $table . ";";
+            $sql = "SELECT table_status FROM tables WHERE table_id = " . $table . ";";
             $tableStatus = $pdo->query($sql)->fetchAll();
 
             return $tableStatus[0]["table_status"];;
