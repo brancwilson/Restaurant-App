@@ -14,7 +14,22 @@ if (!$conn) {
     die("Database connection failed.");
 }
 
-$sql = "SELECT * FROM orders WHERE status IN ('completed', 'revoked') ORDER BY order_time DESC";
+// Corrected SQL query to match your table structure
+$sql = "
+    SELECT 
+        o.order_id, 
+        o.table_id, 
+        o.datetime, 
+        o.order_status, 
+        STRING_AGG(m.itemname || ' (' || oi.quantity || ')', ', ') AS items
+    FROM orders o
+    JOIN orderitems oi ON o.order_id = oi.order_id
+    JOIN menuitems m ON oi.item_id = m.item_id
+    WHERE o.order_status IN ('completed', 'revoked')
+    GROUP BY o.order_id, o.table_id, o.datetime, o.order_status
+    ORDER BY o.datetime DESC
+";
+
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die("Failed to prepare SQL statement.");
@@ -50,16 +65,16 @@ closeDBConnection($conn); // Close the connection
         </tr>
         <?php foreach ($orders as $order): ?>
             <tr>
-                <td><?= htmlspecialchars($order['id']) ?></td>
-                <td><?= htmlspecialchars($order['table_number']) ?></td>
+                <td><?= htmlspecialchars($order['order_id']) ?></td>
+                <td><?= htmlspecialchars($order['table_id']) ?></td>
                 <td><?= htmlspecialchars($order['items']) ?></td>
-                <td><?= ucfirst(htmlspecialchars($order['status'])) ?></td>
+                <td><?= ucfirst(htmlspecialchars($order['order_status'])) ?></td>
                 <td>
                     <form action="undo_order.php" method="POST" style="display:inline;">
-                        <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['id']) ?>">
+                        <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['order_id']) ?>">
                         <button type="submit">Undo</button>
                     </form>
-                    <a href="edit_order.php?id=<?= htmlspecialchars($order['id']) ?>">Edit</a>
+                    <a href="edit_order.php?id=<?= htmlspecialchars($order['order_id']) ?>">Edit</a>
                 </td>
             </tr>
         <?php endforeach; ?>
