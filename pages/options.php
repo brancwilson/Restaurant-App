@@ -3,8 +3,11 @@
 <h1>Options</h1>
 <table>
 <tr>
-    <td>Number of Tables: </td>
-    <td><input type="text"></input></td>
+    <form>
+        <td>Number of Tables: </td>
+        <td><input type="number" id="numTables"></input></td>
+        <td><button id="numTablesSubmitBtn">Submit</button></td>
+    </form>
 <tr>
 </table>
 

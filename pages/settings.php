@@ -22,7 +22,7 @@ require_once __DIR__ . '/../templates/header.php';
     <p>Welcome to the settings page. Here you can manage your account and preferences.</p>
 
     <a href="additem.php" class="button">Edit Menu</a>
-    <a href="options.php" class="button">Options Menu</a>
+    <a href="options.php" class="button">Options</a>
     <a href="logout.php" class="button">Logout</a>
     
     <?php require_once __DIR__ . '/../templates/footer.php'; ?>
