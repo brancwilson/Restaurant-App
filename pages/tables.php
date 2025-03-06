@@ -4,7 +4,7 @@ require_once __DIR__ . '/phpfunctions/retrievesetting.php';
 require_once __DIR__ . '/phpfunctions/getTableStatus.php';
 requireLogin();
 
-$numTables = retrieveSetting("number_of_tables");
+$numTables = retrieveSetting("number_of_tables")[0]["optionvalue"];
 //$testVal = getTableStatus(1);
 
 if (!isset($_SESSION['tables'])) {
