@@ -5,7 +5,7 @@ require_once __DIR__ . '/phpfunctions/getTableStatus.php';
 requireLogin();
 
 $numTables = retrieveSetting("number_of_tables");
-$testVal = getTableStatus(1);
+//$testVal = getTableStatus(1);
 
 if (!isset($_SESSION['tables'])) {
     $_SESSION['tables'] = array_fill(1, $numTables, 'free');
