@@ -399,3 +399,7 @@ h1, h2, h3 {
 .settings-icon:hover .dropdown-content {
     display: block;
 }
+
+.order-box div:hover {
+    color: #97cdff
+}
