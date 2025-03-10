@@ -42,8 +42,6 @@ try {
 <!DOCTYPE html>
 <head>
     <title>Edit Menu</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="/../../public/js/additem.js"></script>
     <link rel="stylesheet" href="/../../public/css/settings_style.css">
 </head>
 <?php require_once __DIR__ . '/../templates/header.php'; ?>
