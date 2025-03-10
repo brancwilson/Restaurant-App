@@ -9,6 +9,7 @@ $("document").ready(function(){
             success: function(response) {
                 $("#itemsTable").append("<tr id='itemTableLabels'><td>Item Name</td><td>Item Price</td><td>Item Type</td><td>Item Availability</td><td>Edit</td></tr>")
                 $("#itemsTable").append(response);
+                console.log("Items Table loaded...");
             }
         });
     }
