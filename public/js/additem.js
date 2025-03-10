@@ -55,6 +55,7 @@ $("document").ready(function(){
             data: {deleteItem: delItem[1]},
             success: function() {
                 loadItemTable();
+                console.log("Item deleted!");
             }
         })
 
