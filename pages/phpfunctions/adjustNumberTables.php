@@ -34,7 +34,7 @@ try {
             // set the desired number of tables to active
             $i = 1;
             while ($i <= $numTables) {
-                $sql = "UPDATE tables SET table_status = 'OPEN' WHERE table_id = ?;";
+                $sql = "UPDATE tables SET table_status = 'open' WHERE table_id = ?;";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$i]);
 
