@@ -41,7 +41,7 @@ require_once __DIR__ . '/../templates/header.php';
 <h1>Select a Table</h1>
 <div class="table-layout">
     <?php for ($i = 1; $i <= $numTables; $i++): ?>
-        <div class="table <?= $_SESSION['tables'][$i] === 'busy' ? 'busy' : 'open' ?>">
+        <div class="table <?= $_SESSION['tables'][$i] == 'busy' ? 'busy' : 'open' ?>">
             <span>Table <?= $i ?></span>
             <form action="tables.php" method="POST" style="display:inline;">
                 <input type="hidden" name="table" value="<?= $i ?>">
@@ -51,7 +51,7 @@ require_once __DIR__ . '/../templates/header.php';
                 </select>
             </form>
             <?php updateTableSession()?>
-            <?php if ($_SESSION['tables'][$i] === 'open'): ?>
+            <?php if ($_SESSION['tables'][$i] == 'open'): ?>
                 <a href="menu.php?table=<?= $i ?>" class="btn-select">Select</a>
             <?php endif; ?>
         </div>
