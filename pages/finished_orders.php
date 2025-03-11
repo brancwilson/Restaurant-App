@@ -52,6 +52,8 @@ closeDBConnection($conn); // Close the connection
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finished Orders</title>
     <link rel="stylesheet" href="../public/css/style.css"> <!-- Adjust as needed -->
+    <link rel="stylesheet" href="/../../public/css/settings_style.css">
+
 </head>
 <body>
     <h2>Finished Orders</h2>
