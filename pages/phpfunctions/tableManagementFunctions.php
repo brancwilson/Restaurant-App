@@ -53,9 +53,9 @@ function setTableStatus($tableNum, $status) {
         $pdo = new PDO($dsn, $db_username, $db_password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         
         if ($pdo) {
-            $sql = "UPDATE tables SET table_status = '?' WHERE table_id = ?";
+            $sql = "UPDATE tables SET table_status = '" . $status . "' WHERE table_id = " . $tableNum;
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$status, $tableNum]);
+            $stmt->execute();
         
         } else {
             echo "pdo fail...";
