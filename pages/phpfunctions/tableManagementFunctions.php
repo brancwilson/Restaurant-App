@@ -62,8 +62,8 @@ function setTableStatus($tableNum, $status) {
         }
     } catch (PDOException $e) {
         echo"<h1>Error at setTableStatus() definition...</h1>";
-        echo"<p>tableNum:" . $tableNum . "</p>";
-        echo"<p>status:" . $status . "</p>";
+        echo"<p>tableNum: " . $tableNum . "</p>";
+        echo"<p>status: " . $status . "</p>";
 
         die($e->getMessage());
     } finally {
