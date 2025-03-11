@@ -30,6 +30,7 @@ function getTableStatus($table) {
             echo "pdo fail...";
         }
     } catch (PDOException $e) {
+        echo"<h1>Error at getTableStatus() definition...</h1>";
         die($e->getMessage());
     } finally {
         if ($pdo) {
@@ -60,6 +61,7 @@ function setTableStatus($tableNum, $status) {
             echo "pdo fail...";
         }
     } catch (PDOException $e) {
+        echo"<h1>Error at setTableStatus definition...</h1>";
         die($e->getMessage());
     } finally {
         if ($pdo) {
