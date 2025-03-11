@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/phpfunctions/retrievesetting.php';
+require_once __DIR__ . './retrievesetting.php';
 
 //Table Statuses:
 //null - inactive and not open to use -- can be activated through application 'Options' page
