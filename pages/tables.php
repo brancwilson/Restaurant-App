@@ -14,6 +14,7 @@ if (!isset($_SESSION['tables'])) {
     $i = 0;
     while ($i < $numTables) {
         $_SESSION['tables'][$i + 1] = getTableStatus($i + 1);
+        $i++;
     }
 }
 
@@ -33,10 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 require_once __DIR__ . '/../templates/header.php';
 ?>
-
-
-<h1><?php var_dump($_SESSION['tables']);?></h1>
-<h1><?php foreach ($_SESSION['tables'] as $table) {echo $table . "<p>: " . var_dump($table) . "</p>";}?></h1>
 
 <h1>Select a Table</h1>
 <div class="table-layout">
