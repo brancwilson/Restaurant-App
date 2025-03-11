@@ -36,7 +36,7 @@ require_once __DIR__ . '/../templates/header.php';
 
 
 <h1><?php var_dump($_SESSION['tables']);?></h1>
-<h1><?php foreach ($_SESSION['tables'] as $table) {echo"<p>" . var_dump($table) . "</p>";}?></h1>
+<h1><?php foreach ($_SESSION['tables'] as $table) {echo $table . "<p>: " . var_dump($table) . "</p>";}?></h1>
 
 <h1>Select a Table</h1>
 <div class="table-layout">
