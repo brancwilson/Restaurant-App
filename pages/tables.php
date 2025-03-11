@@ -13,7 +13,7 @@ if (!isset($_SESSION['tables'])) {
     
     $i = 0;
     while ($i < $numTables) {
-        $_SESSION['tables'][$i++] = getTableStatus($i++);
+        $_SESSION['tables'][$i + 1] = getTableStatus($i + 1);
     }
 }
 
