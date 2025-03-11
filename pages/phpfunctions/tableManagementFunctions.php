@@ -54,7 +54,7 @@ function setTableStatus($tableNum, $status) {
         if ($pdo) {
             $sql = "UPDATE tables SET table_status = '?' WHERE table_id = ?";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$tableNum, $status]);
+            $stmt->execute([$status, $tableNum]);
         
         } else {
             echo "pdo fail...";
