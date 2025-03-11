@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/phpfunctions/retrievesetting.php';
+require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
 session_start();
 
 if (!isset($_SESSION['user'])) {
