@@ -32,6 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Mark the table as busy
     $_SESSION['tables'][$table] = 'busy';
+    setTableStatus($table, 'busy');
+    updateTableSession();
+
 
     // Clear the cart for this table
     unset($_SESSION['cart'][$table]);
