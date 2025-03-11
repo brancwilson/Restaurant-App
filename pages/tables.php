@@ -7,7 +7,6 @@ requireLogin();
 updateTableSession();
 
 $numTables = retrieveSetting("number_of_tables")[0]["optionvalue"];
-$testVal = getTableStatus(1);
 
 if (!isset($_SESSION['tables'])) {
     $_SESSION['tables'] = array_fill(1, $numTables, null);
@@ -25,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Update the table status
     $_SESSION['tables'][$tableNumber] = $newStatus;
     setTableStatus($tableNumber, $newStatus);
+    updateTableSession();
 
     // Redirect to avoid form resubmission
     header('Location: tables.php');
