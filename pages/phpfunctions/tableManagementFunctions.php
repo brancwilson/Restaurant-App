@@ -1,0 +1,83 @@
+<?php
+require_once __DIR__ . '/phpfunctions/retrievesetting.php';
+
+//Table Statuses:
+//null - inactive and not open to use -- can be activated through application 'Options' page
+//OPEN - available to orders
+//BUSY - there is already an active order that needs to be complete
+
+function getTableStatus($table) {
+
+    $db_host = "c8m0261h0c7idk.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com";
+    $db_port = "5432";
+    $db_name = "dpe2kq3p3j0dv";
+    $db_username = "u4bum5vo1sv2r2";
+    $db_password = "pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238";
+
+    
+    try {
+        $dsn = "pgsql:host=$db_host;port=5432;dbname=$db_name;";
+        // make a database connection
+        $pdo = new PDO($dsn, $db_username, $db_password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        
+        if ($pdo) {
+            $sql = "SELECT table_status FROM tables WHERE table_id = " . $table . ";";
+            $tableStatus = $pdo->query($sql)->fetchAll();
+
+            return $tableStatus[0]["table_status"];
+        
+        } else {
+            echo "pdo fail...";
+        }
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    } finally {
+        if ($pdo) {
+            $pdo = null;
+        }
+    }
+}
+
+function setTableStatus($tableNum, $status) {
+    $db_host = "c8m0261h0c7idk.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com";
+    $db_port = "5432";
+    $db_name = "dpe2kq3p3j0dv";
+    $db_username = "u4bum5vo1sv2r2";
+    $db_password = "pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238";
+
+    
+    try {
+        $dsn = "pgsql:host=$db_host;port=5432;dbname=$db_name;";
+        // make a database connection
+        $pdo = new PDO($dsn, $db_username, $db_password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        
+        if ($pdo) {
+            $sql = "UPDATE tables SET table_status = '?' WHERE table_id = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$tableNum, $status]);
+        
+        } else {
+            echo "pdo fail...";
+        }
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    } finally {
+        if ($pdo) {
+            $pdo = null;
+        }
+    }
+}
+
+function updateTableSession() {
+    $numTables = retrieveSetting("number_of_tables")[0]["optionvalue"];
+
+
+    $_SESSION['tables'] = array();
+    $_SESSION['tables'] = array_fill(1, $numTables, null);
+    
+    $i = 0;
+    while ($i < $numTables) {
+        $_SESSION['tables'][$i++] = getTableStatus($i++);
+    }
+}
+?>
