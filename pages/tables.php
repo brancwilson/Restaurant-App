@@ -50,6 +50,7 @@ require_once __DIR__ . '/../templates/header.php';
                     <option value="busy" <?= $_SESSION['tables'][$i] === 'busy' ? 'selected' : '' ?>>Busy</option>
                 </select>
             </form>
+            <?php updateTableSession()?>
             <?php if ($_SESSION['tables'][$i] === 'open'): ?>
                 <a href="menu.php?table=<?= $i ?>" class="btn-select">Select</a>
             <?php endif; ?>
