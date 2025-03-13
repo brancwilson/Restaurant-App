@@ -21,7 +21,7 @@ $total = calculateTotal($selectedItems);
 
 $test = compileOrderItemIDs($selectedItems);
 foreach($test as $item) {
-    echo"<h1>" . "$item" . "</h1>";
+    echo"<h1>" . var_dump($item) . "</h1>";
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
