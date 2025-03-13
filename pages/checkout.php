@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['tables'][$table] = 'busy';
     
     createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId);
-    setTableStatus($table, 'busy');
+    setTableStatus($table[0], 'busy');
     updateTableSession();
 
 
