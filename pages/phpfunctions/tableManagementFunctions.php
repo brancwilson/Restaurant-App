@@ -155,7 +155,7 @@ function createTableOrder($table_ID, $item_ID_list, $orderTime) {
                 foreach($item_ID_list as $ID) {
                     $sql = "INSERT INTO orderitems(order_id, item_id, quantity) VALUES (?, ?, ?)";
                     $stmt= $pdo->prepare($sql);
-                    $stmt->execute([$orderTime, 4, 3]);
+                    $stmt->execute([$orderTime, 91, 3]);
                 }
             }
         
