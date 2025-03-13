@@ -21,8 +21,8 @@ $total = calculateTotal($selectedItems);
 
 $test = compileOrderItemIDs($selectedItems);
 
-var_dump($_SESSION['cart']);
-
+var_dump($_SESSION['cart']['table']);
+echo"<br><br>";
 var_dump($test);
 foreach($test as $item) {
     echo("<h1>Item ID: " . $item[0][0] . "</h1>");
