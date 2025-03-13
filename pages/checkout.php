@@ -25,8 +25,7 @@ $test = compileOrderItemIDs($selectedItems);
 //echo"<br><br>";
 var_dump($test);
 foreach($test as $item) {
-    echo("<h1>Item ID: " . $item[0] . "</h1>");
-    echo("<p>Item QTY: " . $item[0] . "</p>");
+    echo("<h1>" . $item . "</h1>");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
