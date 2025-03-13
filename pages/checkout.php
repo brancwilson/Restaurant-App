@@ -16,7 +16,7 @@ if (!$table || !isset($_SESSION['cart'][$table])) {
 }
 
 $selectedItems = $_SESSION['cart'][$table];
-echo(var_dump($selectedItems));
+
 $total = calculateTotal($selectedItems);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -37,6 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['tables'][$table] = 'busy';
     setTableStatus($table, 'busy');
     updateTableSession();
+
+    $itemIDS = compileOrderItemIDs($selectedItems);
+    var_dump($itemIDS);
+
 
     //createTableOrder($table, , $orderId);
 
