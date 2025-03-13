@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     updateTableSession();
 
     $itemIDS = compileOrderItemIDs($selectedItems);
+    echo "<h1>ITEM LIST</h1>";
     var_dump($itemIDS);
 
 
