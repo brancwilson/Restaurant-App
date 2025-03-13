@@ -21,7 +21,7 @@ $total = calculateTotal($selectedItems);
 
 $test = compileOrderItemIDs($selectedItems);
 
-var_dump($_SESSION('cart'));
+var_dump($_SESSION['cart']);
 
 var_dump($test);
 foreach($test as $item) {
