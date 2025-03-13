@@ -115,7 +115,7 @@ function compileOrderItemIDs($selectedItems) {
             echo "pdo fail...";
         }
     } catch (PDOException $e) {
-        echo"<h1>Error at createTableOrder() definition...</h1>";
+        echo"<h1>Error at compileOrderItemIDs() definition...</h1>";
 
         die($e->getMessage());
     } finally {
