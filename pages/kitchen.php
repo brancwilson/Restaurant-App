@@ -74,6 +74,9 @@ require_once __DIR__ . '/../templates/header.php';
         cursor: pointer;
         background-color: #f9f9f9;
     }
+    .order-box:hover {
+        background-color:rgb(190, 190, 190);
+    }
     .order-actions {
         margin-top: 10px;
     }

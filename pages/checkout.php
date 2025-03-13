@@ -16,6 +16,7 @@ if (!$table || !isset($_SESSION['cart'][$table])) {
 }
 
 $selectedItems = $_SESSION['cart'][$table];
+echo(var_dump($selectedItems));
 $total = calculateTotal($selectedItems);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Generate an order ID (use timestamp for uniqueness)
-    $orderId = time(); 
+    $orderId = time();
 
     // Store the submitted order in session
     $_SESSION['submitted_orders'][$orderId] = [
@@ -37,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     setTableStatus($table, 'busy');
     updateTableSession();
 
+    //createTableOrder($table, , $orderId);
 
     // Clear the cart for this table
     unset($_SESSION['cart'][$table]);
