@@ -19,9 +19,7 @@ $selectedItems = $_SESSION['cart'][$table];
 
 $total = calculateTotal($selectedItems);
 
-$itemIDS = compileOrderItemIDs($selectedItems);
-echo "<h1>ITEM LIST</h1>";
-var_dump($itemIDS);
+$test = compileOrderItemIDs($selectedItems);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['submitted_orders'])) {
@@ -39,11 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Mark the table as busy
     $_SESSION['tables'][$table] = 'busy';
+    //createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId);
     setTableStatus($table, 'busy');
     updateTableSession();
 
-
-    //createTableOrder($table, , $orderId);
 
     // Clear the cart for this table
     unset($_SESSION['cart'][$table]);

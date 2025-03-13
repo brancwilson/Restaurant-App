@@ -106,12 +106,10 @@ function compileOrderItemIDs($selectedItems) {
             //puts all of the item IDs into an array so that they can be individually put into 'orderitems' table
             foreach ($selectedItems as $item => $details) {
                 $i = 0;
-                while ($i < $details['quantity']) {
-                    $itemID = $pdo->query("SELECT item_id FROM menuitems WHERE itemname = '" . $item . "'")->fetchAll();
-                    array_push($itemIDs, $itemID[0]['item_id']);
-                    echo("<h1>Item: " . $itemID[0]['item_id'] . "</h1>");
-                    $i++;
-                }
+                $itemID = $pdo->query("SELECT item_id FROM menuitems WHERE itemname = '" . $item . "'")->fetchAll();
+                array_push($itemIDs, $itemID[0]['item_id'] = $details['quantity']);
+                echo("<h1>Item: " . $itemID[0]['item_id'] . " Item QTY: " . $itemID[0]['item_id'] . " </h1>");
+                $i++;
             }
 
             return $itemIDs;
@@ -152,6 +150,12 @@ function createTableOrder($table_ID, $item_ID_list, $orderTime) {
                 $sql = "INSERT INTO orders(table_id, datetime, order_status) VALUES (?, ?, ?)";
                 $stmt= $pdo->prepare($sql);
                 $stmt->execute([$table_ID, $orderTime, 'open']);
+
+                foreach($item_ID_list as $ID) {
+                    $sql = "INSERT INTO orderitems(order_id, item_id, quantity) VALUES (?, ?, ?)";
+                    $stmt= $pdo->prepare($sql);
+                    $stmt->execute([$table_ID, $orderTime, 'open']);
+                }
             }
         
         } else {
