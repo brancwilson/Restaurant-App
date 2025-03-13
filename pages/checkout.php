@@ -21,12 +21,12 @@ $total = calculateTotal($selectedItems);
 
 $test = compileOrderItemIDs($selectedItems);
 
-var_dump($_SESSION['cart']['table']);
-echo"<br><br>";
+//var_dump($_SESSION['cart']['table']);
+//echo"<br><br>";
 var_dump($test);
 foreach($test as $item) {
-    echo("<h1>Item ID: " . $item[0][0] . "</h1>");
-    echo("<p>Item QTY: " . $item[0][1] . "</p>");
+    echo("<h1>Item ID: " . $item[0] . "</h1>");
+    echo("<p>Item QTY: " . $item[0] . "</p>");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
