@@ -19,6 +19,8 @@ $selectedItems = $_SESSION['cart'][$table];
 
 $total = calculateTotal($selectedItems);
 
+echo "<h1>test echo</h1>";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['submitted_orders'])) {
         $_SESSION['submitted_orders'] = [];
