@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Mark the table as busy
     $_SESSION['tables'][$table] = 'busy';
     
+    var_dump($_SESSION('cart'));
     createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId);
     setTableStatus($table, 'busy');
     updateTableSession();
