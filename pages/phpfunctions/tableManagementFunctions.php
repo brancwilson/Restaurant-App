@@ -110,7 +110,6 @@ function compileOrderItemIDs($selectedItems) {
                 $itemID = $itemID[0]['item_id'];
                 array_push($itemIDs, $itemID);
                 $itemIDs[$itemID] = $details['quantity'];
-                //echo("<h1>Item: " . $itemID[0]['item_id'] . " Item QTY: " . $itemID[0]['item_id'] . " </h1>");
                 $i++;
             }
 

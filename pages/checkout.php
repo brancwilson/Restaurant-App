@@ -20,9 +20,7 @@ $selectedItems = $_SESSION['cart'][$table];
 $total = calculateTotal($selectedItems);
 
 $test = compileOrderItemIDs($selectedItems);
-foreach($test as $item) {
-    echo"<h1>" . var_dump($item) . "</h1>";
-}
+var_dump($test);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['submitted_orders'])) {
