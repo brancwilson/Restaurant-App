@@ -19,7 +19,9 @@ $selectedItems = $_SESSION['cart'][$table];
 
 $total = calculateTotal($selectedItems);
 
-echo "<h1>test echo</h1>";
+$itemIDS = compileOrderItemIDs($selectedItems);
+echo "<h1>ITEM LIST</h1>";
+var_dump($itemIDS);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['submitted_orders'])) {
@@ -39,10 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['tables'][$table] = 'busy';
     setTableStatus($table, 'busy');
     updateTableSession();
-
-    $itemIDS = compileOrderItemIDs($selectedItems);
-    echo "<h1>ITEM LIST</h1>";
-    var_dump($itemIDS);
 
 
     //createTableOrder($table, , $orderId);
