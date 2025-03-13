@@ -21,6 +21,8 @@ $total = calculateTotal($selectedItems);
 
 $test = compileOrderItemIDs($selectedItems);
 
+var_dump($_SESSION('cart'));
+
 var_dump($test);
 foreach($test as $item) {
     echo("<h1>Item ID: " . $item[0][0] . "</h1>");
@@ -44,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Mark the table as busy
     $_SESSION['tables'][$table] = 'busy';
     
-    var_dump($_SESSION('cart'));
     createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId);
     setTableStatus($table, 'busy');
     updateTableSession();
