@@ -105,12 +105,10 @@ function compileOrderItemIDs($selectedItems) {
 
             //puts all of the item IDs into an array so that they can be individually put into 'orderitems' table
             foreach ($selectedItems as $item => $details) {
-                $i = 0;
                 $itemID = $pdo->query("SELECT item_id FROM menuitems WHERE itemname = '" . $item . "'")->fetchAll();
                 $itemID = $itemID[0]['item_id'];
                 array_push($itemIDs, $itemID);
                 $itemIDs[$itemID] = $details['quantity'];
-                $i++;
             }
 
             return $itemIDs;
