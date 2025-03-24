@@ -127,6 +127,7 @@ function compileOrderItemIDs($selectedItems) {
     }
 }
 
+//creates entry into Orders table
 function createTableOrder($table_ID, $item_ID_list, $orderTime) {
     $db_host = "c8m0261h0c7idk.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com";
     $db_port = "5432";
@@ -153,7 +154,7 @@ function createTableOrder($table_ID, $item_ID_list, $orderTime) {
                 foreach($item_ID_list as $ID) {
                     $sql = "INSERT INTO orderitems(order_id, item_id, quantity) VALUES (?, ?, ?)";
                     $stmt= $pdo->prepare($sql);
-                    $stmt->execute([$orderTime, 91, 3]);
+                    $stmt->execute([$orderTime, $ID[0], $ID[1]]);
                 }
             }
         
