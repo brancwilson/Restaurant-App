@@ -23,14 +23,16 @@ $test = compileOrderItemIDs($selectedItems);
 
 //var_dump($_SESSION['cart']['table']);
 //echo"<br><br>";
-var_dump($test);
-foreach($test as $item) {
-    echo("<h1>" . $item . "</h1>");
-}
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['submitted_orders'])) {
         $_SESSION['submitted_orders'] = [];
+    }
+
+    var_dump($test);
+    foreach($test as $item) {
+        echo("<h1>" . $item . "</h1>");
     }
 
     // Generate an order ID (use timestamp for uniqueness)

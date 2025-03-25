@@ -108,7 +108,8 @@ function compileOrderItemIDs($selectedItems) {
                 $itemID = $pdo->query("SELECT item_id FROM menuitems WHERE itemname = '" . $item . "'")->fetchAll();
                 $itemID = $itemID[0]['item_id'];
                 array_push($itemIDs, $itemID);
-                $itemIDs[$itemID] = $details['quantity'];
+                array_push($itemIDs, $details['quantity']);
+                //$itemIDs[$itemID] = $details['quantity'];
             }
 
             return $itemIDs;
