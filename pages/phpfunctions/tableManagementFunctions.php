@@ -149,6 +149,7 @@ function createTableOrder($table_ID, $item_ID_list, $orderTime) {
             if ($tableStatus == 'open') {
                 //if the table is open, create order:
                 
+                echo "<h1>Item ID List:</h1>";
                 var_dump($item_ID_list);
                 foreach($item_ID_list as $item) {
                     echo("<h1>" . $item . "</h1>");
