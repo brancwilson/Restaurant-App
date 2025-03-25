@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             unset($_SESSION['submitted_orders'][$orderId]);
             // Mark the table as free again
             $_SESSION['tables'][$tableNumber] = 'free';
+            setOrderStatus(1,  "closed");
         }
         header('Location: kitchen.php');
         exit();
