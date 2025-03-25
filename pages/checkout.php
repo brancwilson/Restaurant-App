@@ -38,11 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'items' => $selectedItems
     ];
 
-    $test = compileOrderItemIDs($selectedItems);
-    var_dump($test);
-    foreach($test as $item) {
-        echo("<h1>" . $item . "</h1>");
-    }
+    //$test = compileOrderItemIDs($selectedItems);
+    //var_dump($test);
+    //foreach($test as $item) {
+    //    echo("<h1>" . $item . "</h1>");
+    //}
 
     // Mark the table as busy
     $_SESSION['tables'][$table] = 'busy';

@@ -148,7 +148,12 @@ function createTableOrder($table_ID, $item_ID_list, $orderTime) {
 
             if ($tableStatus == 'open') {
                 //if the table is open, create order:
-        
+                
+                var_dump($item_ID_list);
+                foreach($item_ID_list as $item) {
+                    echo("<h1>" . $item . "</h1>");
+                }
+
                 $sql = "INSERT INTO orders(table_id, order_id, datetime, order_status) VALUES (?, ?, ?, ?)";
                 $stmt= $pdo->prepare($sql);
                 $stmt->execute([$table_ID, $orderTime, $orderTime, 'open']);
