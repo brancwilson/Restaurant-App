@@ -19,7 +19,6 @@ $selectedItems = $_SESSION['cart'][$table];
 
 $total = calculateTotal($selectedItems);
 
-$test = compileOrderItemIDs($selectedItems);
 
 //var_dump($_SESSION['cart']['table']);
 //echo"<br><br>";
@@ -30,11 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['submitted_orders'] = [];
     }
 
-    var_dump($test);
-    foreach($test as $item) {
-        echo("<h1>" . $item . "</h1>");
-    }
-
     // Generate an order ID (use timestamp for uniqueness)
     $orderId = time();
 
@@ -43,6 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'table' => $table,
         'items' => $selectedItems
     ];
+
+    $test = compileOrderItemIDs($selectedItems);
+    var_dump($test);
+    foreach($test as $item) {
+        echo("<h1>" . $item . "</h1>");
+    }
 
     // Mark the table as busy
     $_SESSION['tables'][$table] = 'busy';
