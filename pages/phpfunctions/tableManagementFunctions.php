@@ -144,17 +144,21 @@ function createTableOrder($table_ID, $item_ID_list, $orderTime) {
         if ($pdo) {
             //check if the table is open to a new order 
             $tableStatus = getTableStatus($table_ID);
+
             if ($tableStatus == 'open') {
                 //if the table is open, create order:
         
                 $sql = "INSERT INTO orders(table_id, order_id, datetime, order_status) VALUES (?, ?, ?, ?)";
                 $stmt= $pdo->prepare($sql);
                 $stmt->execute([$table_ID, $orderTime, $orderTime, 'open']);
-
+                
+                $i = 0;
                 foreach($item_ID_list as $ID) {
                     $sql = "INSERT INTO orderitems(order_id, item_id, quantity) VALUES (?, ?, ?)";
                     $stmt= $pdo->prepare($sql);
-                    $stmt->execute([$orderTime, $ID[0], $ID[1]]);
+                    $stmt->execute([$orderTime, $ID[$i], $ID[$i + 1]]);
+
+                    $i += 2;
                 }
             }
         
