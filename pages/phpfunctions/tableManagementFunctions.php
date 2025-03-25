@@ -160,10 +160,10 @@ function createTableOrder($table_ID, $item_ID_list, $orderTime) {
                 $stmt->execute([$table_ID, $orderTime, $orderTime, 'open']);
                 
                 $i = 0;
-                foreach($item_ID_list as $ID) {
+                while ($i < count($item_ID_list)) {
                     $sql = "INSERT INTO orderitems(order_id, item_id, quantity) VALUES (?, ?, ?)";
                     $stmt= $pdo->prepare($sql);
-                    $stmt->execute([$orderTime, $ID[$i], $ID[$i + 1]]);
+                    $stmt->execute([$orderTime, $item_ID_list[$i], $item_ID_list[$i + 1]]);
 
                     $i += 2;
                 }
