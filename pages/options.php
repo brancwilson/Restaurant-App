@@ -4,9 +4,10 @@
 <table>
 <tr>
     <form>
-        <td>Number of Tables: (Will reset all table statuses)</td>
+        <td>Number of Tables: </td>
         <td><input type="number" id="numTables"></input></td>
         <td><button id="numTablesSubmitBtn">Submit</button></td>
+        <td>(Will reset all table statuses)</td>
     </form>
 </tr>
 
