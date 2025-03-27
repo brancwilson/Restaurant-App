@@ -128,48 +128,50 @@ function compileOrderItemIDs($selectedItems) {
     }
 }
 
-function createTableOrder($table, $items, $orderId) {
-    global $pdo;
+function createTableOrder($table_ID, $item_ID_list, $orderTime) {
+    $db_host = "c8m0261h0c7idk.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com";
+    $db_port = "5432";
+    $db_name = "dpe2kq3p3j0dv";
+    $db_username = "u4bum5vo1sv2r2";
+    $db_password = "pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238";
+
     
     try {
-        // Start transaction
-        $pdo->beginTransaction();
+        $dsn = "pgsql:host=$db_host;port=5432;dbname=$db_name;";
+        // make a database connection
+        $pdo = new PDO($dsn, $db_username, $db_password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         
-        // Insert the main order record
-        $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime) 
-                VALUES (:order_id, :table_id, 'open', NOW())";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ':order_id' => $orderId,
-            ':table_id' => $table
-        ]);
+        if ($pdo) {
+            //check if the table is open to a new order 
+            $tableStatus = getTableStatus($table_ID);
+            if ($tableStatus == 'open') {
+                //if the table is open, create order:
         
-        // Insert each order item with comments
-        foreach ($items as $itemName => $details) {
-            // First get the item_id from menu_items
-            $itemId = getMenuItemIdByName($itemName);
-            
-            if ($itemId) {
-                $sql = "INSERT INTO order_items (order_id, item_id, quantity, comment) 
-                        VALUES (:order_id, :item_id, :quantity, :comment)";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([
-                    ':order_id' => $orderId,
-                    ':item_id' => $itemId,
-                    ':quantity' => $details['quantity'],
-                    ':comment' => $details['comment'] ?? null
-                ]);
+                $sql = "INSERT INTO orders(table_id, order_id, datetime, order_status) VALUES (?, ?, ?, ?)";
+                $stmt= $pdo->prepare($sql);
+                $stmt->execute([$table_ID, $orderTime, $orderTime, 'open']);
+
+                foreach($item_ID_list as $ID) {
+                    $sql = "INSERT INTO orderitems(order_id, item_id, quantity) VALUES (?, ?, ?)";
+                    $stmt= $pdo->prepare($sql);
+                    $stmt->execute([$orderTime, $ID[0], $ID[1]]);
+                }
             }
-        }
         
-        $pdo->commit();
-        return true;
+        } else {
+            echo "pdo fail...";
+        }
     } catch (PDOException $e) {
-        $pdo->rollBack();
-        error_log("Error creating order: " . $e->getMessage());
-        return false;
+        echo"<h1>Error at createTableOrder() definition...</h1>";
+
+        die($e->getMessage());
+    } finally {
+        if ($pdo) {
+            $pdo = null;
+        }
     }
 }
+?>
 
 function getMenuItemIdByName($name) {
     global $pdo;
@@ -215,3 +217,5 @@ function setOrderStatus($table_id, $status) {
     }
 }
 ?>
+
+
