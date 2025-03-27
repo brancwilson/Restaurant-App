@@ -2,34 +2,29 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include '../includes/db.php';
-include '../includes/auth.php';
+include '../includes/db.php'; // Include database connection
+include '../includes/auth.php'; // Ensure only authorized users access
 
+// Ensure the user is logged in
 requireLogin();
 
+// Get completed or revoked orders
 $conn = getDBConnection();
 if (!$conn) {
     die("Database connection failed.");
 }
 
-// Updated query to include comments
+// Corrected SQL query to match your table structure
 $sql = "
     SELECT 
         o.order_id, 
         o.table_id, 
         o.datetime, 
-        o.order_status,
-        STRING_AGG(
-            m.itemname || ' (' || oi.quantity || ')' || 
-            CASE WHEN oi.comment IS NOT NULL AND oi.comment != '' 
-                 THEN ' - Note: ' || oi.comment 
-                 ELSE '' 
-            END, 
-            ', ' 
-        ) AS items
+        o.order_status, 
+        STRING_AGG(m.itemname || ' (' || oi.quantity || ')', ', ') AS items
     FROM orders o
-    JOIN order_items oi ON o.order_id = oi.order_id
-    JOIN menu_items m ON oi.item_id = m.item_id
+    JOIN orderitems oi ON o.order_id = oi.order_id
+    JOIN menuitems m ON oi.item_id = m.item_id
     WHERE o.order_status IN ('completed', 'revoked')
     GROUP BY o.order_id, o.table_id, o.datetime, o.order_status
     ORDER BY o.datetime DESC
@@ -43,7 +38,11 @@ if (!$stmt) {
 $stmt->execute();
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-closeDBConnection($conn);
+if (empty($orders)) {
+    die("No orders found.");
+}
+
+closeDBConnection($conn); // Close the connection
 ?>
 
 <!DOCTYPE html>
@@ -52,14 +51,9 @@ closeDBConnection($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finished Orders</title>
-    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="../public/css/style.css"> <!-- Adjust as needed -->
     <link rel="stylesheet" href="/../../public/css/settings_style.css">
-    <style>
-        .order-details {
-            white-space: pre-wrap;
-            max-width: 400px;
-        }
-    </style>
+
 </head>
 <body>
     <h2>Finished Orders</h2>
@@ -75,7 +69,7 @@ closeDBConnection($conn);
             <tr>
                 <td><?= htmlspecialchars($order['order_id']) ?></td>
                 <td><?= htmlspecialchars($order['table_id']) ?></td>
-                <td class="order-details"><?= htmlspecialchars($order['items']) ?></td>
+                <td><?= htmlspecialchars($order['items']) ?></td>
                 <td><?= ucfirst(htmlspecialchars($order['order_status'])) ?></td>
                 <td>
                     <form action="undo_order.php" method="POST" style="display:inline;">
