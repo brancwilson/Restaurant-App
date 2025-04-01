@@ -80,53 +80,16 @@ require_once __DIR__ . '/../templates/header.php';
     <p>No pending orders.</p>
 <?php else: ?>
     <?php foreach ($orders as $order): ?>
-        <div class="order-box" onclick="toggleOrder('order-<?= $order['order_id'] ?>')">
+        <div class="order-box">
             <strong>Order #<?= htmlspecialchars($order['order_id']) ?> for Table #<?= htmlspecialchars($order['table_id']) ?></strong>
             <p><?= htmlspecialchars($order['items']) ?></p>
-            <div id="order-<?= $order['order_id'] ?>" class="order-actions" style="display: none;">
-                <form method="post">
-                    <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
-                    <button type="submit" name="complete" class="btn-blue">Complete Order</button>
-                    <button type="submit" name="revoke" class="btn-blue">Revoke Order</button>
-                </form>
-            </div>
+            <form method="post">
+                <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
+                <button type="submit" name="complete" class="btn-blue">Complete Order</button>
+                <button type="submit" name="revoke" class="btn-blue">Revoke Order</button>
+            </form>
         </div>
     <?php endforeach; ?>
 <?php endif; ?>
-
-<script>
-    function toggleOrder(id) {
-        var element = document.getElementById(id);
-        element.style.display = (element.style.display === 'none') ? 'block' : 'none';
-    }
-</script>
-
-<style>
-    .order-box {
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin: 10px 0;
-        cursor: pointer;
-        background-color: #f9f9f9;
-    }
-    .order-box:hover {
-        background-color: rgb(190, 190, 190);
-    }
-    .order-actions {
-        margin-top: 10px;
-    }
-    .btn-blue {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        margin: 5px;
-        cursor: pointer;
-        border-radius: 4px;
-    }
-    .btn-blue:hover {
-        background-color: #0056b3;
-    }
-</style>
 
 <?php require_once __DIR__ . '/../templates/footer.php'; ?>
