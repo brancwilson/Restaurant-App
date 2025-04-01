@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 
-session_start();
+// Remove session_start() because the session is already started in auth.php
 requireLogin();
 
 $conn = getDBConnection();
