@@ -1,17 +1,32 @@
 <?php
-require_once __DIR__ . '/../includes/functions.php';
-require_once __DIR__ . '/phpfunctions/retrievesetting.php';
-require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
-session_start();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo "POST request received.<br>";
+    var_dump($selectedItems);
+    var_dump($table);
 
-if (!isset($_SESSION['user'])) {
-    header('Location: login.php');
-    exit();
-}
+    if (!isset($_SESSION['submitted_orders'])) {
+        $_SESSION['submitted_orders'] = [];
+    }
 
-$table = $_GET['table'] ?? null;
-if (!$table || !isset($_SESSION['cart'][$table])) {
-    header('Location: tables.php');
+    $orderId = time();
+    $_SESSION['submitted_orders'][$orderId] = [
+        'table' => $table,
+        'items' => $selectedItems
+    ];
+
+    $_SESSION['tables'][$table] = 'busy';
+
+    $compiledItems = compileOrderItemIDs($selectedItems);
+    var_dump($compiledItems);
+
+    createTableOrder($table, $compiledItems, $orderId);
+    setTableStatus($table, 'busy');
+    updateTableSession();
+
+    unset($_SESSION['cart'][$table]);
+
+    // Temporarily comment out redirection for debugging
+    // header('Location: tables.php');
     exit();
 }
 
