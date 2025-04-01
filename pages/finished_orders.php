@@ -37,10 +37,15 @@ $sql = "
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
-    die("Failed to prepare SQL statement.");
+    die("Failed to prepare SQL statement: " . implode(", ", $conn->errorInfo()));
 }
 
-$stmt->execute();
+try {
+    $stmt->execute();
+} catch (PDOException $e) {
+    die("Query execution failed: " . $e->getMessage());
+}
+
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 closeDBConnection($conn);
