@@ -3,6 +3,11 @@ require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/db.php';
 session_start();
 
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Ensure the user is logged in
 if (!isset($_SESSION['user'])) {
     header('Location: login.php');
@@ -30,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $conn->beginTransaction();
+        error_log("Transaction started.");
 
         // Insert the order into the `orders` table
         $orderId = time(); // Use a unique timestamp as the order ID
@@ -40,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':order_id' => $orderId,
             ':table_id' => $table
         ]);
+        error_log("Order inserted: Order ID = $orderId, Table ID = $table");
 
         // Insert each item into the `orderitems` table
         foreach ($selectedItems as $item => $details) {
@@ -55,17 +62,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':quantity' => $details['quantity'],
                 ':comment' => $details['comment'] ?? null // Optional comment
             ]);
+            error_log("Order item inserted: Item = $item, Quantity = {$details['quantity']}");
         }
 
         // Mark the table as busy
         $sql = "UPDATE tables SET table_status = 'busy' WHERE table_id = :table_id";
         $stmt = $conn->prepare($sql);
         $stmt->execute([':table_id' => $table]);
+        error_log("Table status updated: Table ID = $table");
 
         $conn->commit();
+        error_log("Transaction committed successfully.");
 
         // Clear the cart for the table
         unset($_SESSION['cart'][$table]);
+        error_log("Cart cleared for table: $table");
 
         // Redirect to avoid form resubmission
         header('Location: tables.php');
