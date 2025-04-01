@@ -68,8 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Mark the table as busy
         $sql = "UPDATE tables SET table_status = 'busy' WHERE table_id = :table_id";
         $stmt = $conn->prepare($sql);
-        $stmt->execute([':table_id' => $table]);
-        error_log("Table status updated: Table ID = $table");
+        if ($stmt->execute([':table_id' => $table])) {
+            error_log("Table status updated to 'busy': Table ID = $table");
+        } else {
+            error_log("Failed to update table status to 'busy': Table ID = $table");
+        }
 
         $conn->commit();
         error_log("Transaction committed successfully.");
