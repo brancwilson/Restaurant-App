@@ -9,87 +9,96 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-$conn = getDBConnection();
-if (!$conn) {
-    die("Database connection failed.");
+// Get the table parameter from the URL
+$table = $_GET['table'] ?? null;
+
+// Validate the table and cart data
+if (!$table || !isset($_SESSION['cart'][$table])) {
+    header('Location: tables.php');
+    exit();
 }
 
-// Handle order completion or revocation
+// Retrieve the selected items and calculate the total
+$selectedItems = $_SESSION['cart'][$table];
+$total = calculateTotal($selectedItems);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $orderId = $_POST['order_id'] ?? null;
+    $conn = getDBConnection();
+    if (!$conn) {
+        die("Database connection failed.");
+    }
 
-    if ($orderId) {
-        if (isset($_POST['complete'])) {
-            // Mark the order as completed in the database
-            $sql = "UPDATE orders SET order_status = 'completed' WHERE order_id = :order_id";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([':order_id' => $orderId]);
+    try {
+        $conn->beginTransaction();
 
-            // Free the table
-            $sql = "UPDATE tables SET table_status = 'free' WHERE table_id = (
-                        SELECT table_id FROM orders WHERE order_id = :order_id
-                    )";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([':order_id' => $orderId]);
-        } elseif (isset($_POST['revoke'])) {
-            // Mark the order as revoked in the database
-            $sql = "UPDATE orders SET order_status = 'revoked' WHERE order_id = :order_id";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([':order_id' => $orderId]);
+        // Insert the order into the `orders` table
+        $orderId = time(); // Use a unique timestamp as the order ID
+        $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime) 
+                VALUES (:order_id, :table_id, 'pending', NOW())";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            ':order_id' => $orderId,
+            ':table_id' => $table
+        ]);
 
-            // Free the table
-            $sql = "UPDATE tables SET table_status = 'free' WHERE table_id = (
-                        SELECT table_id FROM orders WHERE order_id = :order_id
-                    )";
+        // Insert each item into the `orderitems` table
+        foreach ($selectedItems as $item => $details) {
+            $sql = "INSERT INTO orderitems (order_id, item_id, quantity, comment) 
+                    VALUES (:order_id, 
+                            (SELECT item_id FROM menuitems WHERE itemname = :itemname), 
+                            :quantity, 
+                            :comment)";
             $stmt = $conn->prepare($sql);
-            $stmt->execute([':order_id' => $orderId]);
+            $stmt->execute([
+                ':order_id' => $orderId,
+                ':itemname' => $item,
+                ':quantity' => $details['quantity'],
+                ':comment' => $details['comment'] ?? null // Optional comment
+            ]);
         }
 
-        header('Location: kitchen.php');
+        // Mark the table as busy
+        $sql = "UPDATE tables SET table_status = 'busy' WHERE table_id = :table_id";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([':table_id' => $table]);
+
+        $conn->commit();
+
+        // Clear the cart for the table
+        unset($_SESSION['cart'][$table]);
+
+        // Redirect to avoid form resubmission
+        header('Location: tables.php');
         exit();
+    } catch (PDOException $e) {
+        $conn->rollBack();
+        error_log("Error saving order: " . $e->getMessage());
+        die("An error occurred while saving the order. Please try again.");
     }
 }
-
-// Fetch pending orders from the database
-$sql = "
-    SELECT 
-        o.order_id, 
-        o.table_id, 
-        o.datetime, 
-        STRING_AGG(
-            m.itemname || ' (' || oi.quantity || ')', 
-            ', '
-        ) AS items
-    FROM orders o
-    JOIN orderitems oi ON o.order_id = oi.order_id
-    JOIN menuitems m ON oi.item_id = m.item_id
-    WHERE o.order_status = 'pending'
-    GROUP BY o.order_id, o.table_id, o.datetime
-    ORDER BY o.datetime ASC
-";
-
-$stmt = $conn->prepare($sql);
-$stmt->execute();
-$orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-require_once __DIR__ . '/../templates/header.php';
 ?>
 
-<h1>Kitchen Orders</h1>
-<?php if (empty($orders)): ?>
-    <p>No pending orders.</p>
-<?php else: ?>
-    <?php foreach ($orders as $order): ?>
-        <div class="order-box">
-            <strong>Order #<?= htmlspecialchars($order['order_id']) ?> for Table #<?= htmlspecialchars($order['table_id']) ?></strong>
-            <p><?= htmlspecialchars($order['items']) ?></p>
-            <form method="post">
-                <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
-                <button type="submit" name="complete" class="btn-blue">Complete Order</button>
-                <button type="submit" name="revoke" class="btn-blue">Revoke Order</button>
-            </form>
-        </div>
-    <?php endforeach; ?>
-<?php endif; ?>
+<?php require_once __DIR__ . '/../templates/header.php'; ?>
+
+<h1>Checkout for Table <?= htmlspecialchars($table) ?></h1>
+<div class="checkout-container">
+    <div class="order-summary">
+        <h2>Order Summary</h2>
+        <ul class="order-items">
+            <?php foreach ($selectedItems as $item => $details): ?>
+                <li>
+                    <strong><?= htmlspecialchars($item) ?></strong> -
+                    <?= htmlspecialchars($details['quantity']) ?> x $<?= htmlspecialchars($details['price']) ?>
+                    = $<?= htmlspecialchars($details['quantity'] * $details['price']) ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <h3 class="total">Total: $<?= htmlspecialchars($total) ?></h3>
+    </div>
+
+    <form action="checkout.php?table=<?= htmlspecialchars($table) ?>" method="POST" class="checkout-form">
+        <button type="submit" class="button submit-order">Submit Order</button>
+    </form>
+</div>
 
 <?php require_once __DIR__ . '/../templates/footer.php'; ?>
