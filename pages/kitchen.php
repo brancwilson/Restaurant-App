@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/db.php';
 session_start();
 
 // Ensure the user is logged in
@@ -16,18 +17,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $orderId = $_POST['order_id'] ?? null;
     if ($orderId && isset($orders[$orderId])) {
         $tableNumber = $orders[$orderId]['table'];
+        $conn = getDBConnection();
+
         if (isset($_POST['complete'])) {
-            // Remove order from session (mark as completed)
+            // Mark the order as completed in the database
+            $sql = "UPDATE orders SET order_status = 'completed' WHERE order_id = :order_id";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([':order_id' => $orderId]);
+
+            // Remove order from session
             unset($_SESSION['submitted_orders'][$orderId]);
+
             // Mark the table as free again
             $_SESSION['tables'][$tableNumber] = 'free';
         } elseif (isset($_POST['revoke'])) {
+            // Mark the order as revoked in the database
+            $sql = "UPDATE orders SET order_status = 'revoked' WHERE order_id = :order_id";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([':order_id' => $orderId]);
+
             // Move order back to cart (revoked)
             $_SESSION['cart'][$tableNumber] = $orders[$orderId]['items'];
             unset($_SESSION['submitted_orders'][$orderId]);
+
             // Mark the table as free again
             $_SESSION['tables'][$tableNumber] = 'free';
         }
+
         header('Location: kitchen.php');
         exit();
     }
@@ -75,7 +91,7 @@ require_once __DIR__ . '/../templates/header.php';
         background-color: #f9f9f9;
     }
     .order-box:hover {
-        background-color:rgb(190, 190, 190);
+        background-color: rgb(190, 190, 190);
     }
     .order-actions {
         margin-top: 10px;
