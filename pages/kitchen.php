@@ -9,45 +9,68 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-// Fetch submitted orders from the session
-$orders = $_SESSION['submitted_orders'] ?? [];
+$conn = getDBConnection();
+if (!$conn) {
+    die("Database connection failed.");
+}
 
 // Handle order completion or revocation
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $orderId = $_POST['order_id'] ?? null;
-    if ($orderId && isset($orders[$orderId])) {
-        $tableNumber = $orders[$orderId]['table'];
-        $conn = getDBConnection();
 
+    if ($orderId) {
         if (isset($_POST['complete'])) {
             // Mark the order as completed in the database
             $sql = "UPDATE orders SET order_status = 'completed' WHERE order_id = :order_id";
             $stmt = $conn->prepare($sql);
             $stmt->execute([':order_id' => $orderId]);
 
-            // Remove order from session
-            unset($_SESSION['submitted_orders'][$orderId]);
-
-            // Mark the table as free again
-            $_SESSION['tables'][$tableNumber] = 'free';
+            // Free the table
+            $sql = "UPDATE tables SET table_status = 'free' WHERE table_id = (
+                        SELECT table_id FROM orders WHERE order_id = :order_id
+                    )";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([':order_id' => $orderId]);
         } elseif (isset($_POST['revoke'])) {
             // Mark the order as revoked in the database
             $sql = "UPDATE orders SET order_status = 'revoked' WHERE order_id = :order_id";
             $stmt = $conn->prepare($sql);
             $stmt->execute([':order_id' => $orderId]);
 
-            // Move order back to cart (revoked)
-            $_SESSION['cart'][$tableNumber] = $orders[$orderId]['items'];
-            unset($_SESSION['submitted_orders'][$orderId]);
-
-            // Mark the table as free again
-            $_SESSION['tables'][$tableNumber] = 'free';
+            // Free the table
+            $sql = "UPDATE tables SET table_status = 'free' WHERE table_id = (
+                        SELECT table_id FROM orders WHERE order_id = :order_id
+                    )";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([':order_id' => $orderId]);
         }
 
         header('Location: kitchen.php');
         exit();
     }
 }
+
+// Fetch pending orders from the database
+$sql = "
+    SELECT 
+        o.order_id, 
+        o.table_id, 
+        o.datetime, 
+        STRING_AGG(
+            m.itemname || ' (' || oi.quantity || ')', 
+            ', '
+        ) AS items
+    FROM orders o
+    JOIN orderitems oi ON o.order_id = oi.order_id
+    JOIN menuitems m ON oi.item_id = m.item_id
+    WHERE o.order_status = 'pending'
+    GROUP BY o.order_id, o.table_id, o.datetime
+    ORDER BY o.datetime ASC
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 require_once __DIR__ . '/../templates/header.php';
 ?>
@@ -56,17 +79,13 @@ require_once __DIR__ . '/../templates/header.php';
 <?php if (empty($orders)): ?>
     <p>No pending orders.</p>
 <?php else: ?>
-    <?php foreach ($orders as $orderId => $order): ?>
-        <div class="order-box" onclick="toggleOrder('order-<?= $orderId ?>')">
-            <strong>Order #<?= $orderId ?> for Table #<?= htmlspecialchars($order['table']) ?></strong>
-            <ul>
-                <?php foreach ($order['items'] as $item => $details): ?>
-                    <li><?= htmlspecialchars($details['quantity']) ?>x <?= htmlspecialchars($item) ?></li>
-                <?php endforeach; ?>
-            </ul>
-            <div id="order-<?= $orderId ?>" class="order-actions" style="display: none;">
+    <?php foreach ($orders as $order): ?>
+        <div class="order-box" onclick="toggleOrder('order-<?= $order['order_id'] ?>')">
+            <strong>Order #<?= htmlspecialchars($order['order_id']) ?> for Table #<?= htmlspecialchars($order['table_id']) ?></strong>
+            <p><?= htmlspecialchars($order['items']) ?></p>
+            <div id="order-<?= $order['order_id'] ?>" class="order-actions" style="display: none;">
                 <form method="post">
-                    <input type="hidden" name="order_id" value="<?= $orderId ?>">
+                    <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
                     <button type="submit" name="complete" class="btn-blue">Complete Order</button>
                     <button type="submit" name="revoke" class="btn-blue">Revoke Order</button>
                 </form>
