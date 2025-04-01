@@ -1,4 +1,9 @@
 <?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/phpfunctions/retrievesetting.php';
 require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
@@ -16,52 +21,47 @@ if (!$table || !isset($_SESSION['cart'][$table])) {
 }
 
 $selectedItems = $_SESSION['cart'][$table];
-
 $total = calculateTotal($selectedItems);
 
-
-//var_dump($_SESSION['cart']['table']);
-//echo"<br><br>";
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    error_log("POST request received.");
+    error_log("Selected items: " . print_r($selectedItems, true));
+    error_log("Table: " . $table);
+
     if (!isset($_SESSION['submitted_orders'])) {
         $_SESSION['submitted_orders'] = [];
     }
 
-    // Generate an order ID (use timestamp for uniqueness)
     $orderId = time();
-
-    // Store the submitted order in session
     $_SESSION['submitted_orders'][$orderId] = [
         'table' => $table,
         'items' => $selectedItems
     ];
 
-    //$test = compileOrderItemIDs($selectedItems);
-    //var_dump($test);
-    //foreach($test as $item) {
-    //    echo("<h1>" . $item . "</h1>");
-    //}
-
-    // Mark the table as busy
     $_SESSION['tables'][$table] = 'busy';
-    
-    createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId);
+
+    $compiledItems = compileOrderItemIDs($selectedItems);
+    error_log("Compiled items: " . print_r($compiledItems, true));
+
+    createTableOrder($table, $compiledItems, $orderId);
+    error_log("Order created for table: " . $table);
+
     setTableStatus($table, 'busy');
+    error_log("Table status set to busy.");
+
     updateTableSession();
+    error_log("Table session updated.");
 
-
-    // Clear the cart for this table
     unset($_SESSION['cart'][$table]);
+    error_log("Cart cleared for table: " . $table);
 
     // Redirect to avoid form resubmission
     header('Location: tables.php');
     exit();
 }
-
-require_once __DIR__ . '/../templates/header.php';
 ?>
+
+<?php require_once __DIR__ . '/../templates/header.php'; ?>
 
 <h1>Checkout for Table <?= htmlspecialchars($table) ?></h1>
 <div class="checkout-container">
