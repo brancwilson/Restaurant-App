@@ -33,31 +33,46 @@ try {
         GROUP BY o.order_id, o.table_id, o.datetime, o.order_status
     ";
     $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        error_log("Failed to archive orders: " . implode(", ", $stmt->errorInfo()));
+        throw new Exception("Failed to archive orders.");
+    }
     error_log("Archived completed and revoked orders.");
 
     // Reset all tables to 'open'
     $sql = "UPDATE tables SET table_status = 'open'";
     $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        error_log("Failed to reset table statuses: " . implode(", ", $stmt->errorInfo()));
+        throw new Exception("Failed to reset table statuses.");
+    }
     error_log("All tables reset to 'open'.");
 
     // Delete all order items
     $sql = "DELETE FROM orderitems";
     $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        error_log("Failed to delete order items: " . implode(", ", $stmt->errorInfo()));
+        throw new Exception("Failed to delete order items.");
+    }
     error_log("All order items deleted.");
 
     // Delete all orders
     $sql = "DELETE FROM orders";
     $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        error_log("Failed to delete orders: " . implode(", ", $stmt->errorInfo()));
+        throw new Exception("Failed to delete orders.");
+    }
     error_log("All orders deleted.");
 
     // Log the shift closure
     $sql = "INSERT INTO shift_logs (shift_date, closed_by) VALUES (NOW(), :user_id)";
     $stmt = $conn->prepare($sql);
-    $stmt->execute([':user_id' => $_SESSION['user']['id']]);
+    if (!$stmt->execute([':user_id' => $_SESSION['user']['id']])) {
+        error_log("Failed to log shift closure: " . implode(", ", $stmt->errorInfo()));
+        throw new Exception("Failed to log shift closure.");
+    }
     error_log("Shift closure logged.");
 
     $conn->commit();
@@ -66,7 +81,7 @@ try {
     // Redirect to a confirmation page or back to the dashboard
     header('Location: tables.php?message=Shift closed successfully.');
     exit();
-} catch (PDOException $e) {
+} catch (Exception $e) {
     $conn->rollBack();
     error_log("Error during shift closure: " . $e->getMessage());
     die("An error occurred while closing the shift. Please try again.");
