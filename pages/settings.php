@@ -24,6 +24,7 @@ require_once __DIR__ . '/../templates/header.php';
     <a href="additem.php" class="button">Edit Menu</a>
     <a href="options.php" class="button">Options</a>
     <a href="logout.php" class="button">Logout</a>
+    <a href="close_shift.php" class="button" onclick="return confirm('Are you sure you want to close the shift? This will reset all tables and archive today\'s orders.')"></a>
     
     <?php require_once __DIR__ . '/../templates/footer.php'; ?>
 </body>
