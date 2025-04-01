@@ -42,18 +42,19 @@ try {
     $stmt->execute();
     error_log("All tables reset to 'open'.");
 
-    // Delete all orders and order items
+    // Delete all order items
     $sql = "DELETE FROM orderitems";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     error_log("All order items deleted.");
 
+    // Delete all orders
     $sql = "DELETE FROM orders";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     error_log("All orders deleted.");
 
-    // Optionally log the shift closure
+    // Log the shift closure
     $sql = "INSERT INTO shift_logs (shift_date, closed_by) VALUES (NOW(), :user_id)";
     $stmt = $conn->prepare($sql);
     $stmt->execute([':user_id' => $_SESSION['user']['id']]);
