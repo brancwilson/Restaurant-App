@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([':order_id' => $orderId]);
 
             // Free the table
-            $sql = "UPDATE tables SET table_status = 'free' WHERE table_id = (
+            $sql = "UPDATE tables SET table_status = 'open' WHERE table_id = (
                         SELECT table_id FROM orders WHERE order_id = :order_id
                     )";
             $stmt = $conn->prepare($sql);
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([':order_id' => $orderId]);
 
             // Free the table
-            $sql = "UPDATE tables SET table_status = 'free' WHERE table_id = (
+            $sql = "UPDATE tables SET table_status = 'open' WHERE table_id = (
                         SELECT table_id FROM orders WHERE order_id = :order_id
                     )";
             $stmt = $conn->prepare($sql);

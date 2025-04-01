@@ -23,16 +23,22 @@ if (!$table || !isset($_SESSION['cart'][$table])) {
     exit();
 }
 
+// Check if the table is open
+$conn = getDBConnection();
+$sql = "SELECT table_status FROM tables WHERE table_id = :table_id";
+$stmt = $conn->prepare($sql);
+$stmt->execute([':table_id' => $table]);
+$tableStatus = $stmt->fetchColumn();
+
+if ($tableStatus !== 'open') {
+    die("The table is not open. Please select a different table.");
+}
+
 // Retrieve the selected items and calculate the total
 $selectedItems = $_SESSION['cart'][$table];
 $total = calculateTotal($selectedItems);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $conn = getDBConnection();
-    if (!$conn) {
-        die("Database connection failed.");
-    }
-
     try {
         $conn->beginTransaction();
         error_log("Transaction started.");
@@ -89,10 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn->rollBack();
         error_log("Error saving order: " . $e->getMessage());
         die("An error occurred while saving the order. Please try again.");
-    } catch (Exception $e) {
-        $conn->rollBack();
-        error_log("Error: " . $e->getMessage());
-        die("An error occurred while processing the request. Please try again.");
     }
 }
 ?>
