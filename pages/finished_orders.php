@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 
 include '../includes/db.php';
 include '../includes/auth.php';
+require_once __DIR__ . '/../templates/header.php'; // Include the header
 
 requireLogin();
 
@@ -33,13 +34,18 @@ $sql = "
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
-    die("Failed to prepare SQL statement: " . implode(", ", $conn->errorInfo()));
+    error_log("Failed to prepare SQL statement: " . implode(", ", $conn->errorInfo()));
+    die("Failed to prepare SQL statement.");
 }
 
 try {
     $stmt->execute();
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($orders)) {
+        error_log("No finished orders found.");
+    }
 } catch (PDOException $e) {
+    error_log("Query execution failed: " . $e->getMessage());
     die("Query execution failed: " . $e->getMessage());
 }
 
@@ -53,6 +59,13 @@ closeDBConnection($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finished Orders</title>
     <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="/../../public/css/settings_style.css">
+    <style>
+        .order-details {
+            white-space: pre-wrap;
+            max-width: 400px;
+        }
+    </style>
 </head>
 <body>
     <h2>Finished Orders</h2>
@@ -63,13 +76,21 @@ closeDBConnection($conn);
                 <th>Table</th>
                 <th>Items</th>
                 <th>Status</th>
+                <th>Actions</th>
             </tr>
             <?php foreach ($orders as $order): ?>
                 <tr>
                     <td><?= htmlspecialchars($order['order_id']) ?></td>
                     <td><?= htmlspecialchars($order['table_id']) ?></td>
-                    <td><?= htmlspecialchars($order['items']) ?></td>
+                    <td class="order-details"><?= htmlspecialchars($order['items']) ?></td>
                     <td><?= ucfirst(htmlspecialchars($order['order_status'])) ?></td>
+                    <td>
+                        <form action="undo_order.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['order_id']) ?>">
+                            <button type="submit">Undo</button>
+                        </form>
+                        <a href="edit_order.php?id=<?= htmlspecialchars($order['order_id']) ?>">Edit</a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </table>
@@ -78,3 +99,5 @@ closeDBConnection($conn);
     <?php endif; ?>
 </body>
 </html>
+
+<?php require_once __DIR__ . '/../templates/footer.php'; // Include the footer ?>
