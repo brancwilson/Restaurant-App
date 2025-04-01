@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 
 include '../includes/db.php';
 include '../includes/auth.php';
+require_once __DIR__ . '/../templates/header.php'; // Include the header
 
 requireLogin();
 
@@ -12,7 +13,7 @@ if (!$conn) {
     die("Database connection failed.");
 }
 
-// Updated query to include comments and correct table name
+// Query to fetch finished orders
 $sql = "
     SELECT 
         o.order_id, 
@@ -20,15 +21,11 @@ $sql = "
         o.datetime, 
         o.order_status,
         STRING_AGG(
-            m.itemname || ' (' || oi.quantity || ')' || 
-            CASE WHEN oi.comment IS NOT NULL AND oi.comment != '' 
-                 THEN ' - Note: ' || oi.comment 
-                 ELSE '' 
-            END, 
+            m.itemname || ' (' || oi.quantity || ')', 
             ', ' 
         ) AS items
     FROM orders o
-    JOIN orderitems oi ON o.order_id = oi.order_id -- Corrected table name
+    JOIN orderitems oi ON o.order_id = oi.order_id
     JOIN menuitems m ON oi.item_id = m.item_id
     WHERE o.order_status IN ('completed', 'revoked')
     GROUP BY o.order_id, o.table_id, o.datetime, o.order_status
@@ -37,16 +34,20 @@ $sql = "
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
-    die("Failed to prepare SQL statement: " . implode(", ", $conn->errorInfo()));
+    error_log("Failed to prepare SQL statement: " . implode(", ", $conn->errorInfo()));
+    die("Failed to prepare SQL statement.");
 }
 
 try {
     $stmt->execute();
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($orders)) {
+        error_log("No finished orders found.");
+    }
 } catch (PDOException $e) {
+    error_log("Query execution failed: " . $e->getMessage());
     die("Query execution failed: " . $e->getMessage());
 }
-
-$orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 closeDBConnection($conn);
 ?>
@@ -68,29 +69,35 @@ closeDBConnection($conn);
 </head>
 <body>
     <h2>Finished Orders</h2>
-    <table border="1">
-        <tr>
-            <th>Order ID</th>
-            <th>Table</th>
-            <th>Items</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-        <?php foreach ($orders as $order): ?>
+    <?php if (!empty($orders)): ?>
+        <table border="1">
             <tr>
-                <td><?= htmlspecialchars($order['order_id']) ?></td>
-                <td><?= htmlspecialchars($order['table_id']) ?></td>
-                <td class="order-details"><?= htmlspecialchars($order['items']) ?></td>
-                <td><?= ucfirst(htmlspecialchars($order['order_status'])) ?></td>
-                <td>
-                    <form action="undo_order.php" method="POST" style="display:inline;">
-                        <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['order_id']) ?>">
-                        <button type="submit">Undo</button>
-                    </form>
-                    <a href="edit_order.php?id=<?= htmlspecialchars($order['order_id']) ?>">Edit</a>
-                </td>
+                <th>Order ID</th>
+                <th>Table</th>
+                <th>Items</th>
+                <th>Status</th>
+                <th>Actions</th>
             </tr>
-        <?php endforeach; ?>
-    </table>
+            <?php foreach ($orders as $order): ?>
+                <tr>
+                    <td><?= htmlspecialchars($order['order_id']) ?></td>
+                    <td><?= htmlspecialchars($order['table_id']) ?></td>
+                    <td class="order-details"><?= htmlspecialchars($order['items']) ?></td>
+                    <td><?= ucfirst(htmlspecialchars($order['order_status'])) ?></td>
+                    <td>
+                        <form action="undo_order.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['order_id']) ?>">
+                            <button type="submit">Undo</button>
+                        </form>
+                        <a href="edit_order.php?id=<?= htmlspecialchars($order['order_id']) ?>">Edit</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php else: ?>
+        <p>No finished orders found.</p>
+    <?php endif; ?>
 </body>
 </html>
+
+<?php require_once __DIR__ . '/../templates/footer.php'; // Include the footer ?>
