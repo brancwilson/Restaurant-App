@@ -40,7 +40,16 @@ try {
     }
     error_log("All order items deleted.");
 
-    // Step 4: Log the shift closure
+    // Step 4: Delete all orders
+    $sql = "DELETE FROM orders";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt->execute()) {
+        error_log("Failed to delete orders: " . implode(", ", $stmt->errorInfo()));
+        throw new Exception("Failed to delete orders.");
+    }
+    error_log("All orders deleted.");
+
+    // Step 5: Log the shift closure
     $sql = "INSERT INTO shift_logs (shift_date, closed_by) VALUES (NOW(), :user_id)";
     $stmt = $conn->prepare($sql);
     if (!$stmt->execute([':user_id' => $_SESSION['user']['id']])) {
@@ -53,7 +62,9 @@ try {
     header('Location: tables.php?message=Shift closed successfully.');
     exit();
 } catch (Exception $e) {
+    // Log the error message and stack trace
     error_log("Error during shift closure: " . $e->getMessage());
+    error_log("Stack trace: " . $e->getTraceAsString());
     die("An error occurred while closing the shift. Please try again.");
 }
 ?>
