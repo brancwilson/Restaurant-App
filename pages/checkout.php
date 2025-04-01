@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             error_log("Table status updated to 'busy': Table ID = $table");
         } else {
             error_log("Failed to update table status to 'busy': Table ID = $table");
+            throw new Exception("Failed to update table status.");
         }
 
         $conn->commit();
@@ -88,6 +89,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn->rollBack();
         error_log("Error saving order: " . $e->getMessage());
         die("An error occurred while saving the order. Please try again.");
+    } catch (Exception $e) {
+        $conn->rollBack();
+        error_log("Error: " . $e->getMessage());
+        die("An error occurred while processing the request. Please try again.");
     }
 }
 ?>
