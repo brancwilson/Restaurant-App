@@ -12,7 +12,7 @@ if (!$conn) {
     die("Database connection failed.");
 }
 
-// Updated query to include comments
+// Updated query to include comments and correct table name
 $sql = "
     SELECT 
         o.order_id, 
@@ -28,7 +28,7 @@ $sql = "
             ', ' 
         ) AS items
     FROM orders o
-    JOIN order_items oi ON o.order_id = oi.order_id
+    JOIN orderitems oi ON o.order_id = oi.order_id -- Corrected table name
     JOIN menu_items m ON oi.item_id = m.item_id
     WHERE o.order_status IN ('completed', 'revoked')
     GROUP BY o.order_id, o.table_id, o.datetime, o.order_status
