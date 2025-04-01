@@ -11,35 +11,18 @@ if (!$conn) {
 }
 
 try {
-    $conn->beginTransaction();
-    error_log("Shift closure transaction started.");
+    error_log("Shift closure process started.");
 
-    // Archive completed and revoked orders
-    $sql = "
-        INSERT INTO archived_orders (order_id, table_id, datetime, order_status, items)
-        SELECT 
-            o.order_id, 
-            o.table_id, 
-            o.datetime, 
-            o.order_status,
-            STRING_AGG(
-                m.itemname || ' (' || oi.quantity || ')', 
-                ', '
-            ) AS items
-        FROM orders o
-        JOIN orderitems oi ON o.order_id = oi.order_id
-        JOIN menuitems m ON oi.item_id = m.item_id
-        WHERE o.order_status IN ('completed', 'revoked')
-        GROUP BY o.order_id, o.table_id, o.datetime, o.order_status
-    ";
+    // Step 1: Mark orders as archived
+    $sql = "UPDATE orders SET archived = TRUE WHERE order_status IN ('completed', 'revoked')";
     $stmt = $conn->prepare($sql);
     if (!$stmt->execute()) {
-        error_log("Failed to archive orders: " . implode(", ", $stmt->errorInfo()));
-        throw new Exception("Failed to archive orders.");
+        error_log("Failed to mark orders as archived: " . implode(", ", $stmt->errorInfo()));
+        throw new Exception("Failed to mark orders as archived.");
     }
-    error_log("Archived completed and revoked orders.");
+    error_log("Orders marked as archived.");
 
-    // Reset all tables to 'open'
+    // Step 2: Reset all tables to 'open'
     $sql = "UPDATE tables SET table_status = 'open'";
     $stmt = $conn->prepare($sql);
     if (!$stmt->execute()) {
@@ -48,7 +31,7 @@ try {
     }
     error_log("All tables reset to 'open'.");
 
-    // Delete all order items
+    // Step 3: Delete all order items
     $sql = "DELETE FROM orderitems";
     $stmt = $conn->prepare($sql);
     if (!$stmt->execute()) {
@@ -57,16 +40,7 @@ try {
     }
     error_log("All order items deleted.");
 
-    // Delete all orders
-    $sql = "DELETE FROM orders";
-    $stmt = $conn->prepare($sql);
-    if (!$stmt->execute()) {
-        error_log("Failed to delete orders: " . implode(", ", $stmt->errorInfo()));
-        throw new Exception("Failed to delete orders.");
-    }
-    error_log("All orders deleted.");
-
-    // Log the shift closure
+    // Step 4: Log the shift closure
     $sql = "INSERT INTO shift_logs (shift_date, closed_by) VALUES (NOW(), :user_id)";
     $stmt = $conn->prepare($sql);
     if (!$stmt->execute([':user_id' => $_SESSION['user']['id']])) {
@@ -75,14 +49,10 @@ try {
     }
     error_log("Shift closure logged.");
 
-    $conn->commit();
-    error_log("Shift closure transaction committed successfully.");
-
     // Redirect to a confirmation page or back to the dashboard
     header('Location: tables.php?message=Shift closed successfully.');
     exit();
 } catch (Exception $e) {
-    $conn->rollBack();
     error_log("Error during shift closure: " . $e->getMessage());
     die("An error occurred while closing the shift. Please try again.");
 }

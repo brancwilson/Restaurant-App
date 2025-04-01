@@ -12,7 +12,8 @@ function getDBConnection() {
 
         return $pdo;
     } catch (PDOException $e) {
-        die("Database connection failed: " . $e->getMessage());
+        error_log("Database connection failed: " . $e->getMessage());
+        die("Database connection failed. Please check the logs for more details.");
     }
 }
 
@@ -26,6 +27,7 @@ function createTables($pdo) {
             );
         ";
         $pdo->exec($sql);
+        error_log("`tables` table created or already exists.");
 
         // Create `menuitems` table
         $sql = "
@@ -38,6 +40,7 @@ function createTables($pdo) {
             );
         ";
         $pdo->exec($sql);
+        error_log("`menuitems` table created or already exists.");
 
         // Create `orders` table
         $sql = "
@@ -45,10 +48,12 @@ function createTables($pdo) {
                 order_id BIGINT PRIMARY KEY,
                 table_id INT NOT NULL REFERENCES tables(table_id),
                 datetime TIMESTAMP NOT NULL,
-                order_status VARCHAR(20) NOT NULL
+                order_status VARCHAR(20) NOT NULL,
+                archived BOOLEAN DEFAULT FALSE
             );
         ";
         $pdo->exec($sql);
+        error_log("`orders` table created or already exists.");
 
         // Create `orderitems` table
         $sql = "
@@ -61,6 +66,7 @@ function createTables($pdo) {
             );
         ";
         $pdo->exec($sql);
+        error_log("`orderitems` table created or already exists.");
 
         // Create `archived_orders` table
         $sql = "
@@ -73,6 +79,7 @@ function createTables($pdo) {
             );
         ";
         $pdo->exec($sql);
+        error_log("`archived_orders` table created or already exists.");
 
         // Create `shift_logs` table
         $sql = "
@@ -83,11 +90,12 @@ function createTables($pdo) {
             );
         ";
         $pdo->exec($sql);
+        error_log("`shift_logs` table created or already exists.");
 
         error_log("All necessary tables have been created or already exist.");
     } catch (PDOException $e) {
         error_log("Error creating tables: " . $e->getMessage());
-        die("An error occurred while setting up the database.");
+        die("An error occurred while setting up the database. Please check the logs for more details.");
     }
 }
 
