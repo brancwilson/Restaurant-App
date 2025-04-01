@@ -2,26 +2,28 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include '../includes/db.php'; // Include database connection
-include '../includes/auth.php'; // Ensure only authorized users access
+include '../includes/db.php';
+include '../includes/auth.php';
+require_once __DIR__ . '/../templates/header.php'; // Include the header
 
-// Ensure the user is logged in
 requireLogin();
 
-// Get completed or revoked orders
 $conn = getDBConnection();
 if (!$conn) {
     die("Database connection failed.");
 }
 
-// Corrected SQL query to match your table structure
+// Query to fetch finished orders
 $sql = "
     SELECT 
         o.order_id, 
         o.table_id, 
         o.datetime, 
-        o.order_status, 
-        STRING_AGG(m.itemname || ' (' || oi.quantity || ')', ', ') AS items
+        o.order_status,
+        STRING_AGG(
+            m.itemname || ' (' || oi.quantity || ')', 
+            ', ' 
+        ) AS items
     FROM orders o
     JOIN orderitems oi ON o.order_id = oi.order_id
     JOIN menuitems m ON oi.item_id = m.item_id
@@ -32,17 +34,17 @@ $sql = "
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
-    die("Failed to prepare SQL statement.");
+    die("Failed to prepare SQL statement: " . implode(", ", $conn->errorInfo()));
 }
 
-$stmt->execute();
-$orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-if (empty($orders)) {
-    die("No orders found.");
+try {
+    $stmt->execute();
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Query execution failed: " . $e->getMessage());
 }
 
-closeDBConnection($conn); // Close the connection
+closeDBConnection($conn);
 ?>
 
 <!DOCTYPE html>
@@ -51,35 +53,31 @@ closeDBConnection($conn); // Close the connection
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finished Orders</title>
-    <link rel="stylesheet" href="../public/css/style.css"> <!-- Adjust as needed -->
-    <link rel="stylesheet" href="/../../public/css/settings_style.css">
-
+    <link rel="stylesheet" href="../public/css/style.css">
 </head>
 <body>
     <h2>Finished Orders</h2>
-    <table border="1">
-        <tr>
-            <th>Order ID</th>
-            <th>Table</th>
-            <th>Items</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-        <?php foreach ($orders as $order): ?>
+    <?php if (!empty($orders)): ?>
+        <table border="1">
             <tr>
-                <td><?= htmlspecialchars($order['order_id']) ?></td>
-                <td><?= htmlspecialchars($order['table_id']) ?></td>
-                <td><?= htmlspecialchars($order['items']) ?></td>
-                <td><?= ucfirst(htmlspecialchars($order['order_status'])) ?></td>
-                <td>
-                    <form action="undo_order.php" method="POST" style="display:inline;">
-                        <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['order_id']) ?>">
-                        <button type="submit">Undo</button>
-                    </form>
-                    <a href="edit_order.php?id=<?= htmlspecialchars($order['order_id']) ?>">Edit</a>
-                </td>
+                <th>Order ID</th>
+                <th>Table</th>
+                <th>Items</th>
+                <th>Status</th>
             </tr>
-        <?php endforeach; ?>
-    </table>
+            <?php foreach ($orders as $order): ?>
+                <tr>
+                    <td><?= htmlspecialchars($order['order_id']) ?></td>
+                    <td><?= htmlspecialchars($order['table_id']) ?></td>
+                    <td><?= htmlspecialchars($order['items']) ?></td>
+                    <td><?= ucfirst(htmlspecialchars($order['order_status'])) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php else: ?>
+        <p>No finished orders found.</p>
+    <?php endif; ?>
 </body>
 </html>
+
+<?php require_once __DIR__ . '/../templates/footer.php'; ?>

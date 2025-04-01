@@ -17,9 +17,9 @@
             <i class="fa fa-bars"></i> <!-- Gear icon -->
             <div class="dropdown-content">
                 <a href="tables.php">View Tables</a>
-                <a href="settings.php">Settings</a>
-                <a href="logout.php">Logout</a>
                 <a href="kitchen.php">Kitchen Orders</a>
                 <a href="finished_orders.php">Finished Orders</a>
+                <a href="settings.php">Settings</a>
+                <a href="logout.php">Logout</a>
             </div>
         </div>
