@@ -1,47 +1,22 @@
 <?php
-require_once __DIR__ . '/../includes/functions.php';
-require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/db.php'; // Database connection
+require_once __DIR__ . '/../includes/functions.php'; // Helper functions
+
 session_start();
 
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Ensure the user is logged in
-if (!isset($_SESSION['user'])) {
-    header('Location: login.php');
-    exit();
+// Ensure the table ID is provided
+if (!isset($_GET['table']) || empty($_GET['table'])) {
+    die("Table ID is required.");
 }
 
-// Get the table parameter from the URL
-$table = $_GET['table'] ?? null;
-
-// Validate the table and cart data
-if (!$table || !isset($_SESSION['cart'][$table])) {
-    header('Location: tables.php');
-    exit();
-}
-
-// Check if the table is open
-$conn = getDBConnection();
-$sql = "SELECT table_status FROM tables WHERE table_id = :table_id";
-$stmt = $conn->prepare($sql);
-$stmt->execute([':table_id' => $table]);
-$tableStatus = $stmt->fetchColumn();
-
-if ($tableStatus !== 'open') {
-    die("The table is not open. Please select a different table.");
-}
-
-// Retrieve the selected items and calculate the total
-$selectedItems = $_SESSION['cart'][$table];
+$table = htmlspecialchars($_GET['table']);
+$selectedItems = $_SESSION['cart'][$table] ?? [];
 $total = calculateTotal($selectedItems);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $conn->beginTransaction();
-        error_log("Transaction started.");
+        error_log("Transaction started for table: $table");
 
         // Insert the order into the `orders` table
         $orderId = time(); // Use a unique timestamp as the order ID
@@ -56,15 +31,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert each item into the `orderitems` table
         foreach ($selectedItems as $item => $details) {
+            // Validate item existence in the `menuitems` table
+            $sql = "SELECT item_id FROM menuitems WHERE itemname = :itemname";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([':itemname' => $item]);
+            $itemId = $stmt->fetchColumn();
+
+            if (!$itemId) {
+                error_log("Item not found in menuitems table: Item = $item");
+                throw new Exception("Item '$item' does not exist in the menu.");
+            }
+
+            // Insert the item into the `orderitems` table
             $sql = "INSERT INTO orderitems (order_id, item_id, quantity, comment) 
-                    VALUES (:order_id, 
-                            (SELECT item_id FROM menuitems WHERE itemname = :itemname), 
-                            :quantity, 
-                            :comment)";
+                    VALUES (:order_id, :item_id, :quantity, :comment)";
             $stmt = $conn->prepare($sql);
             $stmt->execute([
                 ':order_id' => $orderId,
-                ':itemname' => $item,
+                ':item_id' => $itemId,
                 ':quantity' => $details['quantity'],
                 ':comment' => $details['comment'] ?? null // Optional comment
             ]);
@@ -93,7 +77,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     } catch (PDOException $e) {
         $conn->rollBack();
-        error_log("Error saving order: " . $e->getMessage());
+        error_log("PDOException caught: " . $e->getMessage());
+        error_log("Stack trace: " . $e->getTraceAsString());
+        die("An error occurred while saving the order. Please try again.");
+    } catch (Exception $e) {
+        $conn->rollBack();
+        error_log("Exception caught: " . $e->getMessage());
+        error_log("Stack trace: " . $e->getTraceAsString());
         die("An error occurred while saving the order. Please try again.");
     }
 }
@@ -110,15 +100,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li>
                     <strong><?= htmlspecialchars($item) ?></strong> -
                     <?= htmlspecialchars($details['quantity']) ?> x $<?= htmlspecialchars($details['price']) ?>
-                    = $<?= htmlspecialchars($details['quantity'] * $details['price']) ?>
                 </li>
             <?php endforeach; ?>
         </ul>
-        <h3 class="total">Total: $<?= htmlspecialchars($total) ?></h3>
+        <p><strong>Total:</strong> $<?= htmlspecialchars($total) ?></p>
     </div>
-
-    <form action="checkout.php?table=<?= htmlspecialchars($table) ?>" method="POST" class="checkout-form">
-        <button type="submit" class="button submit-order">Submit Order</button>
+    <form method="POST" action="">
+        <button type="submit" class="btn btn-primary">Confirm Order</button>
     </form>
 </div>
 
