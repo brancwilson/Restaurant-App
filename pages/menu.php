@@ -73,12 +73,10 @@ require_once __DIR__ . '/../templates/header.php';
         <h3>Total: $<?= calculateTotal($_SESSION['cart'][$table] ?? []) ?></h3>
 
         <!-- Order Notes Column -->
-        <div class="notes-column">
-            <h2>Order Notes</h2>
-            <form action="/action_page.php">
-                <textarea id="notes-column-box" name="notes-column" rows="4" cols="50" maxlength="255" placeholder="Additional notes...."></textarea>
-            </form>
-        </div>
+        <h2>Order Notes</h2>
+        <form action="/action_page.php">
+            <textarea id="notes-column-box" name="notes-column" rows="4" cols="50" maxlength="255" placeholder="Additional notes...."></textarea>
+        </form>
 
         <?php if (isset($_SESSION['cart'][$table]) && !empty($_SESSION['cart'][$table])): ?>
             <a href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
