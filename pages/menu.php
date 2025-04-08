@@ -22,6 +22,8 @@ $menuCategories = [
 require_once __DIR__ . '/../templates/header.php';
 ?>
 
+
+
 <h1>Menu for Table <?= htmlspecialchars($table) ?></h1>
 <div class="main-layout">
      <!-- Left Column: Lunch Menu -->
@@ -53,14 +55,6 @@ require_once __DIR__ . '/../templates/header.php';
             </a>
         <?php endforeach; ?>
     </div>
-    
-    <!-- Order Notes Column -->
-     <div class="notes-column">
-        <h2>Order Notes</h2>
-        <form action="/action_page.php">
-            <textarea id="notes-column-box" name="notes-column" rows="4" cols="50" maxlength="255" placeholder="Additional notes...."></textarea>
-        </form>
-     </div>
 
     <!-- Order Column -->
     <div class="order-column">
@@ -77,6 +71,15 @@ require_once __DIR__ . '/../templates/header.php';
             <?php endif; ?>
         </ul>
         <h3>Total: $<?= calculateTotal($_SESSION['cart'][$table] ?? []) ?></h3>
+
+        <!-- Order Notes Column -->
+        <div class="notes-column">
+            <h2>Order Notes</h2>
+            <form action="/action_page.php">
+                <textarea id="notes-column-box" name="notes-column" rows="4" cols="50" maxlength="255" placeholder="Additional notes...."></textarea>
+            </form>
+        </div>
+
         <?php if (isset($_SESSION['cart'][$table]) && !empty($_SESSION['cart'][$table])): ?>
             <a href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
         <?php endif; ?>
