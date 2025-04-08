@@ -420,8 +420,14 @@ h1, h2, h3 {
     display: block;
 }
 
+.order-box div {
+    background-color: #83e88e;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
 .order-box div:hover {
-    color: #97cdff
+    color: #ffffff
 }
 
 .checkout-container {
