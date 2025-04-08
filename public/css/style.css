@@ -9,12 +9,48 @@ body {
 
 .order-box {
     background-color: #ffffff;
-    border: 2px solid rgb(48, 200, 103);
+    border: 5px solid rgb(49, 181, 97);
     border-radius: 5px;
     padding-top: 2%;
     padding-right: 2%;
     padding-bottom: 2%;
     padding-left: 2%;
+}
+
+.btn-complete {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db; /* Blue */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-complete:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.btn-revoke {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #db4234; /* Blue */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-revoke:hover {
+    background-color: #de655a; /* Darker blue on hover */
 }
 
 .container {
