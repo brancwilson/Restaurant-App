@@ -7,13 +7,13 @@ body {
     color: #333; /* Dark gray text */
 }
 
-.order-box div {
+.order-box {
     background-color: #83e88e;
     border: 2px solid black;
     border-radius: 5px;
 }
 
-.order-box div:hover {
+.order-box :hover {
     color: #ffffff
 }
 
