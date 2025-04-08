@@ -17,10 +17,6 @@ body {
     padding-left: 2%;
 }
 
-div.order-box :hover {
-    background-color: #c6c6c6;
-}
-
 .container {
     width: 90%;
     max-width: 1200px;
