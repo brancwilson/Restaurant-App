@@ -89,6 +89,7 @@ require_once __DIR__ . '/../templates/header.php';
                 <button type="submit" name="revoke" class="btn-revoke">Revoke Order</button>
             </form>
         </div>
+        <br><br>
     <?php endforeach; ?>
 <?php endif; ?>
 
