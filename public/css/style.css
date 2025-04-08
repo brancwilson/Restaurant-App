@@ -8,13 +8,17 @@ body {
 }
 
 .order-box {
-    background-color: #83e88e;
-    border: 2px solid black;
+    background-color: #ffffff;
+    border: 2px solid rgb(48, 200, 103);
     border-radius: 5px;
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+    padding-left: 5%;
 }
 
 .order-box :hover {
-    color: #ffffff
+    background-color: #c6c6c6
 }
 
 .container {
