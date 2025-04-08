@@ -7,6 +7,16 @@ body {
     color: #333; /* Dark gray text */
 }
 
+.order-box div {
+    background-color: #83e88e;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.order-box div:hover {
+    color: #ffffff
+}
+
 .container {
     width: 90%;
     max-width: 1200px;
@@ -418,16 +428,6 @@ h1, h2, h3 {
 /* Show dropdown on hover */
 .settings-icon:hover .dropdown-content {
     display: block;
-}
-
-.order-box div {
-    background-color: #83e88e;
-    border: 2px solid black;
-    border-radius: 5px;
-}
-
-.order-box div:hover {
-    color: #ffffff
 }
 
 .checkout-container {
