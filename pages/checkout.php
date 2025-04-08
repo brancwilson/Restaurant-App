@@ -40,9 +40,6 @@ $total = calculateTotal($selectedItems);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        $conn->beginTransaction();
-        error_log("Transaction started.");
-
         // Insert the order into the `orders` table
         $orderId = time(); // Use a unique timestamp as the order ID
         $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime) 
@@ -53,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':table_id' => $table
         ]);
         error_log("Order inserted: Order ID = $orderId, Table ID = $table");
-
+    
         // Insert each item into the `orderitems` table
         foreach ($selectedItems as $item => $details) {
             $sql = "INSERT INTO orderitems (order_id, item_id, quantity, comment) 
@@ -70,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             error_log("Order item inserted: Item = $item, Quantity = {$details['quantity']}");
         }
-
+    
         // Mark the table as busy
         $sql = "UPDATE tables SET table_status = 'busy' WHERE table_id = :table_id";
         $stmt = $conn->prepare($sql);
@@ -80,20 +77,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             error_log("Failed to update table status to 'busy': Table ID = $table");
             throw new Exception("Failed to update table status.");
         }
-
+    
         $conn->commit();
         error_log("Transaction committed successfully.");
-
+    
         // Clear the cart for the table
-        unset($_SESSION['cart'][$table]);
-        error_log("Cart cleared for table: $table");
-
+        if (isset($_SESSION['cart'][$table])) {
+            unset($_SESSION['cart'][$table]);
+            error_log("Cart cleared for table: $table");
+        } else {
+            error_log("No cart found for table: $table");
+        }
+    
         // Redirect to avoid form resubmission
         header('Location: tables.php');
         exit();
     } catch (PDOException $e) {
         $conn->rollBack();
-        error_log("Error saving order: " . $e->getMessage());
+        error_log("PDOException caught: " . $e->getMessage());
+        die("An error occurred while saving the order. Please try again.");
+    } catch (Exception $e) {
+        $conn->rollBack();
+        error_log("Exception caught: " . $e->getMessage());
         die("An error occurred while saving the order. Please try again.");
     }
 }
@@ -122,4 +127,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 </div>
 
-<?php require_once __DIR__ . '/../templates/footer.php'; ?>
+<?php require_once __DIR__ . '/../templates/footer.php'; ?> 
