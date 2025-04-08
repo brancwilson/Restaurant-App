@@ -40,6 +40,9 @@ $total = calculateTotal($selectedItems);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
+        // Start a transaction
+        $conn->beginTransaction();
+
         // Insert the order into the `orders` table
         $orderId = time(); // Use a unique timestamp as the order ID
         $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime) 
@@ -93,11 +96,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: tables.php');
         exit();
     } catch (PDOException $e) {
-        $conn->rollBack();
+        if ($conn->inTransaction()) {
+            $conn->rollBack();
+        }
         error_log("PDOException caught: " . $e->getMessage());
         die("An error occurred while saving the order. Please try again.");
     } catch (Exception $e) {
-        $conn->rollBack();
+        if ($conn->inTransaction()) {
+            $conn->rollBack();
+        }
         error_log("Exception caught: " . $e->getMessage());
         die("An error occurred while saving the order. Please try again.");
     }
@@ -127,4 +134,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 </div>
 
-<?php require_once __DIR__ . '/../templates/footer.php'; ?> 
+<?php require_once __DIR__ . '/../templates/footer.php'; ?>
