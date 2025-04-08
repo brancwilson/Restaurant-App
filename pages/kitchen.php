@@ -85,8 +85,8 @@ require_once __DIR__ . '/../templates/header.php';
             <p><?= htmlspecialchars($order['items']) ?></p>
             <form method="post">
                 <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
-                <button type="submit" name="complete" class="btn-blue">Complete Order</button>
-                <button type="submit" name="revoke" class="btn-blue">Revoke Order</button>
+                <button type="submit" name="complete" class="btn-complete">Complete Order</button>
+                <button type="submit" name="revoke" class="btn-revoke">Revoke Order</button>
             </form>
         </div>
     <?php endforeach; ?>

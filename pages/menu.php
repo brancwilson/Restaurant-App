@@ -58,7 +58,7 @@ require_once __DIR__ . '/../templates/header.php';
      <div class="notes-column">
         <h2>Order Notes</h2>
         <form action="/action_page.php">
-            <textarea id="notes-column-box" name="notes-column" rows="4" cols="50" maxlength="255" placeholder="Any additional notes...">At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.</textarea>
+            <textarea id="notes-column-box" name="notes-column" rows="4" cols="50" maxlength="255" placeholder="Additional notes...."></textarea>
         </form>
      </div>
 
