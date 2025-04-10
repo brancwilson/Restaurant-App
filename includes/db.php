@@ -8,7 +8,7 @@ function getDBConnection() {
         $pdo = new PDO($dsn, DB_USER, DB_PASS, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
         // Create necessary tables if they don't exist
-        createTables($pdo);
+        //createTables($pdo);
 
         return $pdo;
     } catch (PDOException $e) {
