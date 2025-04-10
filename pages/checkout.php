@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
 
         // Start a transaction
-        $conn->beginTransaction();
+        //$conn->beginTransaction();
 
         // Insert the order into the `orders` table
         $orderId = time(); // Use a unique timestamp as the order ID
