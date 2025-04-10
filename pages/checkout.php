@@ -52,6 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert the order into the `orders` table
         $orderId = time(); // Use a unique timestamp as the order ID
+
+        createTableOrder($table, compileOrderItemIDs($selectedItems), $order_id, $_SESSION['orderNotes']);
+
+        /*
         $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment) 
                 VALUES (:order_id, :table_id, 'OPEN', NOW()), ?";
         $stmt = $conn->prepare($sql);
@@ -78,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             error_log("Order item inserted: Item = $item, Quantity = {$details['quantity']}");
         }
+        */
     
         // Mark the table as busy
         setTableStatus($table, 'busy');
