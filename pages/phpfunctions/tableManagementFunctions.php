@@ -113,7 +113,7 @@ function createTableOrder($table, $items, $orderId, $orderNote) {
     $pdo = getDatabaseConnection();
 
     try {
-        $pdo->beginTransaction();
+        //$pdo->beginTransaction();
 
         // Insert the main order record
         $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment) 

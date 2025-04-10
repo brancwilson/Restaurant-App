@@ -25,7 +25,7 @@ try {
 
 try {
     // Start a transaction
-    $conn->beginTransaction();
+    //$conn->beginTransaction();
 
     // Reset finished orders (delete or update)
     $sql = "DELETE FROM orders WHERE order_status = 'completed' OR order_status = 'revoked'";
