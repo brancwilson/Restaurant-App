@@ -23,6 +23,11 @@ if (!$table || !isset($_SESSION['cart'][$table])) {
     exit();
 }
 
+// Retrieve order notes from menu.php
+if (isset($_POST["orderNotes"])) {
+    $_SESSION['orderNotes'] = $_POST["orderNotes"];
+}
+
 // Check if the table is open
 $conn = getDBConnection();
 $sql = "SELECT table_status FROM tables WHERE table_id = :table_id";
@@ -40,17 +45,19 @@ $total = calculateTotal($selectedItems);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
+
         // Start a transaction
         $conn->beginTransaction();
 
         // Insert the order into the `orders` table
         $orderId = time(); // Use a unique timestamp as the order ID
-        $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime) 
-                VALUES (:order_id, :table_id, 'OPEN', NOW())";
+        $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment) 
+                VALUES (:order_id, :table_id, 'OPEN', NOW()), ?";
         $stmt = $conn->prepare($sql);
         $stmt->execute([
             ':order_id' => $orderId,
-            ':table_id' => $table
+            ':table_id' => $table,
+            $_SESSION['orderNotes']
         ]);
         error_log("Order inserted: Order ID = $orderId, Table ID = $table");
     

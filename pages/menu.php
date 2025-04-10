@@ -2,6 +2,9 @@
 require_once __DIR__ . '/../includes/functions.php';
 session_start();
 
+//Empties any notes currently stored for current session
+$_SESSION['orderNotes'] = null;
+
 if (!isset($_SESSION['user'])) {
     header('Location: login.php');
     exit();
@@ -79,7 +82,7 @@ require_once __DIR__ . '/../templates/header.php';
         </form>
 
         <?php if (isset($_SESSION['cart'][$table]) && !empty($_SESSION['cart'][$table])): ?>
-            <a href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
+            <a id="proceedtocheckout" href="checkout.php?table=<?= htmlspecialchars($table) ?>" onclick="" class="button">Proceed to Checkout</a>
         <?php endif; ?>
     </div>
     <div>
