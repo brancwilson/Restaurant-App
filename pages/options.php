@@ -4,7 +4,7 @@
 <table>
 
 <tr>
-    <a href="/../resetOrders.php" class="button">Reset All Orders and Order Items</a>
+    <a href="resetOrders.php" class="button">Reset All Orders and Order Items</a>
 </tr>
 
 <tr>
