@@ -87,8 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Mark the table as busy
         setTableStatus($table, 'busy');
     
-        $conn->commit();
-        error_log("Transaction committed successfully.");
+        //$conn->commit();
+        //error_log("Transaction committed successfully.");
     
         // Clear the cart for the table
         if (isset($_SESSION['cart'][$table])) {
@@ -102,16 +102,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: tables.php');
         exit();
     } catch (PDOException $e) {
-        if ($conn->inTransaction()) {
-            $conn->rollBack();
-        }
+        //if ($conn->inTransaction()) {
+        //    $conn->rollBack();
+        //}
         error_log("PDOException caught: " . $e->getMessage());
         die("An error occurred while saving the order. Please try again.");
     } catch (Exception $e) {
-        if ($conn->inTransaction()) {
-            $conn->rollBack();
-        }
-        error_log("Exception caught: " . $e->getMessage());
+        //if ($conn->inTransaction()) {
+        //    $conn->rollBack();
+        //}
+        //error_log("Exception caught: " . $e->getMessage());
         die("An error occurred while saving the order. Please try again.");
     }
 }

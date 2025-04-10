@@ -33,14 +33,14 @@ try {
     $stmt->execute();
 
     // Commit the transaction
-    $conn->commit();
+   // $conn->commit();
 
     // Output success message
     echo "All finished orders have been reset successfully.";
 } catch (PDOException $e) {
     // Roll back the transaction if something goes wrong
-    if ($conn->inTransaction()) {
-        $conn->rollBack();
-    }
+    //if ($conn->inTransaction()) {
+    //    $conn->rollBack();
+    //}
     echo "Error: " . $e->getMessage();
 }

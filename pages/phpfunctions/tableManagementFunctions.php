@@ -137,10 +137,10 @@ function createTableOrder($table, $items, $orderId, $orderNote) {
             ]);
         }
 
-        $pdo->commit();
+        //$pdo->commit();
         return true;
     } catch (PDOException $e) {
-        $pdo->rollBack();
+        //$pdo->rollBack();
         error_log("Error in createTableOrder: " . $e->getMessage());
         return false;
     }
