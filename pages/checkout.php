@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Insert the order into the `orders` table
         $orderId = time(); // Use a unique timestamp as the order ID
         $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime) 
-                VALUES (:order_id, :table_id, 'pending', NOW())";
+                VALUES (:order_id, :table_id, 'OPEN', NOW())";
         $stmt = $conn->prepare($sql);
         $stmt->execute([
             ':order_id' => $orderId,
