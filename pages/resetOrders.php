@@ -2,7 +2,7 @@
 // resetOrders.php
 
 // Include the database configuration file
-require_once '../config.php'; // Ensure the path to config.php is correct
+require_once '/../config.php'; // Ensure the path to config.php is correct
 
 try {
     // Start a transaction
