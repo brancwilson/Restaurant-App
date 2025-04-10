@@ -15,7 +15,7 @@ if (!$table || !$category) {
     exit();
 }
 
-// Define the categories and meal types here, assuming they are predefined or fetched from a database
+// Define meal types and categories
 $mealTypes = ['Breakfast', 'Lunch', 'Dinner'];
 $categories = [
     'Breakfast' => ['Appetizers', 'Entrees', 'Drinks'],
@@ -23,7 +23,7 @@ $categories = [
     'Dinner' => ['Appetizers', 'Entrees', 'Drinks']
 ];
 
-// Determine the meal type based on the category
+// Determine meal type from category
 $mealType = '';
 foreach ($mealTypes as $type) {
     if (strpos($category, $type) !== false) {
@@ -36,18 +36,26 @@ foreach ($mealTypes as $type) {
 $menu = getMenuList();
 $items = $menu[$category] ?? [];
 
+// Handle POST actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $item = $_POST['item'];
-    $price = $_POST['price'];
-    addToCart($table, $item, $price);
-    header('Location: menu-items.php?table=' . $table . '&category=' . urlencode($category));
+    $action = $_POST['action'] ?? '';
+    $item = $_POST['item'] ?? '';
+    $price = $_POST['price'] ?? 0;
+
+    if ($action === 'add') {
+        addToCart($table, $item, $price);
+    } elseif ($action === 'remove') {
+        removeFromCart($table, $item);
+    }
+
+    header('Location: menu-items.php?table=' . urlencode($table) . '&category=' . urlencode($category));
     exit();
 }
 
 require_once __DIR__ . '/../templates/header.php';
 ?>
 
-<!-- Tabbed Navigation -->
+<!-- Tab Navigation -->
 <div class="tab-navigation">
     <?php foreach ($categories[$mealType] as $cat): ?>
         <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=<?= urlencode("$mealType $cat") ?>" 
@@ -59,12 +67,14 @@ require_once __DIR__ . '/../templates/header.php';
 
 <h1><?= htmlspecialchars($category) ?> for Table <?= htmlspecialchars($table) ?></h1>
 <div class="main-layout">
+    <!-- Menu Items Column -->
     <div class="menu-column">
         <ul class="menu-items-list">
             <?php foreach ($items as $item => $price): ?>
                 <li>
                     <span><?= htmlspecialchars($item) ?> - $<?= htmlspecialchars($price) ?></span>
-                    <form action="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=<?= urlencode($category) ?>" method="POST" style="display:inline;">
+                    <form method="POST" action="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=<?= urlencode($category) ?>" style="display:inline;">
+                        <input type="hidden" name="action" value="add">
                         <input type="hidden" name="item" value="<?= htmlspecialchars($item) ?>">
                         <input type="hidden" name="price" value="<?= htmlspecialchars($price) ?>">
                         <button type="submit" class="button">Add to Order</button>
@@ -78,25 +88,33 @@ require_once __DIR__ . '/../templates/header.php';
     <div class="order-column">
         <h2>Selected Items</h2>
         <ul id="selected-items-list">
-            <?php if (isset($_SESSION['cart'][$table])): ?>
+            <?php if (!empty($_SESSION['cart'][$table])): ?>
                 <?php foreach ($_SESSION['cart'][$table] as $item => $details): ?>
                     <li>
                         <strong><?= htmlspecialchars($item) ?></strong> - 
                         <?= htmlspecialchars($details['quantity']) ?> x $<?= htmlspecialchars($details['price']) ?> 
                         = $<?= htmlspecialchars($details['quantity'] * $details['price']) ?>
+
+                        <!-- Remove Button -->
+                        <form method="POST" action="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=<?= urlencode($category) ?>" style="display:inline;">
+                            <input type="hidden" name="action" value="remove">
+                            <input type="hidden" name="item" value="<?= htmlspecialchars($item) ?>">
+                            <button type="submit" class="button danger">Remove</button>
+                        </form>
                     </li>
                 <?php endforeach; ?>
+            <?php else: ?>
+                <li>No items in the cart.</li>
             <?php endif; ?>
         </ul>
+
         <h3>Total: $<?= calculateTotal($_SESSION['cart'][$table] ?? []) ?></h3>
 
-        <!-- Back to Categories Button -->
         <a href="menu.php?table=<?= htmlspecialchars($table) ?>" class="button">Back to Categories</a>
 
-        <!-- Proceed to Checkout Button -->
-        <?php if (isset($_SESSION['cart'][$table]) && !empty($_SESSION['cart'][$table])): ?>
+        <?php if (!empty($_SESSION['cart'][$table])): ?>
             <a href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
-        <?php endif; ?>  
+        <?php endif; ?>
     </div>
 </div>
 
