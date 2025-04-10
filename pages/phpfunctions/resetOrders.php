@@ -9,7 +9,7 @@ try {
     $conn->beginTransaction();
 
     // Reset finished orders (delete or update)
-    $sql = "DELETE FROM orders WHERE order_status = 'finished'";
+    $sql = "DELETE FROM orders WHERE order_status = 'Completed' AND order_status = 'Revoked'";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
 
