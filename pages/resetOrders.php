@@ -14,6 +14,10 @@ $db_username = "u4bum5vo1sv2r2";
 $db_password = "pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238";
 
 try {
+    // Establish database connection
+    $conn = new PDO("pgsql:host=$db_host;port=$db_port;dbname=$db_name", $db_username, $db_password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     // Start a transaction
     $conn->beginTransaction();
 
@@ -35,7 +39,7 @@ try {
     echo "All finished orders and their related items have been reset successfully.";
 } catch (PDOException $e) {
     // Roll back the transaction if something goes wrong
-    if ($conn->inTransaction()) {
+    if (isset($conn) && $conn->inTransaction()) {
         $conn->rollBack();
     }
     echo "Error: " . $e->getMessage();
