@@ -63,8 +63,9 @@ try {
             o.order_id, 
             o.table_id, 
             o.datetime, 
-            GROUP_CONCAT(
-                CONCAT(m.itemname, ' (', oi.quantity, ')') SEPARATOR ', '
+            STRING_AGG(
+                m.itemname || ' (' || oi.quantity || ')', 
+                ', '
             ) AS items
         FROM orders o
         JOIN orderitems oi ON o.order_id = oi.order_id
