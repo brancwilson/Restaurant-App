@@ -56,9 +56,8 @@ $sql = "
         o.order_id, 
         o.table_id, 
         o.datetime, 
-        STRING_AGG(
-            m.itemname || ' (' || oi.quantity || ')', 
-            ', '
+        GROUP_CONCAT(
+            CONCAT(m.itemname, ' (', oi.quantity, ')') SEPARATOR ', '
         ) AS items
     FROM orders o
     JOIN orderitems oi ON o.order_id = oi.order_id
