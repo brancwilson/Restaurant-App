@@ -37,7 +37,7 @@ try {
     $numTables = retrieveSetting('number_of_tables');
     $i = 0;
     while ($i < $numTables) {
-        setTableStatus($i, "OPEN");
+        setTableStatus($i+1, "OPEN");
         $i++;
     }
 
