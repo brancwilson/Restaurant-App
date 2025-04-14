@@ -7,6 +7,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/../templates/header.php';
+require_once __DIR__ . '/../phpfunctions/retrievesetting.php';
+require_once __DIR__ . '/../phpfunctions/tableManagementFunctions.php';
 
 // Database credentials
 $db_host = "c8m0261h0c7idk.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com";
@@ -31,6 +33,13 @@ try {
     $sql = "DELETE FROM orders WHERE order_status = 'completed' OR order_status = 'revoked'";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
+
+    $numTables = retrieveSetting('number_of_tables');
+    $i = 0;
+    while ($i < $numTables) {
+        setTableStatus($i, "OPEN");
+        $i++;
+    }
 
     // Commit the transaction
    // $conn->commit();
