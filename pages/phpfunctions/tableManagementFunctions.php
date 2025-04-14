@@ -136,7 +136,7 @@ function createTableOrder($table, $items, $orderId, $orderNote) {
                 ':quantity' => $item['quantity']
             ]);
         }
-
+        echo("<h1>Order created!</h1>");
         //$pdo->commit();
         return true;
     } catch (PDOException $e) {
