@@ -6,6 +6,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Ensure database connection is established
+if (!isset($conn)) {
+    die("Database connection is not established.");
+}
 
 if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'kitchen') {
     header("Location: ../login.php");
