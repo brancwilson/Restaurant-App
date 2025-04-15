@@ -36,7 +36,7 @@ try {
     updateTableSession();
 
     while ($i < $numTables[0][0]) {
-        setTableStatus($i+1, "OPEN");
+        setTableStatus($i+1, "open");
         $i++;
     }
 
