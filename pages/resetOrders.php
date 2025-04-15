@@ -51,8 +51,8 @@ try {
     //if ($conn->inTransaction()) {
     //    $conn->rollBack();
     //}
-    echo "Error: " . $e->getMessage();
+    //echo "Error: " . $e->getMessage();
     
     $test = retrieveSetting('number_of_tables');
-    echo("<h1>" . var_dump($test) . "</h1>");
+    echo("<h1> NUM TABLES: " .  var_dump($test) . "</h1>");
 }
