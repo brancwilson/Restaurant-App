@@ -32,6 +32,9 @@ try {
 
     $numTables = retrieveSetting('number_of_tables');
     $i = 0;
+
+    updateTableSession();
+
     while ($i < $numTables[0][0]) {
         setTableStatus($i+1, "OPEN");
         $i++;
