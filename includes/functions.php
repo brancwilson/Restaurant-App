@@ -34,18 +34,27 @@ function calculateTotal() {
 }
 
 function createTableOrder($tableId, $items, $orderId, $notes) {
+    error_log("Inside createTableOrder");
+
     $conn = getDBConnection();
 
-    $sql = "INSERT INTO orders (order_id, table_id, items, order_notes, order_status, datetime) 
-            VALUES (:order_id, :table_id, :items, :order_notes, 'pending', NOW())";
+    // TEMP DEBUG: Print values
+    error_log("Order ID: $orderId");
+    error_log("Table ID: $tableId");
+    error_log("Items: $items");
+    error_log("Notes: $notes");
+
+    $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime) 
+            VALUES (:order_id, :table_id, 'pending', NOW())";
 
     $stmt = $conn->prepare($sql);
     $stmt->execute([
         ':order_id' => $orderId,
-        ':table_id' => $tableId,
-        ':items' => $items,
-        ':order_notes' => $notes
+        ':table_id' => $tableId
     ]);
+
+    error_log("Order inserted successfully");
 }
+
 
 ?>
