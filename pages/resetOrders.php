@@ -14,7 +14,7 @@ require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
 $db_host = "c8m0261h0c7idk.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com";
 $db_port = "5432";
 $db_name = "dpe2kq3p3j0dv";
-$db_username = "u4bum5vo1sv2r2";
+$db_username = "u4bum5vo1sv2r2DELETE_THIS";
 $db_password = "pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238";
 
 try {
@@ -33,8 +33,6 @@ try {
     $sql = "DELETE FROM orders WHERE order_status = 'completed' OR order_status = 'revoked'";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
-
-    break code for testing
 
     $numTables = retrieveSetting('number_of_tables');
     $i = 0;
