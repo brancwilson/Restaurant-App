@@ -1,62 +1,121 @@
 <?php
+require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
 session_start();
-require_once '../config.php';
-require_once '../functions.php';
-require_once '../tableManagementFunctions.php';
 
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Ensure the user is logged in
 if (!isset($_SESSION['user'])) {
-    header("Location: ../login.php");
+    header('Location: login.php');
     exit();
 }
 
-$user = $_SESSION['user'];
-$cart = $_SESSION['cart'] ?? [];
-$table_id = $_SESSION['tableId'] ?? null;
-$order_notes = $_SESSION['orderNotes'] ?? '';
+// Get the table parameter from the URL
+$table = $_GET['table'] ?? null;
 
-if (empty($cart) || !$table_id) {
-    echo "Cart or table ID is missing.";
+// Validate the table and cart data
+if (!$table || !isset($_SESSION['cart'][$table])) {
+    header('Location: tables.php');
     exit();
 }
 
-try {
-    $conn->beginTransaction();
+// Retrieve order notes from menu.php
+if (isset($_POST["orderNotes"])) {
+    $_SESSION['orderNotes'] = $_POST["orderNotes"];
+}
 
-    $stmt = $conn->prepare("INSERT INTO orders (table_id, username, datetime, order_status, order_notes)
-                            VALUES (:table_id, :username, NOW(), 'pending', :order_notes)
-                            RETURNING order_id");
-    $stmt->execute([
-        ':table_id' => $table_id,
-        ':username' => $user,
-        ':order_notes' => $order_notes
-    ]);
-    $order_id = $stmt->fetchColumn();
+// Check if the table is open
+$conn = getDBConnection();
+$sql = "SELECT table_status FROM tables WHERE table_id = :table_id";
+$stmt = $conn->prepare($sql);
+$stmt->execute([':table_id' => $table]);
+$tableStatus = $stmt->fetchColumn();
 
-    foreach ($cart as $item_id => $quantity) {
-        $stmt = $conn->prepare("INSERT INTO order_items (order_id, item_id, quantity)
-                                VALUES (:order_id, :item_id, :quantity)");
+if ($tableStatus !== 'open') {
+    die("The table is not open. Please select a different table.");
+}
+
+// Retrieve the selected items and calculate the total
+$selectedItems = $_SESSION['cart'][$table];
+$total = calculateTotal($selectedItems);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+
+        // Start a transaction
+        //$conn->beginTransaction();
+
+        // Insert the order into the `orders` table
+        $orderId = time(); // Use a unique timestamp as the order ID
+
+        createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId, $_SESSION['orderNotes']);
+
+        /*
+        $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment) 
+                VALUES (:order_id, :table_id, 'OPEN', NOW()), ?";
+        $stmt = $conn->prepare($sql);
         $stmt->execute([
-            ':order_id' => $order_id,
-            ':item_id' => $item_id,
-            ':quantity' => $quantity
+            ':order_id' => $orderId,
+            ':table_id' => $table,
+            $_SESSION['orderNotes']
         ]);
+        error_log("Order inserted: Order ID = $orderId, Table ID = $table");
+    
+        // Insert each item into the `orderitems` table
+        foreach ($selectedItems as $item => $details) {
+            $sql = "INSERT INTO orderitems (order_id, item_id, quantity, comment) 
+                    VALUES (:order_id, 
+                            (SELECT item_id FROM menuitems WHERE itemname = :itemname), 
+                            :quantity, 
+                            :comment)";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':order_id' => $orderId,
+                ':itemname' => $item,
+                ':quantity' => $details['quantity'],
+                ':comment' => $details['comment'] ?? null // Optional comment
+            ]);
+            error_log("Order item inserted: Item = $item, Quantity = {$details['quantity']}");
+        }
+        */
+    
+        // Mark the table as busy
+        setTableStatus($table, 'busy');
+    
+        //$conn->commit();
+        //error_log("Transaction committed successfully.");
+    
+        // Clear the cart for the table
+        if (isset($_SESSION['cart'][$table])) {
+            unset($_SESSION['cart'][$table]);
+            error_log("Cart cleared for table: $table");
+        } else {
+            error_log("No cart found for table: $table");
+        }
+    
+        // Redirect to avoid form resubmission
+        header('Location: tables.php');
+        exit();
+    } catch (PDOException $e) {
+        //if ($conn->inTransaction()) {
+        //    $conn->rollBack();
+        //}
+        error_log("PDOException caught: " . $e->getMessage());
+        die("An error occurred while saving the order. Please try again.");
+    } catch (Exception $e) {
+        //if ($conn->inTransaction()) {
+        //    $conn->rollBack();
+        //}
+        //error_log("Exception caught: " . $e->getMessage());
+        die("An error occurred while saving the order. Please try again.");
     }
-
-    $stmt = $conn->prepare("UPDATE tables SET table_status = 'occupied' WHERE table_id = :table_id");
-    $stmt->execute([':table_id' => $table_id]);
-
-    $conn->commit();
-
-    unset($_SESSION['cart'], $_SESSION['orderNotes']);
-    header("Location: ../menu/view_tables.php");
-    exit();
-} catch (PDOException $e) {
-    $conn->rollBack();
-    error_log("Checkout Error: " . $e->getMessage());
-    echo "Error processing order.";
 }
 ?>
-
 
 <?php require_once __DIR__ . '/../templates/header.php'; ?>
 
