@@ -109,20 +109,21 @@ function compileOrderItemIDs($selectedItems) {
  * Create a new table order.
  */
 function createTableOrder($table, $items, $orderId, $orderNote) {
-    $pdo = getDatabaseConnection();
 
     try {
-        //$pdo->beginTransaction();
+        $pdo = getDatabaseConnection();
 
-        // Insert the main order record
-        $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment) 
-                VALUES (:order_id, :table_id, 'open', NOW()), ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ':order_id' => $orderId,
-            ':table_id' => $table,
-            $orderNote
-        ]);
+        if ($pdo) {
+
+            // Insert the main order record
+            $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment) 
+            VALUES (:order_id, :table_id, 'open', NOW()), ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':order_id' => $orderId,
+                ':table_id' => $table,
+                $orderNote
+            ]);
 
         // Insert each order item
         foreach ($items as $item) {
@@ -136,8 +137,10 @@ function createTableOrder($table, $items, $orderId, $orderNote) {
             ]);
         }
         echo("<h1>Order created!</h1>");
-        //$pdo->commit();
         return true;
+
+        }
+
     } catch (PDOException $e) {
         //$pdo->rollBack();
         error_log("Error in createTableOrder: " . $e->getMessage());
