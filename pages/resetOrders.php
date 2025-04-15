@@ -34,6 +34,8 @@ try {
     $stmt = $conn->prepare($sql);
     $stmt->execute();
 
+    break code for testing
+
     $numTables = retrieveSetting('number_of_tables');
     $i = 0;
     while ($i < $numTables) {
@@ -52,4 +54,7 @@ try {
     //    $conn->rollBack();
     //}
     echo "Error: " . $e->getMessage();
+    
+    $test = retrieveSetting('number_of_tables');
+    echo("<h1>" . var_dump($test) . "</h1>");
 }
