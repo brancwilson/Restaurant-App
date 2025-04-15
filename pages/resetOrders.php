@@ -21,14 +21,7 @@ try {
     // Establish database connection
     $conn = new PDO("pgsql:host=$db_host;port=$db_port;dbname=$db_name", $db_username, $db_password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    $test = retrieveSetting('number_of_tables');
-    echo("<h1> NUM TABLES: " . $test[0] . "</h1>");
 
-    //die("Database connection failed: " . $e->getMessage());
-}
-
-try {
     // Start a transaction
     //$conn->beginTransaction();
 
@@ -54,6 +47,9 @@ try {
     //if ($conn->inTransaction()) {
     //    $conn->rollBack();
     //}
+    $test = retrieveSetting('number_of_tables');
+    echo("<h1> NUM TABLES: " . $test[0] . "</h1>");
+
     echo "Error: " . $e->getMessage();
     
 }
