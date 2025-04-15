@@ -124,7 +124,7 @@ function createTableOrder($table, $items, $orderId, $orderNote) {
         if ($pdo) {
 
             // Insert the main order record
-            $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment) 
+            $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment)
             VALUES (?, ?, 'open', ?, ?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$orderId, $table, $orderId, $orderNote]);
