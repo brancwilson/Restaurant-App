@@ -1,5 +1,5 @@
 <?php
-
+//to access setting value from array that is returned add [0][0] to variable
 function retrieveSetting($settingName): mixed {
 
     $db_host = "c8m0261h0c7idk.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com";
