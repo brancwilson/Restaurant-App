@@ -98,7 +98,6 @@ function compileOrderItemIDs($selectedItems) {
                 ];
             }
         }
-
         return $itemIDs;
     } catch (PDOException $e) {
         error_log("Error in compileOrderItemIDs: " . $e->getMessage());

@@ -23,9 +23,9 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     $test = retrieveSetting('number_of_tables');
-    echo("<h1> NUM TABLES: " .  var_dump($test) . "</h1>");
+    echo("<h1> NUM TABLES: " . $test . "</h1>");
 
-    die("Database connection failed: " . $e->getMessage());
+    //die("Database connection failed: " . $e->getMessage());
 }
 
 try {
