@@ -16,8 +16,7 @@ function getDatabaseConnection() {
 
     if ($pdo === null) {
         try {
-            $dsn = "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";";
-            $pdo = new PDO($dsn, DB_USERNAME, DB_PASSWORD, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+            $pdo = getDatabaseConnection();
         } catch (PDOException $e) {
             error_log("Database connection failed: " . $e->getMessage());
             die("Database connection error. Please try again later.");
@@ -117,33 +116,27 @@ function createTableOrder($table, $items, $orderId, $orderNote) {
     $db_password = "pe20a594001c2be5002cbb2aa26bc527b13edc6673e3e1376cd4dc6753ff89238";
 
     try {
-        $dsn = "pgsql:host=$db_host;port=5432;dbname=$db_name;";
-        // make a database connection
-        $pdo = new PDO($dsn, $db_username, $db_password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        
-        if ($pdo) {
-
-            // Insert the main order record
-            $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment)
-            VALUES (?, ?, 'open', ?, ?)";
+        $pdo = getDatabaseConnection();
+        $pdo->beginTransaction();
+    
+        // Insert the main order record
+        $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment)
+                VALUES (?, ?, 'open', ?, ?)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$orderId, $table, $orderId, $orderNote]);
+    
+        // Insert each order item
+        foreach ($items as $item) {
+            $sql = "INSERT INTO order_items (order_id, item_id, quantity) 
+                    VALUES (?, ?, ?)";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$orderId, $table, $orderId, $orderNote]);
-
-            // Insert each order item
-            foreach ($items as $item) {
-                $sql = "INSERT INTO order_items (order_id, item_id, quantity) 
-                        VALUES (?, ?, ?)";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([$orderId, $item['item_id'], $item['quantity']
-                ]);
-            }
-            echo("<h1>Order created!</h1>");
-            return true;
-
+            $stmt->execute([$orderId, $item['item_id'], $item['quantity']]);
         }
-
+    
+        $pdo->commit();
+        return true;
     } catch (PDOException $e) {
-        //$pdo->rollBack();
+        $pdo->rollBack();
         error_log("Error in createTableOrder: " . $e->getMessage());
         return false;
     }
