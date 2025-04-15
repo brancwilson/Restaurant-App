@@ -125,23 +125,16 @@ function createTableOrder($table, $items, $orderId, $orderNote) {
 
             // Insert the main order record
             $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment) 
-            VALUES (:order_id, :table_id, 'open', NOW()), ?";
+            VALUES (?, ?, 'open', ?, ?";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-                ':order_id' => $orderId,
-                ':table_id' => $table,
-                $orderNote
-            ]);
+            $stmt->execute([$orderId, $table, $orderId, $orderNote]);
 
             // Insert each order item
             foreach ($items as $item) {
                 $sql = "INSERT INTO order_items (order_id, item_id, quantity) 
-                        VALUES (:order_id, :item_id, :quantity)";
+                        VALUES (?, ?, ?)";
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute([
-                    ':order_id' => $orderId,
-                    ':item_id' => $item['item_id'],
-                    ':quantity' => $item['quantity']
+                $stmt->execute([$orderId, $item['item_id'], $item['quantity']
                 ]);
             }
             echo("<h1>Order created!</h1>");
