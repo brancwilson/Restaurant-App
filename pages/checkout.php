@@ -44,8 +44,11 @@ if ($tableStatus !== 'open') {
 $selectedItems = $_SESSION['cart'][$table];
 $total = calculateTotal($selectedItems);
 
+error_log("REACHED POINT A");
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
+        error_log("REACHED POINT B");
 
         // Start a transaction
         //$conn->beginTransaction();
