@@ -16,25 +16,7 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'kitchen') {
     exit();
 }
 
-function updateOrderAndTableStatus($conn, $orderId, $status) {
-    $stmt = $conn->prepare("UPDATE orders SET order_status = :status WHERE order_id = :order_id");
-    $stmt->execute([':status' => $status, ':order_id' => $orderId]);
-
-    $stmt = $conn->prepare("UPDATE tables SET table_status = 'open'
-                            WHERE table_id = (SELECT table_id FROM orders WHERE order_id = :order_id)");
-    $stmt->execute([':order_id' => $orderId]);
-}
-
 try {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $orderId = $_POST['order_id'];
-        if (isset($_POST['complete'])) {
-            updateOrderAndTableStatus($conn, $orderId, 'completed');
-        } elseif (isset($_POST['revoke'])) {
-            updateOrderAndTableStatus($conn, $orderId, 'revoked');
-        }
-    }
-
     $sql = "SELECT o.order_id, o.table_id, o.datetime, o.order_notes,
                    STRING_AGG(m.itemname || ' x' || oi.quantity, ', ') AS items
             FROM orders o
@@ -47,7 +29,7 @@ try {
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Kitchen Error: " . $e->getMessage());
-    echo "Error loading kitchen orders.";
+    echo "Error: " . $e->getMessage(); // Debugging output
     exit();
 }
 ?>
