@@ -22,6 +22,9 @@ try {
     $conn = new PDO("pgsql:host=$db_host;port=$db_port;dbname=$db_name", $db_username, $db_password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
+    $test = retrieveSetting('number_of_tables');
+    echo("<h1> NUM TABLES: " .  var_dump($test) . "</h1>");
+
     die("Database connection failed: " . $e->getMessage());
 }
 
@@ -51,8 +54,6 @@ try {
     //if ($conn->inTransaction()) {
     //    $conn->rollBack();
     //}
-    //echo "Error: " . $e->getMessage();
+    echo "Error: " . $e->getMessage();
     
-    $test = retrieveSetting('number_of_tables');
-    echo("<h1> NUM TABLES: " .  var_dump($test) . "</h1>");
 }
