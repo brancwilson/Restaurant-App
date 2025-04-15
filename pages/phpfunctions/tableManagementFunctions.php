@@ -16,7 +16,8 @@ function getDatabaseConnection() {
 
     if ($pdo === null) {
         try {
-            $pdo = getDatabaseConnection();
+            $dsn = "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";";
+            $pdo = new PDO($dsn, DB_USERNAME, DB_PASSWORD, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         } catch (PDOException $e) {
             error_log("Database connection failed: " . $e->getMessage());
             die("Database connection error. Please try again later.");
