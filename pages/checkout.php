@@ -36,7 +36,7 @@ $stmt = $conn->prepare($sql);
 $stmt->execute([':table_id' => $table]);
 $tableStatus = $stmt->fetchColumn();
 
-if ($tableStatus !== 'pending') {
+if ($tableStatus !== 'open') {
     die("The table is not open. Please select a different table.");
 }
 
