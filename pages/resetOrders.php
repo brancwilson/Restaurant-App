@@ -48,7 +48,8 @@ try {
     //    $conn->rollBack();
     //}
     $test = retrieveSetting('number_of_tables');
-    echo("<h1> NUM TABLES: " . var_dump($test) . "</h1>");
+    echo("<h1> NUM TABLES: " . $test['optionvalue'] . "</h1>");
+    echo("<h1> NUM TABLES: " . $test['optionvalue'][0] . "</h1>");
 
     echo "Error: " . $e->getMessage();
     
