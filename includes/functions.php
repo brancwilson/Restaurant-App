@@ -32,4 +32,20 @@ function calculateTotal() {
     }
     return $total;
 }
+
+function createTableOrder($tableId, $items, $orderId, $notes) {
+    $conn = getDBConnection();
+
+    $sql = "INSERT INTO orders (order_id, table_id, items, order_notes, order_status, datetime) 
+            VALUES (:order_id, :table_id, :items, :order_notes, 'pending', NOW())";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([
+        ':order_id' => $orderId,
+        ':table_id' => $tableId,
+        ':items' => $items,
+        ':order_notes' => $notes
+    ]);
+}
+
 ?>

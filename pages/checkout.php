@@ -59,32 +59,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId, $_SESSION['orderNotes']);
 
         /*
-        $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime, order_comment) 
-                VALUES (:order_id, :table_id, 'OPEN', NOW()), ?";
+        $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime) 
+        VALUES (:order_id, :table_id, 'pending', NOW())";
         $stmt = $conn->prepare($sql);
         $stmt->execute([
-            ':order_id' => $orderId,
-            ':table_id' => $table,
-            $_SESSION['orderNotes']
+    ':order_id' => $orderId,
+    ':table_id' => $table
         ]);
-        error_log("Order inserted: Order ID = $orderId, Table ID = $table");
-    
-        // Insert each item into the `orderitems` table
-        foreach ($selectedItems as $item => $details) {
-            $sql = "INSERT INTO orderitems (order_id, item_id, quantity, comment) 
-                    VALUES (:order_id, 
-                            (SELECT item_id FROM menuitems WHERE itemname = :itemname), 
-                            :quantity, 
-                            :comment)";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([
-                ':order_id' => $orderId,
-                ':itemname' => $item,
-                ':quantity' => $details['quantity'],
-                ':comment' => $details['comment'] ?? null // Optional comment
-            ]);
-            error_log("Order item inserted: Item = $item, Quantity = {$details['quantity']}");
-        }
+        error_log("Order inserted: $orderId");
+
+        // Insert items
+        oreach ($selectedItems as $item => $details) {
+    $sql = "INSERT INTO orderitems (order_id, item_id, quantity) 
+            VALUES (:order_id, 
+                   (SELECT item_id FROM menuitems WHERE itemname = :itemname), 
+                   :quantity)";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([
+        ':order_id' => $orderId,
+        ':itemname' => $item,
+        ':quantity' => $details['quantity']
+    ]);
+    error_log("Item inserted: $item");
+}
         */
     
         // Mark the table as busy
