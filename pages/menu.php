@@ -2,12 +2,7 @@
 require_once __DIR__ . '/../includes/functions.php';
 session_start();
 
-if ($table && !isset($_GET['from_items'])) {
-    // Clear cart unless coming from menu-items.php
-    unset($_SESSION['cart'][$table]);
-}
-
-//Empties any notes currently stored for current session
+// Empties any notes currently stored for current session
 $_SESSION['orderNotes'] = null;
 
 if (!isset($_SESSION['user'])) {
@@ -21,6 +16,11 @@ if (!$table) {
     exit();
 }
 
+// Clear cart unless coming from menu-items.php
+if (!isset($_GET['from_items'])) {
+    unset($_SESSION['cart'][$table]);
+}
+
 $menuCategories = [
     "Breakfast" => ["Sides", "Entrees", "Drinks"],
     "Lunch" => ["Sides", "Entrees", "Drinks"],
@@ -30,33 +30,34 @@ $menuCategories = [
 require_once __DIR__ . '/../templates/header.php';
 ?>
 
-
-
 <h1>Menu for Table <?= htmlspecialchars($table) ?></h1>
 <div class="main-layout">
-     <!-- Left Column: Lunch Menu -->
-     <div class="menu-section">
+    <!-- Breakfast Menu -->
+    <div class="menu-section">
         <h2>Breakfast Menu</h2>
         <?php foreach ($menuCategories['Breakfast'] as $category): ?>
-            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Breakfast <?= urlencode($category) ?>&from_menu=1" class="category-button">                <?= htmlspecialchars($category) ?>
+            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Breakfast <?= urlencode($category) ?>&from_menu=1" class="category-button">
+                <?= htmlspecialchars($category) ?>
             </a>
         <?php endforeach; ?>
     </div>
 
-    <!-- Left Column: Lunch Menu -->
+    <!-- Lunch Menu -->
     <div class="menu-section">
         <h2>Lunch Menu</h2>
         <?php foreach ($menuCategories['Lunch'] as $category): ?>
-            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Breakfast <?= urlencode($category) ?>&from_menu=1" class="category-button">                <?= htmlspecialchars($category) ?>
+            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Lunch <?= urlencode($category) ?>&from_menu=1" class="category-button">
+                <?= htmlspecialchars($category) ?>
             </a>
         <?php endforeach; ?>
     </div>
 
-    <!-- Right Column: Dinner Menu -->
+    <!-- Dinner Menu -->
     <div class="menu-section">
         <h2>Dinner Menu</h2>
         <?php foreach ($menuCategories['Dinner'] as $category): ?>
-            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Breakfast <?= urlencode($category) ?>&from_menu=1" class="category-button">                <?= htmlspecialchars($category) ?>
+            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Dinner <?= urlencode($category) ?>&from_menu=1" class="category-button">
+                <?= htmlspecialchars($category) ?>
             </a>
         <?php endforeach; ?>
     </div>
@@ -79,16 +80,13 @@ require_once __DIR__ . '/../templates/header.php';
 
         <!-- Order Notes Column -->
         <h3>Order Notes</h3>
-        <form action="/action_page.php">
-            <textarea id="notes-column-box" name="notes-column" rows="4" cols="50" maxlength="255" placeholder="Additional notes...."></textarea>
+        <form method="post" action="checkout.php?table=<?= htmlspecialchars($table) ?>">
+            <textarea id="notes-column-box" name="orderNotes" rows="4" cols="50" maxlength="255" placeholder="Additional notes...."></textarea>
         </form>
 
         <?php if (isset($_SESSION['cart'][$table]) && !empty($_SESSION['cart'][$table])): ?>
-            <a id="proceedtocheckout" href="checkout.php?table=<?= htmlspecialchars($table) ?>" onclick="" class="button">Proceed to Checkout</a>
+            <a id="proceedtocheckout" href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
         <?php endif; ?>
-    </div>
-    <div>
-
     </div>
 </div>
 
