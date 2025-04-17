@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if ($("#notes-column-box").val() != null) {
             orderNotes = $("#notes-column-box").val();
+            console.log(orderNotes);
         }
 
         $.ajax({
