@@ -35,12 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
 $_SESSION['orderNotes'] = "";
 $curOrderNote = "";
 error_log(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Test 1");
-if (isset($_POST["orderNotes"])) {
-    $_SESSION['orderNotes'] = $_POST["orderNotes"];
-    $curOrderNote = $_SESSION['orderNotes'];
-    error_log("========");
-    error_log("ORDER NOTE: " . $curOrderNote);
-}
+$_SESSION['orderNotes'] = $_POST["orderNotes"];
+$curOrderNote = $_SESSION['orderNotes'];
+error_log("========");
+error_log("ORDER NOTE: " . $curOrderNote);
 error_log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>test 2");
 
 // Check if the table is open
