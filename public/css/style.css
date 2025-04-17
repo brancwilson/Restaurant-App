@@ -519,3 +519,12 @@ h1, h2, h3 {
 .button:hover {
     opacity: 0.9;
 }
+
+.cancel-order {
+    background-color: #e74c3c; /* Red color for cancel */
+    margin-right: 20px; /* Space between buttons */
+}
+
+.cancel-order:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}

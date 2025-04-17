@@ -24,6 +24,13 @@ if (!$table || !isset($_SESSION['cart'][$table])) {
     exit();
 }
 
+// Handle order cancellation
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
+    unset($_SESSION['cart'][$table]);
+    header('Location: tables.php');
+    exit();
+}
+
 // Retrieve order notes from menu.php
 $_SESSION['orderNotes'] = null;
 if (isset($_POST["orderNotes"])) {
@@ -47,49 +54,17 @@ $total = calculateTotal($selectedItems);
 
 error_log("REACHED POINT A");
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
     try {
         error_log("REACHED POINT B");
-
-        // Start a transaction
-        //$conn->beginTransaction();
 
         // Insert the order into the `orders` table
         $orderId = time(); // Use a unique timestamp as the order ID
 
         createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId, $_SESSION['orderNotes']);
-
-        /*
-        $sql = "INSERT INTO orders (order_id, table_id, order_status, datetime) 
-        VALUES (:order_id, :table_id, 'pending', NOW())";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([
-    ':order_id' => $orderId,
-    ':table_id' => $table
-        ]);
-        error_log("Order inserted: $orderId");
-
-        // Insert items
-        oreach ($selectedItems as $item => $details) {
-    $sql = "INSERT INTO orderitems (order_id, item_id, quantity) 
-            VALUES (:order_id, 
-                   (SELECT item_id FROM menuitems WHERE itemname = :itemname), 
-                   :quantity)";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([
-        ':order_id' => $orderId,
-        ':itemname' => $item,
-        ':quantity' => $details['quantity']
-    ]);
-    error_log("Item inserted: $item");
-}
-        */
     
         // Mark the table as busy
         setTableStatus($table, 'busy');
-    
-        //$conn->commit();
-        //error_log("Transaction committed successfully.");
     
         // Clear the cart for the table
         if (isset($_SESSION['cart'][$table])) {
@@ -103,16 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: tables.php');
         exit();
     } catch (PDOException $e) {
-        //if ($conn->inTransaction()) {
-        //    $conn->rollBack();
-        //}
         error_log("PDOException caught: " . $e->getMessage());
         die("An error occurred while saving the order. Please try again.");
     } catch (Exception $e) {
-        //if ($conn->inTransaction()) {
-        //    $conn->rollBack();
-        //}
-        //error_log("Exception caught: " . $e->getMessage());
         die("An error occurred while saving the order. Please try again.");
     }
 }
@@ -137,7 +105,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <form action="checkout.php?table=<?= htmlspecialchars($table) ?>" method="POST" class="checkout-form">
-        <button type="submit" class="button submit-order">Submit Order</button>
+        <div class="checkout-actions">
+            <button type="submit" name="cancel_order" class="button cancel-order">Cancel Order</button>
+            <button type="submit" name="submit_order" class="button submit-order">Submit Order</button>
+        </div>
     </form>
 </div>
 
