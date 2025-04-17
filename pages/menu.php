@@ -2,6 +2,11 @@
 require_once __DIR__ . '/../includes/functions.php';
 session_start();
 
+if ($table && !isset($_GET['from_items'])) {
+    // Clear cart unless coming from menu-items.php
+    unset($_SESSION['cart'][$table]);
+}
+
 //Empties any notes currently stored for current session
 $_SESSION['orderNotes'] = null;
 
@@ -33,8 +38,7 @@ require_once __DIR__ . '/../templates/header.php';
      <div class="menu-section">
         <h2>Breakfast Menu</h2>
         <?php foreach ($menuCategories['Breakfast'] as $category): ?>
-            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Breakfast <?= urlencode($category) ?>" class="category-button">
-                <?= htmlspecialchars($category) ?>
+            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Breakfast <?= urlencode($category) ?>&from_menu=1" class="category-button">                <?= htmlspecialchars($category) ?>
             </a>
         <?php endforeach; ?>
     </div>
@@ -43,8 +47,7 @@ require_once __DIR__ . '/../templates/header.php';
     <div class="menu-section">
         <h2>Lunch Menu</h2>
         <?php foreach ($menuCategories['Lunch'] as $category): ?>
-            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Lunch <?= urlencode($category) ?>" class="category-button">
-                <?= htmlspecialchars($category) ?>
+            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Breakfast <?= urlencode($category) ?>&from_menu=1" class="category-button">                <?= htmlspecialchars($category) ?>
             </a>
         <?php endforeach; ?>
     </div>
@@ -53,8 +56,7 @@ require_once __DIR__ . '/../templates/header.php';
     <div class="menu-section">
         <h2>Dinner Menu</h2>
         <?php foreach ($menuCategories['Dinner'] as $category): ?>
-            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Dinner <?= urlencode($category) ?>" class="category-button">
-                <?= htmlspecialchars($category) ?>
+            <a href="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=Breakfast <?= urlencode($category) ?>&from_menu=1" class="category-button">                <?= htmlspecialchars($category) ?>
             </a>
         <?php endforeach; ?>
     </div>
