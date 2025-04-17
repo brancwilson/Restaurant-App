@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     $("#proceedtocheckout").on("click", function() {
         var orderNotes = null;
 
-        if ($("#proceedtocheckout").val() != null) {
-            orderNotes = $("#proceedtocheckout").val();
+        if ($("#notes-column-box").val() != null) {
+            orderNotes = $("#notes-column-box").val();
         }
 
         $.ajax({
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
             data: {orderNotes: orderNotes},
             success: function() {
                console.log("Order note added");
+               alert("note added");
             }
         });
 
