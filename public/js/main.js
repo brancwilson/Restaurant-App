@@ -1,45 +1,38 @@
-// Add any necessary JavaScript here
 document.addEventListener('DOMContentLoaded', function() {
-    // Example: Add event listeners or other JS logic
-
+    // Edit menu button handler
     $("#editmenuBtn").on("click", function() {
         document.location.href = "/../../pages/additem.php";
     });
 
-    // Takes text from order notes text area and passes to the checkout page
-    $("#checkoutbtn").on("click", function() {
-        console.log("Proceed to checkout...");
-        var orderNotes = null;
-
-        if ($("#notes-column-box").val() != null) {
-            orderNotes = $("#notes-column-box").val();
-            console.log(orderNotes);
-        }
-
-        $.ajax({
-            url: '/../../pages/checkout.php',
-            type: 'post',
-            //data must be sent as a key value pair - {dataName: javascriptData}
-            data: {orderNotes: orderNotes},
-            success: function() {
-               console.log("Order note added");
-               alert("note added");
-            }
-        });
-
-    }); 
-
+    // Number of tables adjustment handler
     $("#numTablesSubmitBtn").on("click", function() {
         var numTables = $("#numTables").val();
 
         $.ajax({
             url: '/../../pages/phpfunctions/adjustNumberTables.php',
             type: 'post',
-            //data must be sent as a key value pair - {dataName: javascriptData}
             data: {numTables: numTables},
             success: function() {
                 alert("Number of tables adjusted!");
             }
         });
+    });
+
+    // Add to cart form handler - preserves notes
+    $(document).on('submit', 'form[action*="menu-items.php"]', function(e) {
+        var notes = $("#notes-column-box").val();
+        $(this).find('input[name="orderNotes"]').val(notes);
+    });
+
+    // Remove item handler - preserves notes
+    $(document).on('click', '.button.danger', function() {
+        var notes = $("#notes-column-box").val();
+        $(this).closest('form').append('<input type="hidden" name="orderNotes" value="' + notes + '">');
+    });
+
+    // Checkout button handler
+    $("#checkoutbtn").on("click", function() {
+        var notes = $("#notes-column-box").val();
+        $(this).closest('form').find('input[name="orderNotes"]').val(notes);
     });
 });

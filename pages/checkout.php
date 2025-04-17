@@ -4,32 +4,27 @@ require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
 session_start();
 
-// Enable error reporting for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Ensure the user is logged in
 if (!isset($_SESSION['user'])) {
     header('Location: login.php');
     exit();
 }
 
-// Get the table parameter from the URL
 $table = $_GET['table'] ?? null;
 
-// Validate the table and cart data
 if (!$table || !isset($_SESSION['cart'][$table])) {
     header('Location: tables.php');
     exit();
 }
 
-// Initialize order notes
-$curOrderNote = $_SESSION['orderNotes'] ?? '';
+// Initialize notes from session or POST
+$curOrderNote = $_POST['orderNotes'] ?? $_SESSION['orderNotes'] ?? '';
+$_SESSION['orderNotes'] = $curOrderNote;
 
-// Handle POST requests
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Handle order cancellation
     if (isset($_POST['cancel_order'])) {
         unset($_SESSION['cart'][$table]);
         unset($_SESSION['orderNotes']);
@@ -37,19 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Update order notes if submitted
-    if (isset($_POST['orderNotes'])) {
-        $curOrderNote = filter_var($_POST['orderNotes'], FILTER_SANITIZE_STRING);
-        $_SESSION['orderNotes'] = $curOrderNote;
-        error_log("ORDER NOTE: " . $curOrderNote);
-    }
-
-    // Handle order submission
     if (isset($_POST['submit_order'])) {
         try {
-            error_log("Processing order for table: $table");
-
-            // Check if the table is still open
             $conn = getDBConnection();
             $sql = "SELECT table_status FROM tables WHERE table_id = :table_id";
             $stmt = $conn->prepare($sql);
@@ -60,12 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 die("The table is not open. Please select a different table.");
             }
 
-            // Insert the order
             $orderId = time();
             $selectedItems = $_SESSION['cart'][$table];
             createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId, $curOrderNote);
 
-            // Mark table as busy and clean up
             setTableStatus($table, 'busy');
             unset($_SESSION['cart'][$table]);
             unset($_SESSION['orderNotes']);
@@ -75,13 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (PDOException $e) {
             error_log("PDOException: " . $e->getMessage());
             die("An error occurred while saving the order. Please try again.");
-        } catch (Exception $e) {
-            die("An error occurred while saving the order. Please try again.");
         }
     }
 }
 
-// Retrieve the selected items and calculate the total
 $selectedItems = $_SESSION['cart'][$table];
 $total = calculateTotal($selectedItems);
 ?>
