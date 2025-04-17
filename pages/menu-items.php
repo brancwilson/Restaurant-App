@@ -15,26 +15,6 @@ if (!$table || !$category) {
     exit();
 }
 
-// Handle notes submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['orderNotes'])) {
-        $_SESSION['orderNotes'] = $_POST['orderNotes'];
-    } else {
-        $action = $_POST['action'] ?? '';
-        $item = $_POST['item'] ?? '';
-        $price = $_POST['price'] ?? 0;
-
-        if ($action === 'add') {
-            addToCart($table, $item, $price);
-        } elseif ($action === 'remove') {
-            removeFromCart($table, $item);
-        }
-    }
-    
-    header('Location: menu-items.php?table=' . urlencode($table) . '&category=' . urlencode($category));
-    exit();
-}
-
 // Define meal types and categories
 $mealTypes = ['Breakfast', 'Lunch', 'Dinner'];
 $categories = [
@@ -56,6 +36,22 @@ foreach ($mealTypes as $type) {
 $menu = getMenuList();
 $items = $menu[$category] ?? [];
 
+// Handle POST actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    $item = $_POST['item'] ?? '';
+    $price = $_POST['price'] ?? 0;
+
+    if ($action === 'add') {
+        addToCart($table, $item, $price);
+    } elseif ($action === 'remove') {
+        removeFromCart($table, $item);
+    }
+
+    header('Location: menu-items.php?table=' . urlencode($table) . '&category=' . urlencode($category));
+    exit();
+}
+
 require_once __DIR__ . '/../templates/header.php';
 ?>
 
@@ -71,8 +67,8 @@ require_once __DIR__ . '/../templates/header.php';
 
 <h1><?= htmlspecialchars($category) ?> for Table <?= htmlspecialchars($table) ?></h1>
 <div class="main-layout">
-    <!-- Menu Items Column - Now full width since we removed order column -->
-    <div class="menu-column-full">
+    <!-- Menu Items Column -->
+    <div class="menu-column">
         <ul class="menu-items-list">
             <?php foreach ($items as $item => $price): ?>
                 <li>
@@ -86,24 +82,45 @@ require_once __DIR__ . '/../templates/header.php';
                 </li>
             <?php endforeach; ?>
         </ul>
+    </div>
 
-        <!-- Order Notes Section -->
-        <div class="order-notes-container">
-            <h3>Order Notes</h3>
-            <form method="POST" action="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=<?= urlencode($category) ?>">
-                <textarea id="notes-box" name="orderNotes" rows="4" cols="50" maxlength="255" 
-                          placeholder="Additional notes..."><?= htmlspecialchars($_SESSION['orderNotes'] ?? '') ?></textarea>
-                <button type="submit" class="button save-notes">Save Notes</button>
-            </form>
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div class="order-actions">
-            <a href="menu.php?table=<?= htmlspecialchars($table) ?>" class="button">Back to Categories</a>
+    <!-- Order Column -->
+    <div class="order-column">
+        <h2>Selected Items</h2>
+        <ul id="selected-items-list">
             <?php if (!empty($_SESSION['cart'][$table])): ?>
-                <a href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button primary">Proceed to Checkout</a>
+                <?php foreach ($_SESSION['cart'][$table] as $item => $details): ?>
+                    <li>
+                        <strong><?= htmlspecialchars($item) ?></strong> - 
+                        <?= htmlspecialchars($details['quantity']) ?> x $<?= htmlspecialchars($details['price']) ?> 
+                        = $<?= htmlspecialchars($details['quantity'] * $details['price']) ?>
+
+                        <!-- Remove Button -->
+                        <form method="POST" action="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=<?= urlencode($category) ?>" style="display:inline;">
+                            <input type="hidden" name="action" value="remove">
+                            <input type="hidden" name="item" value="<?= htmlspecialchars($item) ?>">
+                            <button type="submit" class="button danger">Remove</button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <li>No items in the cart.</li>
             <?php endif; ?>
-        </div>
+        </ul>
+
+        <!-- Order Notes Column -->
+        <h3>Order Notes</h3>
+        <form method="post" action="checkout.php?table=<?= htmlspecialchars($table) ?>">
+            <textarea id="notes-column-box" name="orderNotes" rows="4" cols="50" maxlength="255" placeholder="Additional notes...."></textarea>
+        </form>
+
+        <h3>Total: $<?= calculateTotal($_SESSION['cart'][$table] ?? []) ?></h3>
+
+        <a href="menu.php?table=<?= htmlspecialchars($table) ?>" class="button">Back to Categories</a>
+
+        <?php if (!empty($_SESSION['cart'][$table])): ?>
+            <a id="checkoutbtn" href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
+        <?php endif; ?>
     </div>
 </div>
 
