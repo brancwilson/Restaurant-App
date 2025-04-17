@@ -24,70 +24,66 @@ if (!$table || !isset($_SESSION['cart'][$table])) {
     exit();
 }
 
-// Handle order cancellation
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
-    unset($_SESSION['cart'][$table]);
-    header('Location: tables.php');
-    exit();
-}
+// Initialize order notes
+$curOrderNote = $_SESSION['orderNotes'] ?? '';
 
-// Retrieve order notes from menu.php
-$_SESSION['orderNotes'] = "";
-$curOrderNote = "";
-error_log(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Test 1");
-$_SESSION['orderNotes'] = $_POST["orderNotes"];
-$curOrderNote = $_SESSION['orderNotes'];
-error_log("========");
-error_log("ORDER NOTE: " . $curOrderNote);
-error_log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>test 2");
+// Handle POST requests
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Handle order cancellation
+    if (isset($_POST['cancel_order'])) {
+        unset($_SESSION['cart'][$table]);
+        unset($_SESSION['orderNotes']);
+        header('Location: tables.php');
+        exit();
+    }
 
-// Check if the table is open
-$conn = getDBConnection();
-$sql = "SELECT table_status FROM tables WHERE table_id = :table_id";
-$stmt = $conn->prepare($sql);
-$stmt->execute([':table_id' => $table]);
-$tableStatus = $stmt->fetchColumn();
+    // Update order notes if submitted
+    if (isset($_POST['orderNotes'])) {
+        $curOrderNote = filter_var($_POST['orderNotes'], FILTER_SANITIZE_STRING);
+        $_SESSION['orderNotes'] = $curOrderNote;
+        error_log("ORDER NOTE: " . $curOrderNote);
+    }
 
-if ($tableStatus !== 'open') {
-    die("The table is not open. Please select a different table.");
+    // Handle order submission
+    if (isset($_POST['submit_order'])) {
+        try {
+            error_log("Processing order for table: $table");
+
+            // Check if the table is still open
+            $conn = getDBConnection();
+            $sql = "SELECT table_status FROM tables WHERE table_id = :table_id";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([':table_id' => $table]);
+            $tableStatus = $stmt->fetchColumn();
+
+            if ($tableStatus !== 'open') {
+                die("The table is not open. Please select a different table.");
+            }
+
+            // Insert the order
+            $orderId = time();
+            $selectedItems = $_SESSION['cart'][$table];
+            createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId, $curOrderNote);
+
+            // Mark table as busy and clean up
+            setTableStatus($table, 'busy');
+            unset($_SESSION['cart'][$table]);
+            unset($_SESSION['orderNotes']);
+
+            header('Location: tables.php');
+            exit();
+        } catch (PDOException $e) {
+            error_log("PDOException: " . $e->getMessage());
+            die("An error occurred while saving the order. Please try again.");
+        } catch (Exception $e) {
+            die("An error occurred while saving the order. Please try again.");
+        }
+    }
 }
 
 // Retrieve the selected items and calculate the total
 $selectedItems = $_SESSION['cart'][$table];
 $total = calculateTotal($selectedItems);
-
-error_log("REACHED POINT A");
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
-    try {
-        error_log("REACHED POINT B");
-
-        // Insert the order into the `orders` table
-        $orderId = time(); // Use a unique timestamp as the order ID
-
-        createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId, $curOrderNote);
-    
-        // Mark the table as busy
-        setTableStatus($table, 'busy');
-    
-        // Clear the cart for the table
-        if (isset($_SESSION['cart'][$table])) {
-            unset($_SESSION['cart'][$table]);
-            error_log("Cart cleared for table: $table");
-        } else {
-            error_log("No cart found for table: $table");
-        }
-    
-        // Redirect to avoid form resubmission
-        header('Location: tables.php');
-        exit();
-    } catch (PDOException $e) {
-        error_log("PDOException caught: " . $e->getMessage());
-        die("An error occurred while saving the order. Please try again.");
-    } catch (Exception $e) {
-        die("An error occurred while saving the order. Please try again.");
-    }
-}
 ?>
 
 <?php require_once __DIR__ . '/../templates/header.php'; ?>
@@ -106,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
             <?php endforeach; ?>
         </ul>
         <h3>Notes</h3>
-        <p><?php echo htmlspecialchars($curOrderNote); ?></p>
+        <p><?= !empty($curOrderNote) ? htmlspecialchars($curOrderNote) : 'No notes provided' ?></p>
         <h3 class="total">Total: $<?= htmlspecialchars($total) ?></h3>
     </div>
 
