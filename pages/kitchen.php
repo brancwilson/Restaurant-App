@@ -59,20 +59,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch pending orders from the database
 try {
     $sql = "
-        SELECT 
-            o.order_id, 
-            o.table_id, 
-            o.datetime, 
-            STRING_AGG(
-                m.itemname || ' (' || oi.quantity || ')', 
-                ', '
-            ) AS items
-        FROM orders o
-        JOIN orderitems oi ON o.order_id = oi.order_id
-        JOIN menuitems m ON oi.item_id = m.item_id
-        WHERE o.order_status = 'open'
-        GROUP BY o.order_id, o.table_id, o.datetime
-        ORDER BY o.datetime ASC
+    SELECT 
+        o.order_id, 
+        o.table_id, 
+        o.datetime, 
+        o.order_status,
+        o.order_comment,
+        STRING_AGG(
+            m.itemname || ' (' || oi.quantity || ')', 
+            ', ' 
+        ) AS items
+    FROM orders o
+    JOIN orderitems oi ON o.order_id = oi.order_id
+    JOIN menuitems m ON oi.item_id = m.item_id
+    WHERE o.order_status IN ('completed', 'revoked')
+    GROUP BY o.order_id, o.table_id, o.datetime, o.order_status, o.order_comment
+    ORDER BY o.datetime DESC
     ";
 
     $stmt = $conn->prepare($sql);
@@ -100,6 +102,11 @@ require_once __DIR__ . '/../templates/header.php';
                 <button type="submit" name="complete" class="btn-complete">Complete Order</button>
                 <button type="submit" name="revoke" class="btn-revoke">Revoke Order</button>
             </form>
+            <div class="order-notes">
+                <strong>Notes:</strong>
+                <p><?= !empty($order['order_comment']) ? htmlspecialchars($order['order_comment']) : 'No notes' ?></p>
+            </div>
+
         </div>
         <br><br>
     <?php endforeach; ?>
