@@ -33,8 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
 
 // Retrieve order notes from menu.php
 $_SESSION['orderNotes'] = null;
+$curOrderNote = null;
 if (isset($_POST["orderNotes"])) {
     $_SESSION['orderNotes'] = $_POST["orderNotes"];
+    $curOrderNote = $_SESSION['orderNotes'];
+    echo("<h1>" . $_SESSION['orderNotes'] . "</h1>");
 }
 
 // Check if the table is open
@@ -61,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
         // Insert the order into the `orders` table
         $orderId = time(); // Use a unique timestamp as the order ID
 
-        createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId, $_SESSION['orderNotes']);
+        createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId, $curOrderNote);
     
         // Mark the table as busy
         setTableStatus($table, 'busy');
@@ -101,6 +104,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
                 </li>
             <?php endforeach; ?>
         </ul>
+        <h3>Notes</h3>
+        <p><?php $curOrderNote ?></p>
         <h3 class="total">Total: $<?= htmlspecialchars($total) ?></h3>
     </div>
 
