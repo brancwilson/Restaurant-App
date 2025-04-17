@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Takes text from order notes text area and passes to the checkout page
-    $("#checkoutBtn").on("click", function() {
+    $("#checkoutbtn").on("click", function() {
         console.log("Proceed to checkout...");
         var orderNotes = null;
 
