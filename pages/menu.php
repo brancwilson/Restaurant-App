@@ -62,6 +62,7 @@ require_once __DIR__ . '/../templates/header.php';
         <?php endforeach; ?>
     </div>
 
+    
     <!-- Order Column -->
     <div class="order-column">
         <h2>Selected Items</h2>
@@ -77,6 +78,7 @@ require_once __DIR__ . '/../templates/header.php';
             <?php endif; ?>
         </ul>
         <h3>Total: $<?= calculateTotal($_SESSION['cart'][$table] ?? []) ?></h3>
+        
 
         <?php if (isset($_SESSION['cart'][$table]) && !empty($_SESSION['cart'][$table])): ?>
             <a id="proceedtocheckout" href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
