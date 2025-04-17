@@ -61,29 +61,6 @@ require_once __DIR__ . '/../templates/header.php';
             </a>
         <?php endforeach; ?>
     </div>
-
-    
-    <!-- Order Column -->
-    <div class="order-column">
-        <h2>Selected Items</h2>
-        <ul id="selected-items-list">
-            <?php if (isset($_SESSION['cart'][$table])): ?>
-                <?php foreach ($_SESSION['cart'][$table] as $item => $details): ?>
-                    <li>
-                        <strong><?= htmlspecialchars($item) ?></strong> -
-                        <?= htmlspecialchars($details['quantity']) ?> x $<?= htmlspecialchars($details['price']) ?>
-                        = $<?= htmlspecialchars($details['quantity'] * $details['price']) ?>
-                    </li>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </ul>
-        <h3>Total: $<?= calculateTotal($_SESSION['cart'][$table] ?? []) ?></h3>
-        
-
-        <?php if (isset($_SESSION['cart'][$table]) && !empty($_SESSION['cart'][$table])): ?>
-            <a id="proceedtocheckout" href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
-        <?php endif; ?>
-    </div>
 </div>
 
 <?php require_once __DIR__ . '/../templates/footer.php'; ?>
