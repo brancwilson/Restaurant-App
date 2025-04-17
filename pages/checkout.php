@@ -32,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
 }
 
 // Retrieve order notes from menu.php
-$_SESSION['orderNotes'] = null;
-$curOrderNote = null;
+$_SESSION['orderNotes'] = "";
+$curOrderNote = "";
 if (isset($_POST["orderNotes"])) {
     $_SESSION['orderNotes'] = $_POST["orderNotes"];
     $curOrderNote = $_SESSION['orderNotes'];
