@@ -108,12 +108,18 @@ require_once __DIR__ . '/../templates/header.php';
             <?php endif; ?>
         </ul>
 
+        <!-- Order Notes Column -->
+        <h3>Order Notes</h3>
+        <form method="post" action="checkout.php?table=<?= htmlspecialchars($table) ?>">
+            <textarea id="notes-column-box" name="orderNotes" rows="4" cols="50" maxlength="255" placeholder="Additional notes...."></textarea>
+        </form>
+
         <h3>Total: $<?= calculateTotal($_SESSION['cart'][$table] ?? []) ?></h3>
 
         <a href="menu.php?table=<?= htmlspecialchars($table) ?>" class="button">Back to Categories</a>
 
         <?php if (!empty($_SESSION['cart'][$table])): ?>
-            <a href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
+            <a id="checkoutbtn" href="checkout.php?table=<?= htmlspecialchars($table) ?>" class="button">Proceed to Checkout</a>
         <?php endif; ?>
     </div>
 </div>
