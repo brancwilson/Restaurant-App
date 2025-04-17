@@ -37,7 +37,8 @@ $curOrderNote = "";
 if (isset($_POST["orderNotes"])) {
     $_SESSION['orderNotes'] = $_POST["orderNotes"];
     $curOrderNote = $_SESSION['orderNotes'];
-    echo("<h1>" . $_SESSION['orderNotes'] . "</h1>");
+    error_log("========");
+    error_log("ORDER NOTE: " . $curOrderNote);
 }
 
 // Check if the table is open
