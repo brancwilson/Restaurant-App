@@ -8,10 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Takes text from order notes text area and passes to the checkout page
     $("#proceedtocheckout").on("click", function() {
+        console.log("Proceed to checkout...");
         var orderNotes = null;
 
-        if ($("#proceedtocheckout").val() != null) {
-            orderNotes = $("#proceedtocheckout").val();
+        if ($("#notes-column-box").val() != null) {
+            orderNotes = $("#notes-column-box").val();
         }
 
         $.ajax({
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
             data: {orderNotes: orderNotes},
             success: function() {
                console.log("Order note added");
+               alert("note added");
             }
         });
 
