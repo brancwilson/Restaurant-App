@@ -528,3 +528,11 @@ h1, h2, h3 {
 .cancel-order:hover {
     background-color: #c0392b; /* Darker red on hover */
 }
+
+.order-notes-display {
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    margin: 10px 0;
+    min-height: 20px;
+}

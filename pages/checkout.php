@@ -4,43 +4,40 @@ require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
 session_start();
 
-// Enable error reporting for debugging
+// Enable error reporting
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Ensure the user is logged in
+// Check login
 if (!isset($_SESSION['user'])) {
     header('Location: login.php');
     exit();
 }
 
-// Get the table parameter from the URL
+// Get table
 $table = $_GET['table'] ?? null;
 
-// Validate the table and cart data
+// Validate
 if (!$table || !isset($_SESSION['cart'][$table])) {
     header('Location: tables.php');
     exit();
 }
 
-// Handle order cancellation
+// Handle cancellation
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
     unset($_SESSION['cart'][$table]);
     header('Location: tables.php');
     exit();
 }
 
-// Retrieve order notes from menu.php
-$_SESSION['orderNotes'] = null;
-$curOrderNote = null;
+// Handle notes - REMOVED THE $_SESSION['orderNotes'] = null LINE
 if (isset($_POST["orderNotes"])) {
     $_SESSION['orderNotes'] = $_POST["orderNotes"];
-    $curOrderNote = $_SESSION['orderNotes'];
-    echo("<h1>" . $_SESSION['orderNotes'] . "</h1>");
 }
+$curOrderNote = $_SESSION['orderNotes'] ?? null; // Get notes from session
 
-// Check if the table is open
+// Check table status
 $conn = getDBConnection();
 $sql = "SELECT table_status FROM tables WHERE table_id = :table_id";
 $stmt = $conn->prepare($sql);
@@ -51,40 +48,23 @@ if ($tableStatus !== 'open') {
     die("The table is not open. Please select a different table.");
 }
 
-// Retrieve the selected items and calculate the total
+// Get items and calculate total
 $selectedItems = $_SESSION['cart'][$table];
 $total = calculateTotal($selectedItems);
 
-error_log("REACHED POINT A");
-
+// Handle order submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
     try {
-        error_log("REACHED POINT B");
-
-        // Insert the order into the `orders` table
-        $orderId = time(); // Use a unique timestamp as the order ID
-
+        $orderId = time();
         createTableOrder($table, compileOrderItemIDs($selectedItems), $orderId, $curOrderNote);
-    
-        // Mark the table as busy
         setTableStatus($table, 'busy');
-    
-        // Clear the cart for the table
-        if (isset($_SESSION['cart'][$table])) {
-            unset($_SESSION['cart'][$table]);
-            error_log("Cart cleared for table: $table");
-        } else {
-            error_log("No cart found for table: $table");
-        }
-    
-        // Redirect to avoid form resubmission
+        
+        unset($_SESSION['cart'][$table]); // Clear cart
         header('Location: tables.php');
         exit();
     } catch (PDOException $e) {
-        error_log("PDOException caught: " . $e->getMessage());
-        die("An error occurred while saving the order. Please try again.");
-    } catch (Exception $e) {
-        die("An error occurred while saving the order. Please try again.");
+        error_log("PDOException: " . $e->getMessage());
+        die("Order submission failed. Please try again.");
     }
 }
 ?>
@@ -104,8 +84,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
                 </li>
             <?php endforeach; ?>
         </ul>
+        
+        <!-- Corrected Notes Display -->
         <h3>Notes</h3>
-        <p><?php $curOrderNote ?></p>
+        <div class="order-notes-display">
+            <?= !empty($curOrderNote) ? htmlspecialchars($curOrderNote) : 'No notes added' ?>
+        </div>
+        
         <h3 class="total">Total: $<?= htmlspecialchars($total) ?></h3>
     </div>
 
