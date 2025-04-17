@@ -114,13 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
             <button type="submit" name="cancel_order" class="button cancel-order">Cancel Order</button>
             <button type="submit" name="submit_order" class="button submit-order">Submit Order</button>
         </div>
-
-        <!-- Add this in your checkout form -->
-        <div class="order-notes">
-            <h3>Order Notes</h3>
-            <p><?= htmlspecialchars($_SESSION['orderNotes'] ?? 'No notes added') ?></p>
-         <a href="menu.php?table=<?= htmlspecialchars($table) ?>" class="button edit-notes">Edit Notes</a>
-        </div>
     </form>
 </div>
 

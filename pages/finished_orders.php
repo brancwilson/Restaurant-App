@@ -20,7 +20,6 @@ $sql = "
         o.table_id, 
         o.datetime, 
         o.order_status,
-        o.order_comment,
         STRING_AGG(
             m.itemname || ' (' || oi.quantity || ')', 
             ', ' 
@@ -29,7 +28,7 @@ $sql = "
     JOIN orderitems oi ON o.order_id = oi.order_id
     JOIN menuitems m ON oi.item_id = m.item_id
     WHERE o.order_status IN ('completed', 'revoked')
-    GROUP BY o.order_id, o.table_id, o.datetime, o.order_status, o.order_comment
+    GROUP BY o.order_id, o.table_id, o.datetime, o.order_status
     ORDER BY o.datetime DESC
 ";
 
@@ -65,7 +64,6 @@ closeDBConnection($conn);
                 <th>Table</th>
                 <th>Items</th>
                 <th>Status</th>
-                <th>Notes</th>
             </tr>
             <?php foreach ($orders as $order): ?>
                 <tr>
@@ -73,7 +71,6 @@ closeDBConnection($conn);
                     <td><?= htmlspecialchars($order['table_id']) ?></td>
                     <td><?= htmlspecialchars($order['items']) ?></td>
                     <td><?= ucfirst(htmlspecialchars($order['order_status'])) ?></td>
-                    <td><?= !empty($order['order_comment']) ? htmlspecialchars($order['order_comment']) : 'No notes' ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
