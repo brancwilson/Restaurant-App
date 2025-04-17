@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
             <?php endforeach; ?>
         </ul>
         <h3>Notes</h3>
-        <p><?php $curOrderNote ?></p>
+        <p><?php echo htmlspecialchars($curOrderNote); ?></p>
         <h3 class="total">Total: $<?= htmlspecialchars($total) ?></h3>
     </div>
 
