@@ -73,7 +73,7 @@ closeDBConnection($conn);
                     <td><?= htmlspecialchars($order['table_id']) ?></td>
                     <td><?= htmlspecialchars($order['items']) ?></td>
                     <td><?= ucfirst(htmlspecialchars($order['order_status'])) ?></td>
-                    <td><?= htmlspecialchars($order['comments'] ?? 'No comments') ?></td>
+                    <td><?= htmlspecialchars($order['comment'] ?? 'No comments') ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
