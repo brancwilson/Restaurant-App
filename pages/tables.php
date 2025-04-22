@@ -1,4 +1,4 @@
-<?php
+<butto?php
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/phpfunctions/retrievesetting.php';
 require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
@@ -63,7 +63,7 @@ require_once __DIR__ . '/../templates/header.php';
             <?php updateTableSession()?>
             <?php if ($_SESSION['tables'][$i] == 'open'): ?>
                 <form action="tables.php" method="POST"  style="display:inline;">
-                    <a action="submit" class="tableSelectBtn" id="<?= $i ?>">Select</a>
+                    <button action="submit" class="tableSelectBtn" id="<?= $i ?>">Select</button>
                 </form>
             <?php endif; ?>
         </div>
