@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newStatus = $_POST['status'];
 
     //Make sure table status hasn't changed since page load.
+    updateTableSession();
     if (getTableStatus($tableNumber) == 'open') {
         // Update the table status
         $_SESSION['tables'][$tableNumber] = $newStatus;
