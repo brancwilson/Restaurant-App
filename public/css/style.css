@@ -528,17 +528,3 @@ h1, h2, h3 {
 .cancel-order:hover {
     background-color: #c0392b; /* Darker red on hover */
 }
-
-.btn-danger {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #db7134; /* Blue */
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        text-align: center;
-        font-size: 1rem;
-        transition: background-color 0.3s ease;
-        border: none;
-        cursor: pointer;
-    }
