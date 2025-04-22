@@ -38,10 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     } else {
         error_log(">>>>>>>>>>>>>>>>> TABLE IS CLOSED");
-        echo "<script language='javascript'>";
-        echo 'alert("This table has been claimed already...");';
-        echo 'window.location.reload();';
-        echo "</script>";
+        //echo "<script language='javascript'>";
+        //echo 'alert("This table has been claimed already...");';
+        //echo 'window.location.reload();';
+        //echo "</script>";
     }
 }
 
