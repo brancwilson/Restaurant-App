@@ -1,4 +1,4 @@
-<f?php
+<?php
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/phpfunctions/retrievesetting.php';
 require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
@@ -12,7 +12,7 @@ if (!isset($_SESSION['tables'])) {
     $_SESSION['tables'] = array_fill(1, $numTables, null);
     
     $i = 0;
-    while ($i <a $numTables) {
+    while ($i < $numTables) {
         $_SESSION['tables'][$i + 1] = getTableStatus($i + 1);
         $i++;
     }
