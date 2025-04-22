@@ -59,22 +59,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch pending orders from the database
 try {
     $sql = "
-    SELECT 
-        o.order_id, 
-        o.table_id, 
-        o.datetime, 
-        o.order_status,
-        oi.comment,
-        STRING_AGG(
-            m.itemname || ' (' || oi.quantity || ')', 
-            ', ' 
-        ) AS items
-    FROM orders o
-    JOIN orderitems oi ON o.order_id = oi.order_id
-    JOIN menuitems m ON oi.item_id = m.item_id
-    WHERE o.order_status IN ('completed', 'revoked')
-    GROUP BY o.order_id, o.table_id, o.datetime, o.order_status, oi.comment
-    ORDER BY o.datetime DESC
+        SELECT 
+            o.order_id, 
+            o.table_id, 
+            o.datetime, 
+            o.order_comment,
+            STRING_AGG(
+                m.itemname || ' (' || oi.quantity || ')', 
+                ', '
+            ) AS items
+        FROM orders o
+        JOIN orderitems oi ON o.order_id = oi.order_id
+        JOIN menuitems m ON oi.item_id = m.item_id
+        WHERE o.order_status = 'open'
+        GROUP BY o.order_id, o.table_id, o.datetime, o.order_comment
+        ORDER BY o.datetime ASC
     ";
 
     $stmt = $conn->prepare($sql);
@@ -97,6 +96,9 @@ require_once __DIR__ . '/../templates/header.php';
         <div class="order-box">
             <strong>Order #<?= htmlspecialchars($order['order_id']) ?> for Table #<?= htmlspecialchars($order['table_id']) ?></strong>
             <p><?= htmlspecialchars($order['items']) ?></p>
+            <?php if (!empty($order['order_comment'])): ?>
+                <p><strong>Note:</strong> <?= htmlspecialchars($order['order_comment']) ?></p>
+            <?php endif; ?>
             <form method="post">
                 <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
                 <button type="submit" name="complete" class="btn-complete">Complete Order</button>
