@@ -63,7 +63,7 @@ require_once __DIR__ . '/../templates/header.php';
             <?php updateTableSession()?>
             <?php if ($_SESSION['tables'][$i] == 'open'): ?>
                 <form action="tables.php" method="POST"  style="display:inline;">
-                    <a href="menu.php?table=<?= $i ?>" action="submit" class="btn-select">Select</a>
+                    <a action="submit" class="tableSelectBtn" id="<?= $i ?>">Select</a>
                 </form>
             <?php endif; ?>
         </div>

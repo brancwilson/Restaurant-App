@@ -35,4 +35,21 @@ document.addEventListener('DOMContentLoaded', function() {
         var notes = $("#notes-column-box").val();
         $(this).closest('form').find('input[name="orderNotes"]').val(notes);
     });
+
+    $("#tableSelectBtn").on("click", function() {
+        var tableNum = $(this).attr('id');
+        
+        $.ajax({
+            url: '/../../pages/phpfunctions/tableStatusValidation.php',
+            type: 'post',
+            data: {tableNum: tableNum},
+            success: function() {
+                console.log("Table validated...");
+            },
+            fail: function() {
+                alert("Table error, JavaScript main.js");
+                window.location.reload();
+            }
+        });
+    });
 });
