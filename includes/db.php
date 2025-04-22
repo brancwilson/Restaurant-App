@@ -61,7 +61,6 @@ function createTables($pdo) {
                 order_id BIGINT NOT NULL REFERENCES orders(order_id),
                 item_id INT NOT NULL REFERENCES menuitems(item_id),
                 quantity INT NOT NULL,
-                comment TEXT,
                 PRIMARY KEY (order_id, item_id)
             );
         ";
