@@ -20,6 +20,7 @@ $sql = "
         o.table_id, 
         o.datetime, 
         o.order_status,
+        o.comments,
         STRING_AGG(
             m.itemname || ' (' || oi.quantity || ')', 
             ', ' 
@@ -72,6 +73,7 @@ closeDBConnection($conn);
                     <td><?= htmlspecialchars($order['table_id']) ?></td>
                     <td><?= htmlspecialchars($order['items']) ?></td>
                     <td><?= ucfirst(htmlspecialchars($order['order_status'])) ?></td>
+                    <td><?= htmlspecialchars($order['comments'] ?? 'No comments') ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
