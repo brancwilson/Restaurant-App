@@ -19,6 +19,7 @@ if (!isset($_SESSION['tables'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    error_log(">>>>>>>>>>>>>>>>>>TABLE OPEN VALIDATION");
 
     $tableNumber = $_POST['table'];
     $newStatus = $_POST['status'];
