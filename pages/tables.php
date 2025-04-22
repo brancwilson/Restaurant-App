@@ -1,4 +1,4 @@
-<butto?php
+<?php
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/phpfunctions/retrievesetting.php';
 require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
