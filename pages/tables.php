@@ -19,17 +19,26 @@ if (!isset($_SESSION['tables'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $tableNumber = $_POST['table'];
     $newStatus = $_POST['status'];
 
-    // Update the table status
-    $_SESSION['tables'][$tableNumber] = $newStatus;
-    setTableStatus($tableNumber, $newStatus);
-    updateTableSession();
+    //Make sure table status hasn't changed since page load.
+    if (getTableStatus($tableNumber) == 'open') {
+        // Update the table status
+        $_SESSION['tables'][$tableNumber] = $newStatus;
+        setTableStatus($tableNumber, $newStatus);
+        updateTableSession();
 
-    // Redirect to avoid form resubmission
-    header('Location: tables.php');
-    exit();
+        // Redirect to avoid form resubmission
+        header('Location: tables.php');
+        exit();
+    } else {
+        echo "<script language='javascript'>";
+        echo 'alert("This table has been claimed already...");';
+        echo 'window.location.reload();';
+        echo "</script>";
+    }
 }
 
 require_once __DIR__ . '/../templates/header.php';
