@@ -63,7 +63,6 @@ try {
             o.order_id, 
             o.table_id, 
             o.datetime, 
-            o.notes,  // Add this line to include notes
             STRING_AGG(
                 m.itemname || ' (' || oi.quantity || ')', 
                 ', '
@@ -72,7 +71,7 @@ try {
         JOIN orderitems oi ON o.order_id = oi.order_id
         JOIN menuitems m ON oi.item_id = m.item_id
         WHERE o.order_status = 'open'
-        GROUP BY o.order_id, o.table_id, o.datetime, o.notes  // Add o.notes here
+        GROUP BY o.order_id, o.table_id, o.datetime
         ORDER BY o.datetime ASC
     ";
 
