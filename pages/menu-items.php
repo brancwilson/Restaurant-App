@@ -123,7 +123,7 @@ require_once __DIR__ . '/../templates/header.php';
         <form method="post" action="menu-items.php?table=<?= htmlspecialchars($table) ?>&category=<?= urlencode($category) ?>">
             <textarea id="notes-column-box" name="orderNotes" rows="4" cols="50" maxlength="255" 
                       placeholder="Additional notes...."><?= htmlspecialchars($_SESSION['orderNotes']) ?></textarea>
-            <button type="submit" class="button">Update Notes</button>
+            <button type="submit" class="button">Save Notes</button>
         </form>
 
         <h3>Total: $<?= calculateTotal($_SESSION['cart'][$table] ?? []) ?></h3>
