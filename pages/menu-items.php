@@ -109,7 +109,7 @@ require_once __DIR__ . '/../templates/header.php';
                             <input type="hidden" name="action" value="remove">
                             <input type="hidden" name="item" value="<?= htmlspecialchars($item) ?>">
                             <input type="hidden" name="orderNotes" value="<?= htmlspecialchars($_SESSION['orderNotes']) ?>">
-                            <button type="submit" class="button danger">Remove</button>
+                            <button type="submit" class="btn-danger">Remove</button>
                         </form>
                     </li>
                 <?php endforeach; ?>
