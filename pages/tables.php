@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //Make sure table status hasn't changed since page load.
     updateTableSession();
     if (getTableStatus($tableNumber) == 'open') {
+        error_log(">>>>>>>>>> TABLE IS OPEN");
         // Update the table status
         $_SESSION['tables'][$tableNumber] = $newStatus;
         setTableStatus($tableNumber, $newStatus);
@@ -35,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: tables.php');
         exit();
     } else {
+        error_log(">>>>>>>>>>>>>>>>> TABLE IS CLOSED");
         echo "<script language='javascript'>";
         echo 'alert("This table has been claimed already...");';
         echo 'window.location.reload();';
