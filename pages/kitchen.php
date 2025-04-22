@@ -96,12 +96,6 @@ require_once __DIR__ . '/../templates/header.php';
         <div class="order-box">
             <strong>Order #<?= htmlspecialchars($order['order_id']) ?> for Table #<?= htmlspecialchars($order['table_id']) ?></strong>
             <p><?= htmlspecialchars($order['items']) ?></p>
-            <?php if (!empty($order['notes'])): ?>
-                <div class="order-notes">
-                    <strong>Notes:</strong>
-                    <p><?= htmlspecialchars($order['notes']) ?></p>
-                </div>
-            <?php endif; ?>
             <form method="post">
                 <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
                 <button type="submit" name="complete" class="btn-complete">Complete Order</button>
