@@ -64,6 +64,7 @@ closeDBConnection($conn);
                 <th>Table</th>
                 <th>Items</th>
                 <th>Status</th>
+                <th>Comments</th>
             </tr>
             <?php foreach ($orders as $order): ?>
                 <tr>
