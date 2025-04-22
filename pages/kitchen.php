@@ -63,6 +63,7 @@ try {
             o.order_id, 
             o.table_id, 
             o.datetime, 
+            o.notes,  // Add this line to include notes
             STRING_AGG(
                 m.itemname || ' (' || oi.quantity || ')', 
                 ', '
@@ -71,7 +72,7 @@ try {
         JOIN orderitems oi ON o.order_id = oi.order_id
         JOIN menuitems m ON oi.item_id = m.item_id
         WHERE o.order_status = 'open'
-        GROUP BY o.order_id, o.table_id, o.datetime
+        GROUP BY o.order_id, o.table_id, o.datetime, o.notes  // Add o.notes here
         ORDER BY o.datetime ASC
     ";
 
@@ -95,6 +96,12 @@ require_once __DIR__ . '/../templates/header.php';
         <div class="order-box">
             <strong>Order #<?= htmlspecialchars($order['order_id']) ?> for Table #<?= htmlspecialchars($order['table_id']) ?></strong>
             <p><?= htmlspecialchars($order['items']) ?></p>
+            <?php if (!empty($order['notes'])): ?>
+                <div class="order-notes">
+                    <strong>Notes:</strong>
+                    <p><?= htmlspecialchars($order['notes']) ?></p>
+                </div>
+            <?php endif; ?>
             <form method="post">
                 <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
                 <button type="submit" name="complete" class="btn-complete">Complete Order</button>

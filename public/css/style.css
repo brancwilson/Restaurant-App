@@ -529,3 +529,9 @@ h1, h2, h3 {
     background-color: #c0392b; /* Darker red on hover */
 }
 
+.order-notes {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-left: 3px solid #ffcc00;
+}
