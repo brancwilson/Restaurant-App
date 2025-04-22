@@ -20,7 +20,7 @@ $sql = "
         o.table_id, 
         o.datetime, 
         o.order_status,
-        oi.order_comment,
+        o.order_comment,
         STRING_AGG(
             m.itemname || ' (' || oi.quantity || ')', 
             ', ' 
@@ -29,9 +29,10 @@ $sql = "
     JOIN orderitems oi ON o.order_id = oi.order_id
     JOIN menuitems m ON oi.item_id = m.item_id
     WHERE o.order_status IN ('completed', 'revoked')
-    GROUP BY o.order_id, o.table_id, o.datetime, o.order_status, oi.comment
+    GROUP BY o.order_id, o.table_id, o.datetime, o.order_status, o.order_comment
     ORDER BY o.datetime DESC
 ";
+
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
