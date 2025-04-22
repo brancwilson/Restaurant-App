@@ -20,7 +20,7 @@ $sql = "
         o.table_id, 
         o.datetime, 
         o.order_status,
-        o.comments,
+        oi.comment,
         STRING_AGG(
             m.itemname || ' (' || oi.quantity || ')', 
             ', ' 
