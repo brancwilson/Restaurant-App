@@ -59,22 +59,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch pending orders from the database
 try {
     $sql = "
-    SELECT 
-        o.order_id, 
-        o.table_id, 
-        o.datetime, 
-        o.order_status,
-        oi.comment,
-        STRING_AGG(
-            m.itemname || ' (' || oi.quantity || ')', 
-            ', ' 
-        ) AS items
-    FROM orders o
-    JOIN orderitems oi ON o.order_id = oi.order_id
-    JOIN menuitems m ON oi.item_id = m.item_id
-    WHERE o.order_status IN ('completed', 'revoked')
-    GROUP BY o.order_id, o.table_id, o.datetime, o.order_status, oi.comment
-    ORDER BY o.datetime DESC
+        SELECT 
+            o.order_id, 
+            o.table_id, 
+            o.datetime, 
+            STRING_AGG(
+                m.itemname || ' (' || oi.quantity || ')', 
+                ', '
+            ) AS items
+        FROM orders o
+        JOIN orderitems oi ON o.order_id = oi.order_id
+        JOIN menuitems m ON oi.item_id = m.item_id
+        WHERE o.order_status = 'open'
+        GROUP BY o.order_id, o.table_id, o.datetime
+        ORDER BY o.datetime ASC
     ";
 
     $stmt = $conn->prepare($sql);
