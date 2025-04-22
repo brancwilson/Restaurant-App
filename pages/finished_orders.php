@@ -29,7 +29,7 @@ $sql = "
     JOIN orderitems oi ON o.order_id = oi.order_id
     JOIN menuitems m ON oi.item_id = m.item_id
     WHERE o.order_status IN ('completed', 'revoked')
-    GROUP BY o.order_id, o.table_id, o.datetime, o.order_status
+    GROUP BY o.order_id, o.table_id, o.datetime, o.order_status, oi.comment
     ORDER BY o.datetime DESC
 ";
 
