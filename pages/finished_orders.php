@@ -21,8 +21,13 @@ $sql = "
         o.datetime, 
         o.order_status,
         STRING_AGG(
-            m.itemname || ' (' || oi.quantity || ')', 
-            ', ' 
+            m.itemname || ' (' || oi.quantity || ')' || 
+            CASE 
+                WHEN oi.comment IS NOT NULL AND oi.comment <> '' 
+                THEN ' - Comment: ' || oi.comment 
+                ELSE '' 
+            END,
+            ', '
         ) AS items
     FROM orders o
     JOIN orderitems oi ON o.order_id = oi.order_id
@@ -31,6 +36,7 @@ $sql = "
     GROUP BY o.order_id, o.table_id, o.datetime, o.order_status
     ORDER BY o.datetime DESC
 ";
+
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
@@ -64,6 +70,7 @@ closeDBConnection($conn);
                 <th>Table</th>
                 <th>Items</th>
                 <th>Status</th>
+                <th>Comments</th>
             </tr>
             <?php foreach ($orders as $order): ?>
                 <tr>
