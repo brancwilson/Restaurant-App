@@ -7,6 +7,8 @@ requireLogin();
 require_once __DIR__ . '/../templates/header.php';
 ?>
 
-<h1>This table has become busy, sorry.</h1>
-<button id="returnToTablesBtn">Return to Tables</button>
+<div class="busyTableDiv">
+    <h1>This table has become busy, sorry.</h1>
+    <button id="returnToTablesBtn">Return to Tables</button>
+</div>
 <?php require_once __DIR__ . '/../templates/footer.php'; ?>

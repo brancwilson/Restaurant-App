@@ -528,3 +528,29 @@ h1, h2, h3 {
 .cancel-order:hover {
     background-color: #c0392b; /* Darker red on hover */
 }
+
+#returnToTablesBtn {
+	background-color:#44c767;
+	border-radius:10px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:16px 43px;
+	text-decoration:none;
+}
+#returnToTablesBtn:hover {
+	background-color:#6ec485;
+}
+#returnToTablesBtn:active {
+	position:relative;
+	top:1px;
+}
+
+.busyTableDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
