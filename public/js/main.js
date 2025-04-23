@@ -36,10 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
         $(this).closest('form').find('input[name="orderNotes"]').val(notes);
     });
 
-    $("#returnToTablesBtn").on("click", function() {
-        window.location.replace("/pages/tables.php");
-    });
-
     $(".tableSelectBtn").on("click", function() {
         var tableNum = $(this).attr('id');
         
