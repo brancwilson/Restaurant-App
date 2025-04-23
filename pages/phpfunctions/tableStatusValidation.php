@@ -10,6 +10,7 @@ if (isset($_POST["tableNum"])) {
     if ($tableStatus == 'open') {
         error_log(">>>>>>> TABLE IS OPEN");
         echo 'open';
+        //setTableStatus($tableNum, 'in-progress');
     } else {
         error_log(">>>>>>> TABLE IS UNAVAILABLE");
         echo 'closed';

@@ -41,7 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tableStatus = $stmt->fetchColumn();
 
             if ($tableStatus !== 'open') {
-                die("The table is not open. Please select a different table.");
+                header('Location: tableBusyResponse.php');
+                exit();
             }
 
             $orderId = time();
