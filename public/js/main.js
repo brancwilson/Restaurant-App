@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             success: function( status ) {
                 console.log("Table validated...");
                 if (status == 'open') {
-                    window.location.replace("/menu.php?table=" + toString(tableNum));
+                    window.location.replace("/pages/menu.php?table=" + tableNum);
                 } else {
                     alert("Table already in use!");
                     location.reload();
