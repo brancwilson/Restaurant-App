@@ -529,7 +529,7 @@ h1, h2, h3 {
     background-color: #c0392b; /* Darker red on hover */
 }
 
-#returnToTablesBtn {
+.returnToTablesBtn {
 	background-color:#44c767;
 	border-radius:10px;
 	display:inline-block;
@@ -540,10 +540,10 @@ h1, h2, h3 {
 	padding:16px 43px;
 	text-decoration:none;
 }
-#returnToTablesBtn:hover {
+.returnToTablesBtn:hover {
 	background-color:#6ec485;
 }
-#returnToTablesBtn:active {
+.returnToTablesBtn:active {
 	position:relative;
 	top:1px;
 }
