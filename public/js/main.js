@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     
-    $("#tableSelectBtn").on("click", function() {
+    $(".tableSelectBtn").on("click", function() {
         var tableNum = $(this).attr('id');
         
         $.ajax({
