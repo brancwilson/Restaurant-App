@@ -44,8 +44,14 @@ document.addEventListener('DOMContentLoaded', function() {
             url: '/../../pages/phpfunctions/tableStatusValidation.php',
             type: 'post',
             data: {tableNum: tableNum},
-            success: function() {
+            success: function( status ) {
                 console.log("Table validated...");
+                if (status == 'open') {
+                    window.location.replace("/menu.php?table=" + toString(tableNum));
+                } else {
+                    alert("Table already in use!");
+                    location.reload();
+                }
             },
             fail: function() {
                 alert("Table error, JavaScript main.js");
