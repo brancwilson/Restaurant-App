@@ -8,8 +8,10 @@ if (isset($_POST["tableNum"])) {
     $tableStatus = getTableStatus($tableNum);
 
     if ($tableStatus == 'open') {
+        error_log(">>>>>>> TABLE IS OPEN");
         echo "<script>location.href('menu.php?table=" . $tableNum . "';</script>";
     } else {
+        error_log(">>>>>>> TABLE IS UNAVAILABLE");
         echo "<script>alert('Already claimed!');</script>";
         //echo "<script>location.href('menu.php?table=" . $tableNum . "';</script>";
         echo "<script>location.href('tables.php');</script>";
