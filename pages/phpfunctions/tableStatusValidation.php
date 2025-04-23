@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
+require_once __DIR__ . '/tableManagementFunctions.php';
 
 error_log(">>>>>>>>>>>TABLE STATUS VALIDATION PHP");
 if (isset($_POST["tableNum"])) {
