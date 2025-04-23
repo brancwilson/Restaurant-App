@@ -10,7 +10,6 @@ require_once __DIR__ . '/../templates/header.php';
 <div class="busyTableDiv">
     <h1>This table has become busy, sorry.</h1>
     <br>
-    <br>
-    <button id="returnToTablesBtn">Return to Tables</button>
+    <a id="returnToTablesBtn">Return to Tables</a>
 </div>
 <?php require_once __DIR__ . '/../templates/footer.php'; ?>
