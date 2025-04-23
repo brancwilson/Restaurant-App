@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $(this).closest('form').find('input[name="orderNotes"]').val(notes);
     });
 
-    $(".tableSelectBtn").on("click", function() {
+    $("#returnToTablesBtn").on("click", function() {
         window.location.replace("/pages/tables.php");
     });
 
