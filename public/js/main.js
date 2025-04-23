@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $(this).closest('form').find('input[name="orderNotes"]').val(notes);
     });
 
-    /*
+    
     $("#tableSelectBtn").on("click", function() {
         var tableNum = $(this).attr('id');
         
@@ -53,5 +53,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    */
+    
 });

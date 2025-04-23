@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/phpfunctions/tableManagementFunctions.php';
 
+error_log(">>>>>>>>>>>TABLE STATUS VALIDATION PHP");
 if (isset($_POST["tableNum"])) {
     
     $tableNum = $_POST["tableNum"];
@@ -9,9 +10,9 @@ if (isset($_POST["tableNum"])) {
     if ($tableStatus == 'open') {
         echo "<script>location.href('menu.php?table=" . $tableNum . "';</script>";
     } else {
-        echo "<script>console.log('Claimed');</script>";
-        echo "<script>location.href('menu.php?table=" . $tableNum . "';</script>";
-        //echo "<script>location.reload()</script>";
+        echo "<script>alert('Already claimed!');</script>";
+        //echo "<script>location.href('menu.php?table=" . $tableNum . "';</script>";
+        echo "<script>location.href('tables.php');</script>";
     }
 
 }
