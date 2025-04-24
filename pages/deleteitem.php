@@ -14,15 +14,11 @@ try {
     
 
     if ($pdo) {
-        if (isset($_POST["numTables"])) {
-            
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["deleteItem"])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["deleteItem"])) {
                 $toDelete = $_POST["deleteItem"];
                 $sql = "DELETE FROM menuitems WHERE itemid = ?";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$toDelete]);
-            }
-
         }
     
     } else {
