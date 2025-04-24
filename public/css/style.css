@@ -115,7 +115,8 @@ h1, h2, h3 {
 
 .removeFromOrder-Btn {
     display: inline-block;
-    padding: 10px 10px;
+    padding-left: 15px;
+    padding-right: 15px;;
     background-color: #e15543; /* Blue */
     color: white;
     text-decoration: none;

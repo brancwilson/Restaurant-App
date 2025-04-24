@@ -21,9 +21,9 @@ $_SESSION['orderNotes'] = $_SESSION['orderNotes'] ?? '';
 // Define meal types and categories
 $mealTypes = ['Breakfast', 'Lunch', 'Dinner'];
 $categories = [
-    'Breakfast' => ['Appetizers', 'Entrees', 'Drinks'],
-    'Lunch' => ['Appetizers', 'Entrees', 'Drinks'],
-    'Dinner' => ['Appetizers', 'Entrees', 'Drinks']
+    'Breakfast' => ['Sides', 'Entrees', 'Drinks'],
+    'Lunch' => ['Sides', 'Entrees', 'Drinks'],
+    'Dinner' => ['Sides', 'Entrees', 'Drinks']
 ];
 
 // Determine meal type from category
