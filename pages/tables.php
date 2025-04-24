@@ -48,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../templates/header.php';
 ?>
 
-<meta http-equiv="refresh" content="4">
 <h1>Select a Table</h1>
 <div class="table-layout">
     <?php for ($i = 1; $i <= $numTables; $i++): ?>
