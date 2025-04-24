@@ -50,7 +50,7 @@ $("document").ready(function(){
         console.log(delItem[1]);
 
         $.ajax({
-            url: '/../../pages/phpfunctions/deleteitem.php',
+            url: '/../../pages/deleteitem.php',
             type: 'post',
             data: {deleteItem: delItem[1]},
             success: function() {

@@ -14,6 +14,8 @@ try {
     
 
     if ($pdo) {
+        error_log(">>>>>>>>>> IF PDO COMPLETE");
+
         if (isset($_POST["deleteItem"])) {
             error_log(">>>>>>>>>>> PDO SUCCESSFUL");
             $toDelete = $_POST["deleteItem"];
