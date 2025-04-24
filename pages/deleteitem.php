@@ -15,10 +15,12 @@ try {
 
     if ($pdo) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["deleteItem"])) {
-                $toDelete = $_POST["deleteItem"];
-                $sql = "DELETE FROM MenuItems WHERE itemid = ?";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([$toDelete]);
+            error_log(">>>>>>>>>>> PDO SUCCESSFUL");
+            $toDelete = $_POST["deleteItem"];
+            error_log(">>>>>>>>>>>>>>>>" . $toDelete);
+            $sql = "DELETE FROM MenuItems WHERE itemid = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$toDelete]);
         }
     
     } else {
