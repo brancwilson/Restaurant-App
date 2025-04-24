@@ -47,7 +47,7 @@ try {
 <?php require_once __DIR__ . '/../templates/header.php'; ?>
     <h1>Edit Menu</h1>
 
-    <h2 style="color: red">All orders must be cleared for menu to be edited.</h2>
+    <h2 style="color: red">All orders must be cleared for the menu to be edited.</h2>
 
     <form>
         <table>
