@@ -88,6 +88,7 @@ try {
 require_once __DIR__ . '/../templates/header.php';
 ?>
 
+<meta http-equiv="refresh" content="5">
 <h1>Kitchen Orders</h1>
 <?php if (empty($orders)): ?>
     <p>No pending orders.</p>
