@@ -91,6 +91,50 @@ h1, h2, h3 {
     background-color: #1c5980; /* Even darker blue on click */
 }
 
+.addToOrder-Btn {
+    display: inline-block;
+    padding: 10px 10px;
+    background-color: #34db58; /* Blue */
+    color: white;
+    text-decoration: none;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.addToOrder-Btn:hover {
+    background-color: #2dba4c; /* Darker blue on hover */
+}
+
+.addToOrder-Btn:active {
+    background-color: #23943c; /* Even darker blue on click */
+}
+
+.removeFromOrder-Btn {
+    display: inline-block;
+    padding: 10px 10px;
+    background-color: #e15543; /* Blue */
+    color: white;
+    text-decoration: none;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.removeFromOrder-Btn:hover {
+    background-color: #bc493a; /* Darker blue on hover */
+}
+
+.removeFromOrder-Btn:active {
+    background-color: #a83b2d; /* Even darker blue on click */
+}
+
 .tableSelectBtn {
     display: inline-block;
     padding: 10px 20px;

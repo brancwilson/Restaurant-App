@@ -86,7 +86,7 @@ require_once __DIR__ . '/../templates/header.php';
                         <input type="hidden" name="item" value="<?= htmlspecialchars($item) ?>">
                         <input type="hidden" name="price" value="<?= htmlspecialchars($price) ?>">
                         <input type="hidden" name="orderNotes" value="<?= htmlspecialchars($_SESSION['orderNotes']) ?>">
-                        <button type="submit" class="button">Add to Order</button>
+                        <button type="submit" class="addToOrder-Btn">+</button>
                     </form>
                 </li>
             <?php endforeach; ?>
@@ -109,7 +109,7 @@ require_once __DIR__ . '/../templates/header.php';
                             <input type="hidden" name="action" value="remove">
                             <input type="hidden" name="item" value="<?= htmlspecialchars($item) ?>">
                             <input type="hidden" name="orderNotes" value="<?= htmlspecialchars($_SESSION['orderNotes']) ?>">
-                            <button type="submit" class="button danger">Remove</button>
+                            <button type="submit" class="removeFromOrder-Btn">-</button>
                         </form>
                     </li>
                 <?php endforeach; ?>
