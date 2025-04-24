@@ -91,6 +91,28 @@ h1, h2, h3 {
     background-color: #1c5980; /* Even darker blue on click */
 }
 
+.tableSelectBtn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db; /* Blue */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.tableSelectBtn:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.tableSelectBtn:active {
+    background-color: #1c5980; /* Even darker blue on click */
+}
+
 .active {
     background-color: blue !important;
     color: white !important;
