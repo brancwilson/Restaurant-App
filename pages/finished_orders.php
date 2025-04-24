@@ -60,7 +60,7 @@ closeDBConnection($conn);
 <body>
     <h2>Finished Orders</h2>
     <?php if (!empty($orders)): ?>
-        <table border="1">
+        <table border="1" class="finishedOrdersTable">
             <tr>
                 <th>Order ID</th>
                 <th>Table</th>
