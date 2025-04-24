@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POS System</title>
     <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/../public/tomato-icon.png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/../public/js/additem.js"></script>
     <!-- Add FontAwesome for the settings icon -->
