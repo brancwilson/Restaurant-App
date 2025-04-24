@@ -367,6 +367,9 @@ h1, h2, h3 {
 #selected-items-list li {
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* Menu Items Page Styles */
