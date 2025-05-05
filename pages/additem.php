@@ -24,7 +24,6 @@ try {
             $sql = "INSERT INTO MenuItems(itemName, itemPrice, itemType, itemAvailability) VALUES (?, ?, ?, ?)";
             $stmt= $pdo->prepare($sql);
             $stmt->execute([$itemName, $itemPrice, $itemType, $itemAvailability]);
-
         }
     
     } else {
